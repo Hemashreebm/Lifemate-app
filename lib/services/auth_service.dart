@@ -288,6 +288,21 @@ class AuthService {
       _currentUserEmail = user.email ?? email;
       _currentUserName = user.displayName ?? email.split('@').first;
 
+      // Ensure Firestore document exists on sign in
+      try {
+        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+          'uid': user.uid,
+          'name': _currentUserName,
+          'email': _currentUserEmail,
+          'photoURL': user.photoURL,
+          'updatedAt': DateTime.now().toIso8601String(),
+          'language': 'English',
+        }, SetOptions(merge: true)).timeout(const Duration(seconds: 10));
+        debugPrint('[FIRESTORE SUCCESS] Merged user doc on Sign-In for UID: ${user.uid}');
+      } catch (dbErr) {
+        debugPrint('[FIRESTORE WARNING] Error updating user doc on sign-in: $dbErr');
+      }
+
       final userMap = {
         'uid': _currentUserUid,
         'email': _currentUserEmail,
@@ -330,20 +345,38 @@ class AuthService {
         await user.updateDisplayName(name.trim());
         await user.sendEmailVerification();
 
-        // Write Firestore document in users collection
+        // Mandatorily await Firestore document creation in 'users' collection
+        final nowIso = DateTime.now().toIso8601String();
+        final userData = {
+          'uid': user.uid,
+          'name': name.trim(),
+          'email': email.trim(),
+          'photoURL': user.photoURL,
+          'createdAt': nowIso,
+          'updatedAt': nowIso,
+          'language': 'English',
+        };
+
         try {
-          await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-            'uid': user.uid,
-            'name': name.trim(),
-            'email': email.trim(),
-            'photoURL': null,
-            'createdAt': FieldValue.serverTimestamp(),
-            'updatedAt': FieldValue.serverTimestamp(),
-            'language': 'English',
-          });
-          debugPrint('[FIRESTORE] User document written successfully for ${user.uid}');
+          debugPrint('[FIRESTORE START] Writing document for UID ${user.uid}...');
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .set(userData)
+              .timeout(const Duration(seconds: 12));
+          debugPrint('[FIRESTORE VERIFIED SUCCESS] Created users/${user.uid} -> $userData');
+        } on FirebaseException catch (dbErr) {
+          debugPrint('[FIRESTORE ERROR] FirebaseException writing user doc: ${dbErr.code} - ${dbErr.message}');
+          return AuthResult(
+            success: false,
+            errorMessage: 'Firestore Error (${dbErr.code}): ${dbErr.message}. Check Firebase Console Firestore Rules.',
+          );
         } catch (dbErr) {
-          debugPrint('[FIRESTORE] Firestore user write warning: $dbErr');
+          debugPrint('[FIRESTORE ERROR] General error writing user doc: $dbErr');
+          return AuthResult(
+            success: false,
+            errorMessage: 'Firestore Write Failed: $dbErr',
+          );
         }
 
         final prefs = await SharedPreferences.getInstance();
