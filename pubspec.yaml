@@ -66,6 +66,8 @@ dependencies:
   flutter_tts: ^4.2.2
   # Real device hardware and OS info reader
   device_info_plus: ^11.1.0
+  # Encrypted secure Key-Value storage (Android KeyStore / iOS Keychain)
+  flutter_secure_storage: ^9.2.2
 
 dependency_overrides:
   record_linux: 2.1.1

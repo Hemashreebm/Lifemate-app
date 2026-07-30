@@ -1,0 +1,39 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User Profile Rules
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Active User Sessions Rules
+    match /user_sessions/{sessionId} {
+      allow read, write: if isAuthenticated() && 
+        (resource == null || resource.data.uid == request.auth.uid) &&
+        (request.resource == null || request.resource.data.uid == request.auth.uid);
+    }
+
+    // Security Login Audit History Rules
+    match /login_history/{historyId} {
+      allow read: if isAuthenticated() && resource.data.uid == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if false; // Audit logs are append-only / immutable
+    }
+
+    // User Private Data Sync Collections (Tasks, Diary, Expenses)
+    match /user_data/{userId}/{document=**} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}

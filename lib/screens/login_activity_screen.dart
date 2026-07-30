@@ -305,6 +305,8 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
           _buildCardInfoRow('Manufacturer & Model', '${info.manufacturer} (${info.deviceModel})'),
           _buildCardInfoRow('App Version', info.appVersion),
           _buildCardInfoRow('Device ID', info.deviceId),
+          _buildCardInfoRow('IP Address', 'Unavailable'),
+          _buildCardInfoRow('Location', 'Unavailable'),
           _buildCardInfoRow('Last Active', 'Just Now (${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')})'),
         ],
       ),
