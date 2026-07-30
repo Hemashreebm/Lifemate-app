@@ -80,14 +80,18 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
       _errorMessage = null;
     });
 
-    final success = await _authSvc.signInWithEmail(email, pass, rememberMe: _rememberMe);
+    final result = await _authSvc.signInWithEmail(email, pass, rememberMe: _rememberMe);
     if (mounted) {
       setState(() => _isLoading = false);
-      if (success) {
+      if (result.success) {
         await _backupSvc.setCloudBackupEnabled(true);
         await _proceedToMainScreen();
       } else {
-        setState(() => _errorMessage = 'Invalid credentials or password policy requirement.');
+        final err = result.errorMessage ?? 'Invalid email or password.';
+        setState(() => _errorMessage = err);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign In Failed: $err'), backgroundColor: const Color(0xFFEF4444)),
+        );
       }
     }
   }
@@ -119,14 +123,40 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
       _errorMessage = null;
     });
 
-    final success = await _authSvc.signUpWithEmail(name, email, pass);
+    final result = await _authSvc.signUpWithEmail(name, email, pass);
     if (mounted) {
       setState(() => _isLoading = false);
-      if (success) {
+      if (result.success) {
         await _backupSvc.setCloudBackupEnabled(true);
+        // Display Email Verification Dialog
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Row(
+              children: [
+                Icon(Icons.mark_email_read_rounded, color: Color(0xFF10B981)),
+                SizedBox(width: 8),
+                Text('Verify Your Email'),
+              ],
+            ),
+            content: Text(
+              'Account created successfully for $email!\n\nA verification email has been sent to your inbox. Please check your email to complete verification.',
+            ),
+            actions: [
+              FilledButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('OK, Got It!'),
+              ),
+            ],
+          ),
+        );
         await _proceedToMainScreen();
       } else {
-        setState(() => _errorMessage = 'Failed to create account. Please verify details.');
+        final err = result.errorMessage ?? 'Failed to create account. Please verify details.';
+        setState(() => _errorMessage = err);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration Failed: $err'), backgroundColor: const Color(0xFFEF4444)),
+        );
       }
     }
   }
