@@ -407,6 +407,83 @@ class _TranslationScreenState extends State<TranslationScreen> {
     });
   }
 
+  final List<Map<String, String>> _translationHistory = [];
+  final List<Map<String, String>> _favoritePhrases = [];
+
+  void _showHistoryAndFavorites() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => DefaultTabController(
+        length: 2,
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            const TabBar(
+              labelColor: Color(0xFF6C5CE7),
+              unselectedLabelColor: Colors.grey,
+              tabs: [
+                Tab(icon: Icon(Icons.history_rounded), text: 'History'),
+                Tab(icon: Icon(Icons.star_rounded), text: 'Favorites'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  _translationHistory.isEmpty
+                      ? const Center(child: Text('No translation history yet.'))
+                      : ListView.builder(
+                          itemCount: _translationHistory.length,
+                          itemBuilder: (ctx, i) {
+                            final item = _translationHistory[i];
+                            final isFav = _favoritePhrases.contains(item);
+                            return ListTile(
+                              title: Text(item['source'] ?? ''),
+                              subtitle: Text('${item['from']} → ${item['to']}: ${item['target']}'),
+                              trailing: IconButton(
+                                icon: Icon(
+                                  isFav ? Icons.star_rounded : Icons.star_border_rounded,
+                                  color: isFav ? Colors.amber : Colors.grey,
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    if (isFav) {
+                                      _favoritePhrases.remove(item);
+                                    } else {
+                                      _favoritePhrases.add(item);
+                                    }
+                                  });
+                                  Navigator.pop(ctx);
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                  _favoritePhrases.isEmpty
+                      ? const Center(child: Text('No favorite phrases saved.'))
+                      : ListView.builder(
+                          itemCount: _favoritePhrases.length,
+                          itemBuilder: (ctx, i) {
+                            final item = _favoritePhrases[i];
+                            return ListTile(
+                              title: Text(item['source'] ?? ''),
+                              subtitle: Text('${item['from']} → ${item['to']}: ${item['target']}'),
+                              trailing: const Icon(Icons.star_rounded, color: Colors.amber),
+                            );
+                          },
+                        ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -418,12 +495,17 @@ class _TranslationScreenState extends State<TranslationScreen> {
         elevation: 0,
         actions: [
           IconButton(
+            icon: const Icon(Icons.history_rounded),
+            tooltip: 'Translation History & Favorites',
+            onPressed: _showHistoryAndFavorites,
+          ),
+          IconButton(
             icon: const Icon(Icons.volume_up_outlined),
             tooltip: 'Run Direct TTS Diagnostic Test',
             onPressed: () async {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Testing direct TTS for all 5 languages... Check logcat / debug console.'),
+                  content: Text('Testing direct TTS for all languages... Check logcat / debug console.'),
                   duration: Duration(seconds: 3),
                 ),
               );
