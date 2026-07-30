@@ -69,16 +69,16 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
       _errorMessage = null;
     });
 
-    final success = await _authSvc.signInWithEmail(email, pass);
+    final result = await _authSvc.signInWithEmail(email, pass);
     if (mounted) {
       setState(() => _isLoading = false);
-      if (success) {
+      if (result.success) {
         await _backupSvc.setCloudBackupEnabled(true);
         if (mounted) {
           _showPostLoginBanner();
         }
       } else {
-        setState(() => _errorMessage = 'Invalid credentials or password policy error.');
+        setState(() => _errorMessage = result.errorMessage ?? 'Invalid email or password.');
       }
     }
   }
@@ -110,16 +110,16 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
       _errorMessage = null;
     });
 
-    final success = await _authSvc.signUpWithEmail(name, email, pass);
+    final result = await _authSvc.signUpWithEmail(name, email, pass);
     if (mounted) {
       setState(() => _isLoading = false);
-      if (success) {
+      if (result.success) {
         await _backupSvc.setCloudBackupEnabled(true);
         if (mounted) {
           _showPostLoginBanner();
         }
       } else {
-        setState(() => _errorMessage = 'Failed to create account. Please check inputs.');
+        setState(() => _errorMessage = result.errorMessage ?? 'Failed to create account. Please check inputs.');
       }
     }
   }
