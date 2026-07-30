@@ -152,19 +152,17 @@ class SmsExpenseParserService {
   /// Automatically import parsed SMS as a new transaction in TransactionService.
   Future<bool> importParsedSms(ParsedSmsTransaction smsTx) async {
     try {
-      final newTx = TransactionItem(
-        id: TransactionItem.generateId(),
-        title: smsTx.merchant,
-        amount: smsTx.amount,
+      final newTx = Transaction(
+        id: Transaction.generateId(),
         type: smsTx.type == 'income' ? TransactionType.income : TransactionType.expense,
-        categoryId: smsTx.categoryId,
+        amount: smsTx.amount,
+        category: smsTx.categoryId,
+        note: '${smsTx.merchant} (Auto-imported from ${smsTx.bankName} SMS)',
         date: smsTx.date,
-        note: 'Auto-imported from ${smsTx.bankName} SMS',
-        paymentMethod: PaymentMethod.upi,
         createdAt: DateTime.now(),
       );
 
-      await TransactionService.instance.addTransaction(newTx);
+      await TransactionService.instance.add(newTx);
       debugPrint('SMS transaction successfully imported: ${smsTx.merchant} - ₹${smsTx.amount}');
       return true;
     } catch (e) {

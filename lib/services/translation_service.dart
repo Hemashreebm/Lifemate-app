@@ -9,7 +9,7 @@ enum AppLanguage {
   kannada('Kannada', TranslateLanguage.kannada, 'kn-IN', 'kn-IN', 'kn'),
   hindi('Hindi', TranslateLanguage.hindi, 'hi-IN', 'hi-IN', 'hi'),
   tamil('Tamil', TranslateLanguage.tamil, 'ta-IN', 'ta-IN', 'ta'),
-  malayalam('Malayalam', TranslateLanguage.malayalam, 'ml-IN', 'ml-IN', 'ml');
+  malayalam('Malayalam', TranslateLanguage.english, 'ml-IN', 'ml-IN', 'ml');
 
   final String label;
   final TranslateLanguage mlKitLanguage;

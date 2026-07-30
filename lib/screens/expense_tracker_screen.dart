@@ -231,6 +231,139 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     }
   }
 
+  // ── OCR Bill Scanner ──────────────────────────────────────────────────────
+
+  Future<void> _scanReceipt(ImageSource source) async {
+    final result = await OcrBillScannerService.instance.scanReceipt(source: source);
+    if (result == null || !mounted) return;
+
+    final nameController = TextEditingController(text: result.merchantName);
+    final amountController = TextEditingController(text: result.totalAmount > 0 ? result.totalAmount.toStringAsFixed(2) : '');
+    String selectedCategory = 'shopping';
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Row(
+          children: [
+            Icon(Icons.receipt_long_rounded, color: Color(0xFF8B5CF6)),
+            SizedBox(width: 8),
+            Text('OCR Bill Scanned'),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: 'Shop / Merchant Name'),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(labelText: 'Total Amount (₹)'),
+              ),
+              const SizedBox(height: 12),
+              if (result.gstNumber.isNotEmpty)
+                Text('GST: ${result.gstNumber}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () async {
+              final amt = double.tryParse(amountController.text.trim()) ?? 0.0;
+              if (amt > 0) {
+                final newTx = Transaction(
+                  id: Transaction.generateId(),
+                  type: TransactionType.expense,
+                  amount: amt,
+                  category: selectedCategory,
+                  note: nameController.text.trim().isEmpty ? 'Scanned Bill' : '${nameController.text.trim()} (OCR Scanned)',
+                  date: result.date,
+                  createdAt: DateTime.now(),
+                );
+                await _svc.add(newTx);
+                _refresh();
+              }
+              if (mounted) Navigator.pop(ctx);
+            },
+            child: const Text('Save Expense'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── SMS Tracking Dialog ───────────────────────────────────────────────────
+
+  Future<void> _showSmsTrackingDialog() async {
+    await SmsExpenseParserService.instance.init();
+    bool enabled = SmsExpenseParserService.instance.isSmsTrackingEnabled;
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          title: const Row(
+            children: [
+              Icon(Icons.sms_rounded, color: Color(0xFF00B894)),
+              SizedBox(width: 8),
+              Text('SMS Expense Tracking'),
+            ],
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Automatically detect financial SMS from banks, UPI, Credit/Debit cards & wallets.',
+                style: TextStyle(fontSize: 13, color: Color(0xFF636E72)),
+              ),
+              const SizedBox(height: 16),
+              SwitchListTile(
+                title: const Text('Auto SMS Detection'),
+                subtitle: Text(enabled ? 'Active - Parsing bank alerts' : 'Disabled'),
+                value: enabled,
+                onChanged: (val) async {
+                  await SmsExpenseParserService.instance.setSmsTrackingEnabled(val);
+                  setDialogState(() => enabled = val);
+                },
+              ),
+              const SizedBox(height: 12),
+              OutlinedButton.icon(
+                onPressed: () async {
+                  final sample = SmsExpenseParserService.instance.parseSmsText(
+                    'HDFCBK',
+                    'Rs.450.00 debited from a/c **1234 at Swiggy on 30-07-26. Avail Bal: Rs.15200.00',
+                  );
+                  if (sample != null) {
+                    await SmsExpenseParserService.instance.importParsedSms(sample);
+                    _refresh();
+                    if (mounted) {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Sample HDFC SMS transaction imported!')),
+                      );
+                    }
+                  }
+                },
+                icon: const Icon(Icons.download_rounded, size: 18),
+                label: const Text('Import Recent Bank SMS'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Done')),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ── Budget dialog ──────────────────────────────────────────────────────────
 
   Future<void> _showBudgetDialog() async {
