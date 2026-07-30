@@ -37,14 +37,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   ];
 
   static const List<String> _avatars = [
-    '👤',
-    '🎓',
-    '💻',
-    '🎨',
-    '🚀',
-    '🌟',
-    '☕',
-    '🌺',
+    'ðŸ‘¤',
+    'ðŸŽ“',
+    'ðŸ’»',
+    'ðŸŽ¨',
+    'ðŸš€',
+    'ðŸŒŸ',
+    'â˜•',
+    'ðŸŒº',
   ];
 
   static const _purpleAccent = Color(0xFF7C3AED);
@@ -122,7 +122,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Avatar Selector ───────────────────────────────────────────
+              // â”€â”€ Avatar Selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Choose Profile Avatar',
                 style: TextStyle(
@@ -162,7 +162,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             height: 44,
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? _purpleAccent.withValues(alpha: 0.15)
+                                  ? _purpleAccent.withAlpha(38)
                                   : Colors.white,
                               shape: BoxShape.circle,
                               border: Border.all(
@@ -183,7 +183,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 8),
                     TextButton(
-                      onPressed: () => setState(() => _selectedAvatar = '👤'),
+                      onPressed: () => setState(() => _selectedAvatar = 'ðŸ‘¤'),
                       child: const Text(
                         'Use default avatar',
                         style: TextStyle(color: _purpleAccent, fontSize: 13),
@@ -195,7 +195,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 20),
 
-              // ── Name Field ────────────────────────────────────────────────
+              // â”€â”€ Name Field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Name *',
                 style: TextStyle(
@@ -218,7 +218,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // ── Nickname Field ───────────────────────────────────────────
+              // â”€â”€ Nickname Field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Preferred Name / Nickname (Optional)',
                 style: TextStyle(
@@ -235,7 +235,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // ── Age Field ─────────────────────────────────────────────────
+              // â”€â”€ Age Field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Age (Optional)',
                 style: TextStyle(
@@ -262,7 +262,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // ── Occupation Field ──────────────────────────────────────────
+              // â”€â”€ Occupation Field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Occupation',
                 style: TextStyle(
@@ -273,7 +273,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _selectedOccupation,
+                initialValue: _selectedOccupation,
                 decoration: _inputDecoration('Select occupation'),
                 items: _occupations.map((occ) {
                   return DropdownMenuItem(value: occ, child: Text(occ));
@@ -285,7 +285,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 16),
 
-              // ── Preferred Language Field ──────────────────────────────────
+              // â”€â”€ Preferred Language Field â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               const Text(
                 'Preferred Language',
                 style: TextStyle(
@@ -301,7 +301,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               const SizedBox(height: 6),
               DropdownButtonFormField<String>(
-                value: _selectedLanguage,
+                initialValue: _selectedLanguage,
                 decoration: _inputDecoration('Select preferred language'),
                 items: _languages.map((lang) {
                   return DropdownMenuItem(value: lang, child: Text(lang));
@@ -313,7 +313,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
               const SizedBox(height: 32),
 
-              // ── Save Button ───────────────────────────────────────────────
+              // â”€â”€ Save Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -369,3 +369,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 }
+

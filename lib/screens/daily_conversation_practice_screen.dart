@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../models/conversation_scenario.dart';
 import '../services/translation_service.dart';
@@ -9,11 +9,11 @@ import '../services/tts_service.dart';
 /// Features:
 /// 1. Scripted 5-6 turn practice conversations for 8 situations.
 /// 2. Chat-style UI (Lifemate on left, User on right).
-/// 3. 🔊 Listen to Lifemate line & 🔊 Listen to suggestion.
-/// 4. 💡 Suggested reply & Need Help? simple meaning toggle.
-/// 5. 🎤 Speak Reply (speech_to_text with direct localeId: 'en_US').
-/// 6. ➡ Continue button to advance to next turn.
-/// 7. 🎉 Practice Complete screen with Practice Again & Choose Another Situation.
+/// 3. ðŸ”Š Listen to Lifemate line & ðŸ”Š Listen to suggestion.
+/// 4. ðŸ’¡ Suggested reply & Need Help? simple meaning toggle.
+/// 5. ðŸŽ¤ Speak Reply (speech_to_text with direct localeId: 'en_US').
+/// 6. âž¡ Continue button to advance to next turn.
+/// 7. ðŸŽ‰ Practice Complete screen with Practice Again & Choose Another Situation.
 class DailyConversationPracticeScreen extends StatefulWidget {
   final ConversationScenario scenario;
 
@@ -212,28 +212,28 @@ class _DailyConversationPracticeScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // ── Header Progress ──────────────────────────────────────────────
+          // â”€â”€ Header Progress â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildProgressHeader(),
 
           const SizedBox(height: 20),
 
-          // ── Chat Bubble: Lifemate Line (Left) ─────────────────────────────
+          // â”€â”€ Chat Bubble: Lifemate Line (Left) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildLifemateChatBubble(_currentTurn.lifemateLine),
 
           const SizedBox(height: 14),
 
-          // ── Chat Bubble: User Line (Right - if spoken) ───────────────────
+          // â”€â”€ Chat Bubble: User Line (Right - if spoken) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           if (hasUserSpoken) ...[
             _buildUserChatBubble(_userRecognizedText),
             const SizedBox(height: 14),
           ],
 
-          // ── Suggested Reply & Help Card ──────────────────────────────────
+          // â”€â”€ Suggested Reply & Help Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildSuggestedReplyCard(_currentTurn),
 
           const SizedBox(height: 20),
 
-          // ── Microphone Speak Reply Button ────────────────────────────────
+          // â”€â”€ Microphone Speak Reply Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildMicButton(),
 
           if (_statusMessage.isNotEmpty) ...[
@@ -251,7 +251,7 @@ class _DailyConversationPracticeScreenState
 
           const SizedBox(height: 20),
 
-          // ── Encouraging Banner & Continue Button (Enabled after speaking or ready)
+          // â”€â”€ Encouraging Banner & Continue Button (Enabled after speaking or ready)
           if (hasUserSpoken) ...[
             Container(
               padding: const EdgeInsets.all(14),
@@ -280,14 +280,14 @@ class _DailyConversationPracticeScreenState
             const SizedBox(height: 14),
           ],
 
-          // ➡ Continue Button
+          // âž¡ Continue Button
           ElevatedButton.icon(
             onPressed: _nextTurn,
             icon: const Icon(Icons.arrow_forward_rounded, size: 20),
             label: Text(
               _currentTurnIndex < widget.scenario.turns.length - 1
-                  ? '➡ Continue to Next Turn'
-                  : '🎉 Finish Conversation',
+                  ? 'âž¡ Continue to Next Turn'
+                  : 'ðŸŽ‰ Finish Conversation',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
             ),
             style: ElevatedButton.styleFrom(
@@ -335,7 +335,7 @@ class _DailyConversationPracticeScreenState
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: widget.scenario.color.withValues(alpha: 0.10),
+              color: widget.scenario.color.withAlpha(26),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -384,7 +384,7 @@ class _DailyConversationPracticeScreenState
               const Row(
                 children: [
                   Text(
-                    '🗣 Lifemate',
+                    'ðŸ—£ Lifemate',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -409,7 +409,7 @@ class _DailyConversationPracticeScreenState
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: _purpleAccent.withValues(alpha: 0.10),
+                    color: _purpleAccent.withAlpha(26),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Row(
@@ -418,7 +418,7 @@ class _DailyConversationPracticeScreenState
                       Icon(Icons.volume_up_rounded, size: 14, color: _purpleAccent),
                       SizedBox(width: 4),
                       Text(
-                        '🔊 Listen',
+                        'ðŸ”Š Listen',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -459,7 +459,7 @@ class _DailyConversationPracticeScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                '👤 You said:',
+                'ðŸ‘¤ You said:',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -498,7 +498,7 @@ class _DailyConversationPracticeScreenState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                '💡 Suggested reply:',
+                'ðŸ’¡ Suggested reply:',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -541,7 +541,7 @@ class _DailyConversationPracticeScreenState
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF59E0B).withValues(alpha: 0.15),
+                    color: const Color(0xFFF59E0B).withAlpha(38),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: const Row(
@@ -550,7 +550,7 @@ class _DailyConversationPracticeScreenState
                       Icon(Icons.volume_up_rounded, size: 14, color: Color(0xFFB45309)),
                       SizedBox(width: 4),
                       Text(
-                        '🔊 Listen to suggestion',
+                        'ðŸ”Š Listen to suggestion',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -591,7 +591,7 @@ class _DailyConversationPracticeScreenState
         size: 26,
       ),
       label: Text(
-        _isListening ? '⏹ Stop' : '🎤 Speak Reply',
+        _isListening ? 'â¹ Stop' : 'ðŸŽ¤ Speak Reply',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
       ),
       style: ElevatedButton.styleFrom(
@@ -619,7 +619,7 @@ class _DailyConversationPracticeScreenState
               color: const Color(0xFFDCFCE7),
               shape: BoxShape.circle,
             ),
-            child: const Text('🎉', style: TextStyle(fontSize: 54)),
+            child: const Text('ðŸŽ‰', style: TextStyle(fontSize: 54)),
           ),
           const SizedBox(height: 20),
           const Text(
@@ -643,11 +643,11 @@ class _DailyConversationPracticeScreenState
           ),
           const SizedBox(height: 36),
 
-          // 🔄 Practice Again
+          // ðŸ”„ Practice Again
           ElevatedButton.icon(
             onPressed: _restartConversation,
             icon: const Icon(Icons.refresh_rounded, size: 20),
-            label: const Text('🔄 Practice Again'),
+            label: const Text('ðŸ”„ Practice Again'),
             style: ElevatedButton.styleFrom(
               backgroundColor: _purpleAccent,
               foregroundColor: Colors.white,
@@ -660,11 +660,11 @@ class _DailyConversationPracticeScreenState
 
           const SizedBox(height: 14),
 
-          // 🏠 Choose Another Situation
+          // ðŸ  Choose Another Situation
           OutlinedButton.icon(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.home_rounded, size: 20),
-            label: const Text('🏠 Choose Another Situation'),
+            label: const Text('ðŸ  Choose Another Situation'),
             style: OutlinedButton.styleFrom(
               foregroundColor: _purpleAccent,
               side: const BorderSide(color: _purpleAccent, width: 1.5),
@@ -679,3 +679,4 @@ class _DailyConversationPracticeScreenState
     );
   }
 }
+

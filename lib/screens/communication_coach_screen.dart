@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../services/communication_curriculum_service.dart';
 import 'spoken_english_practice_screen.dart';
 import 'pronunciation_practice_screen.dart';
@@ -7,7 +7,7 @@ import 'daily_conversation_screen.dart';
 /// Gamified Communication Coach Screen
 ///
 /// Features:
-/// 1. Total XP ⚡, Daily Streak 🔥, and Badges 🏆 header banner.
+/// 1. Total XP âš¡, Daily Streak ðŸ”¥, and Badges ðŸ† header banner.
 /// 2. Structured Gamified Curriculum (Beginner Level 1 -> Intermediate Level 2 -> Advanced Level 3).
 /// 3. Gated Unlock Progression (Lesson N+1 unlocks after Lesson N is completed).
 /// 4. Interactive practice launchers: Spoken Practice, Pronunciation Scoring, Real-life Dialogue, Interview & Group Discussion.
@@ -45,7 +45,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
     if (!lesson.isUnlocked) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('🔒 Complete previous lessons to unlock "${lesson.title}"!'),
+          content: Text('ðŸ”’ Complete previous lessons to unlock "${lesson.title}"!'),
           backgroundColor: const Color(0xFFEF4444),
         ),
       );
@@ -95,17 +95,17 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Gamified Stats Banner ────────────────────────────────
+                  // â”€â”€ Gamified Stats Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                   _buildGamifiedStatsHeader(),
 
                   const SizedBox(height: 20),
 
-                  // ── Level Selector Tabs ──────────────────────────────────
+                  // â”€â”€ Level Selector Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                   _buildLevelSelector(),
 
                   const SizedBox(height: 20),
 
-                  // ── Lesson List ──────────────────────────────────────────
+                  // â”€â”€ Lesson List â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                   Text(
                     '$_selectedLevel Lessons',
                     style: const TextStyle(
@@ -121,7 +121,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   const SizedBox(height: 28),
 
-                  // ── Practice Modes Quick Access ──────────────────────────
+                  // â”€â”€ Practice Modes Quick Access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                   const Text(
                     'Practice Modes',
                     style: TextStyle(
@@ -206,7 +206,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
             children: [
               Row(
                 children: [
-                  const Text('🔥 ', style: TextStyle(fontSize: 22)),
+                  const Text('ðŸ”¥ ', style: TextStyle(fontSize: 22)),
                   Text(
                     '${_curriculumSvc.streakDays} Day Streak!',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
@@ -216,12 +216,12 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.20),
+                  color: Colors.white.withAlpha(51),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
                   children: [
-                    const Text('⚡ ', style: TextStyle(fontSize: 14)),
+                    const Text('âš¡ ', style: TextStyle(fontSize: 14)),
                     Text(
                       '${_curriculumSvc.totalXp} XP',
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white),
@@ -246,7 +246,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.25),
+                  color: Colors.white.withAlpha(64),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -323,9 +323,9 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
               height: 44,
               decoration: BoxDecoration(
                 color: lesson.isCompleted
-                    ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                    ? const Color(0xFF10B981).withAlpha(38)
                     : (lesson.isUnlocked
-                        ? _purpleAccent.withValues(alpha: 0.12)
+                        ? _purpleAccent.withAlpha(31)
                         : const Color(0xFFF1F5F9)),
                 shape: BoxShape.circle,
               ),
@@ -389,7 +389,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: color.withValues(alpha: 0.12),
+            color: color.withAlpha(31),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: color, size: 22),
@@ -407,3 +407,4 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
     );
   }
 }
+

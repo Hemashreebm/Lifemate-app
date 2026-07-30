@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Central theme configuration for Lifemate.
 ///
-/// Design philosophy: warm, calm, modern, friendly — like a personal companion.
+/// Design philosophy: warm, calm, modern, friendly â€” like a personal companion.
 /// Uses Material 3 with a soft violet brand color.
 class AppTheme {
-  AppTheme._(); // Prevent instantiation — static use only
+  AppTheme._(); // Prevent instantiation â€” static use only
 
-  // ── Brand Colors ──────────────────────────────────────────────────────────
+  // â”€â”€ Brand Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-  /// Primary brand color — soft violet, warm and inviting
+  /// Primary brand color â€” soft violet, warm and inviting
   static const Color brandSeed = Color(0xFF6C5CE7);
 
   /// Accent used for feature icon: diary
@@ -27,7 +27,7 @@ class AppTheme {
   /// Accent used for the Expense Tracker feature
   static const Color accentExpense = Color(0xFF0EA5E9);
 
-  // ── Light Theme ───────────────────────────────────────────────────────────
+  // â”€â”€ Light Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
@@ -42,7 +42,7 @@ class AppTheme {
       // Slightly warm off-white page background
       scaffoldBackgroundColor: const Color(0xFFF7F8FF),
 
-      // App bar: transparent, zero elevation — we style headers manually
+      // App bar: transparent, zero elevation â€” we style headers manually
       appBarTheme: AppBarTheme(
         centerTitle: false,
         elevation: 0,
@@ -67,7 +67,7 @@ class AppTheme {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         height: 68,
-        indicatorColor: brandSeed.withValues(alpha: 0.12),
+        indicatorColor: brandSeed.withAlpha(31),
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -101,3 +101,4 @@ class AppTheme {
     );
   }
 }
+

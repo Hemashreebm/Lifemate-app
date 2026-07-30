@@ -113,8 +113,9 @@ class SmsExpenseParserService {
     // 5. Detect Bank Name from Sender ID or Body
     String bankName = 'Bank';
     final senderUpper = sender.toUpperCase();
-    if (senderUpper.contains('HDFC') || text.contains('hdfc')) bankName = 'HDFC Bank';
-    else if (senderUpper.contains('SBI') || text.contains('sbi')) bankName = 'State Bank of India';
+    if (senderUpper.contains('HDFC') || text.contains('hdfc')) {
+      bankName = 'HDFC Bank';
+    } else if (senderUpper.contains('SBI') || text.contains('sbi')) bankName = 'State Bank of India';
     else if (senderUpper.contains('ICICI') || text.contains('icici')) bankName = 'ICICI Bank';
     else if (senderUpper.contains('AXIS') || text.contains('axis')) bankName = 'Axis Bank';
     else if (senderUpper.contains('PAYTM') || text.contains('paytm')) bankName = 'Paytm Wallet';

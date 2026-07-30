@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import '../models/saved_place.dart';
@@ -87,7 +87,7 @@ class _LocationScreenState extends State<LocationScreen> {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Location coordinates copied to clipboard! 📋'),
+        content: Text('Location coordinates copied to clipboard! ðŸ“‹'),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -226,34 +226,34 @@ class _LocationScreenState extends State<LocationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header Subtitle ─────────────────────────────────────────────
+            // â”€â”€ Header Subtitle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             const Text(
               'Your location, when you need it.',
               style: TextStyle(fontSize: 13, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 16),
 
-            // ── Permission / GPS Status Banner (If disabled) ────────────────
+            // â”€â”€ Permission / GPS Status Banner (If disabled) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             if (_status != LocationStatus.ready) _buildStatusWarningCard(),
 
-            // ── Current Location Card ───────────────────────────────────────
+            // â”€â”€ Current Location Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildCurrentLocationCard(),
 
             const SizedBox(height: 20),
 
-            // ── Saved Places Section ────────────────────────────────────────
+            // â”€â”€ Saved Places Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildSavedPlacesHeader(),
             const SizedBox(height: 12),
             _buildSavedPlacesList(),
 
             const SizedBox(height: 24),
 
-            // ── Privacy Card ────────────────────────────────────────────────
+            // â”€â”€ Privacy Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildPrivacyCard(),
 
             const SizedBox(height: 20),
 
-            // ── Safety — Coming Later Section ──────────────────────────────
+            // â”€â”€ Safety â€” Coming Later Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildSafetyComingLaterCard(),
 
             const SizedBox(height: 32),
@@ -263,7 +263,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 
-  // ── Card Builders ─────────────────────────────────────────────────────────
+  // â”€â”€ Card Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildStatusWarningCard() {
     String msg = '';
@@ -485,7 +485,7 @@ class _LocationScreenState extends State<LocationScreen> {
           Row(
             children: [
               Text(
-                'Accuracy: ${_currentPosition != null ? "±${_currentPosition!.accuracy.round()} m" : "---"}',
+                'Accuracy: ${_currentPosition != null ? "Â±${_currentPosition!.accuracy.round()} m" : "---"}',
                 style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
               ),
               const Spacer(),
@@ -545,7 +545,7 @@ class _LocationScreenState extends State<LocationScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
-          '⭐ Saved Places',
+          'â­ Saved Places',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1A1A2E)),
         ),
         TextButton.icon(
@@ -604,12 +604,12 @@ class _LocationScreenState extends State<LocationScreen> {
           ),
           child: ListTile(
             leading: CircleAvatar(
-              backgroundColor: const Color(0xFF8B5CF6).withValues(alpha: 0.12),
+              backgroundColor: const Color(0xFF8B5CF6).withAlpha(31),
               child: const Icon(Icons.star_rounded, color: Color(0xFF8B5CF6)),
             ),
             title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E))),
             subtitle: Text(
-              distanceStr.isNotEmpty ? '$distanceStr • ${p.address}' : p.address,
+              distanceStr.isNotEmpty ? '$distanceStr â€¢ ${p.address}' : p.address,
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             trailing: Row(
@@ -688,7 +688,7 @@ class _LocationScreenState extends State<LocationScreen> {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFFEF4444).withValues(alpha: 0.12),
+                color: const Color(0xFFEF4444).withAlpha(31),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: const Icon(Icons.sos_rounded, color: Color(0xFFEF4444), size: 28),
@@ -699,7 +699,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '🆘 Safety & SOS',
+                    'ðŸ†˜ Safety & SOS',
                     style: TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF991B1B), fontSize: 16),
                   ),
                   SizedBox(height: 2),
@@ -724,3 +724,4 @@ class _LocationScreenState extends State<LocationScreen> {
     return '$hour:$min $ampm';
   }
 }
+

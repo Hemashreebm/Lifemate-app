@@ -15,7 +15,7 @@ class TtsService {
   String? _defaultEngine;
   List<String> _availableEngines = [];
   List<String> _availableLanguages = [];
-  List<Map<String, String>> _availableVoices = [];
+  final List<Map<String, String>> _availableVoices = [];
 
   bool _isPlaying = false;
   bool get isPlaying => _isPlaying;

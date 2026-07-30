@@ -13,9 +13,9 @@ import 'voice_transaction_screen.dart';
 
 /// The Expense Tracker main dashboard.
 ///
-/// Layout (top → bottom):
+/// Layout (top â†’ bottom):
 ///  1. All-time summary card  (Total Money / Total Spent / Balance)
-///  2. Quick action buttons   (+ Add Money | + Add Expense | 🎤 Voice)
+///  2. Quick action buttons   (+ Add Money | + Add Expense | ðŸŽ¤ Voice)
 ///  3. This Month section     (month selector, income/spent/remaining, budget bar)
 ///  4. Spending by Category   (this month)
 ///  5. Recent Transactions    (last 10 across all months)
@@ -52,7 +52,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     _initSpeech();
   }
 
-  // ── Data loading ───────────────────────────────────────────────────────────
+  // â”€â”€ Data loading â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _loadData() async {
     await _svc.load();
@@ -78,7 +78,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     });
   }
 
-  // ── Speech initialisation ──────────────────────────────────────────────────
+  // â”€â”€ Speech initialisation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _initSpeech() async {
     _speechAvailable = await _speech.initialize(
@@ -94,7 +94,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     if (mounted) setState(() {});
   }
 
-  // ── Navigation ─────────────────────────────────────────────────────────────
+  // â”€â”€ Navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _openAdd({TransactionType? type}) async {
     final changed = await Navigator.push<bool>(
@@ -114,7 +114,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     if (changed == true) _refresh();
   }
 
-  // ── Voice entry ────────────────────────────────────────────────────────────
+  // â”€â”€ Voice entry â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _startVoiceEntry() async {
     if (!_speechAvailable) {
@@ -130,7 +130,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
 
     setState(() {
       _isListening  = true;
-      _voiceStatus  = 'Listening…';
+      _voiceStatus  = 'Listeningâ€¦';
     });
 
     await _speech.listen(
@@ -186,7 +186,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Transaction detail / delete ────────────────────────────────────────────
+  // â”€â”€ Transaction detail / delete â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   void _showDetail(Transaction tx) {
     showModalBottomSheet(
@@ -209,7 +209,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
         title:   const Text('Delete this transaction?'),
         content: Text(
           '${tx.type == TransactionType.expense ? "Expense" : "Income"}: '
-          '${TransactionService.formatCurrency(tx.amount)} — ${tx.category}',
+          '${TransactionService.formatCurrency(tx.amount)} â€” ${tx.category}',
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
@@ -231,7 +231,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     }
   }
 
-  // ── OCR Bill Scanner ──────────────────────────────────────────────────────
+  // â”€â”€ OCR Bill Scanner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _scanReceipt(ImageSource source) async {
     final result = await OcrBillScannerService.instance.scanReceipt(source: source);
@@ -263,7 +263,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
               TextField(
                 controller: amountController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Total Amount (₹)'),
+                decoration: const InputDecoration(labelText: 'Total Amount (â‚¹)'),
               ),
               const SizedBox(height: 12),
               if (result.gstNumber.isNotEmpty)
@@ -298,7 +298,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── SMS Tracking Dialog ───────────────────────────────────────────────────
+  // â”€â”€ SMS Tracking Dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _showSmsTrackingDialog() async {
     await SmsExpenseParserService.instance.init();
@@ -364,7 +364,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Budget dialog ──────────────────────────────────────────────────────────
+  // â”€â”€ Budget dialog â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _showBudgetDialog() async {
     final ctrl = TextEditingController(
@@ -373,7 +373,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
       context: context,
       builder: (_) => AlertDialog(
         title: Text(
-          'Set Budget — ${TransactionService.formatMonthYear(_month)}',
+          'Set Budget â€” ${TransactionService.formatMonthYear(_month)}',
           style: const TextStyle(fontSize: 16),
         ),
         content: TextField(
@@ -381,7 +381,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: const InputDecoration(
-            prefixText: '₹ ',
+            prefixText: 'â‚¹ ',
             hintText: 'e.g. 5000',
             labelText: 'Monthly budget',
             border: OutlineInputBorder(),
@@ -423,7 +423,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Month navigation ───────────────────────────────────────────────────────
+  // â”€â”€ Month navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _prevMonth() async {
     await _changeMonth(DateTime(_month.year, _month.month - 1));
@@ -436,7 +436,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     await _changeMonth(next);
   }
 
-  // ── Build ──────────────────────────────────────────────────────────────────
+  // â”€â”€ Build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   @override
   Widget build(BuildContext context) {
@@ -485,15 +485,15 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1 ── ALL-TIME SUMMARY CARD ──────────────────────────────────────
+          // 1 â”€â”€ ALL-TIME SUMMARY CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildAllTimeCard(allIncome, allExpense, balance),
           const SizedBox(height: 20),
 
-          // 2 ── QUICK ACTION BUTTONS ───────────────────────────────────────
+          // 2 â”€â”€ QUICK ACTION BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildActionButtons(),
           const SizedBox(height: 28),
 
-          // 3 ── THIS MONTH ─────────────────────────────────────────────────
+          // 3 â”€â”€ THIS MONTH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildSectionHeader('This Month'),
           const SizedBox(height: 12),
           _buildMonthSelector(),
@@ -501,7 +501,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           _buildMonthSummaryCard(monthIncome, monthExpense, monthNet),
           const SizedBox(height: 28),
 
-          // 4 ── SPENDING BY CATEGORY ───────────────────────────────────────
+          // 4 â”€â”€ SPENDING BY CATEGORY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           if (_monthTxs.any((t) => t.type == TransactionType.expense)) ...[
             _buildSectionHeader('Spending by Category'),
             const SizedBox(height: 12),
@@ -509,7 +509,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             const SizedBox(height: 28),
           ],
 
-          // 5 ── RECENT TRANSACTIONS ────────────────────────────────────────
+          // 5 â”€â”€ RECENT TRANSACTIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           _buildSectionHeader('Recent Transactions'),
           const SizedBox(height: 12),
           recentTxs.isEmpty
@@ -517,7 +517,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
               : _buildTransactionList(recentTxs),
           const SizedBox(height: 28),
 
-          // 6 ── MONTHLY HISTORY ────────────────────────────────────────────
+          // 6 â”€â”€ MONTHLY HISTORY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
           if (_monthHistory.length > 1) ...[
             _buildSectionHeader('Monthly History'),
             const SizedBox(height: 12),
@@ -528,7 +528,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 1: All-time summary card ──────────────────────────────────────
+  // â”€â”€ Section 1: All-time summary card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildAllTimeCard(
       double allIncome, double allExpense, double balance) {
@@ -544,7 +544,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF1A1A2E).withValues(alpha: 0.35),
+            color: const Color(0xFF1A1A2E).withAlpha(89),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -570,7 +570,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          Divider(color: Colors.white.withValues(alpha: 0.15), height: 1),
+          Divider(color: Colors.white.withAlpha(38), height: 1),
           const SizedBox(height: 16),
 
           // Income & Expenses row
@@ -578,7 +578,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             children: [
               Expanded(
                 child: _buildAllTimeStat(
-                  '📥 Total Money',
+                  'ðŸ“¥ Total Money',
                   TransactionService.formatCurrency(allIncome),
                   const Color(0xFF86EFAC),
                 ),
@@ -586,10 +586,10 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
               Container(
                   width: 1,
                   height: 44,
-                  color: Colors.white.withValues(alpha: 0.15)),
+                  color: Colors.white.withAlpha(38)),
               Expanded(
                 child: _buildAllTimeStat(
-                  '📤 Total Spent',
+                  'ðŸ“¤ Total Spent',
                   TransactionService.formatCurrency(allExpense),
                   const Color(0xFFFCA5A5),
                 ),
@@ -619,7 +619,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 2: Action buttons ──────────────────────────────────────────────
+  // â”€â”€ Section 2: Action buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildActionButtons() {
     return Column(
@@ -650,7 +650,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           children: [
             Expanded(
               child: _ActionButton(
-                label: '📷 Scan Bill',
+                label: 'ðŸ“· Scan Bill',
                 icon: Icons.receipt_long_rounded,
                 color: const Color(0xFF8B5CF6),
                 onTap: () => _scanReceipt(ImageSource.camera),
@@ -659,7 +659,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _ActionButton(
-                label: '📲 SMS Tracker',
+                label: 'ðŸ“² SMS Tracker',
                 icon: Icons.sms_rounded,
                 color: const Color(0xFF00B894),
                 onTap: _showSmsTrackingDialog,
@@ -668,7 +668,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           ],
         ),
         const SizedBox(height: 12),
-        // Voice button — full width
+        // Voice button â€” full width
         _buildVoiceButton(),
       ],
     );
@@ -693,7 +693,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF6C5CE7).withValues(alpha: 0.35),
+              color: const Color(0xFF6C5CE7).withAlpha(89),
               blurRadius: isActive ? 20 : 10,
               offset: const Offset(0, 4),
             ),
@@ -713,7 +713,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             ),
             const SizedBox(width: 10),
             Text(
-              isActive ? 'Listening… tap to stop' : '🎤  Add by Voice',
+              isActive ? 'Listeningâ€¦ tap to stop' : 'ðŸŽ¤  Add by Voice',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15,
@@ -726,7 +726,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 3: This month ──────────────────────────────────────────────────
+  // â”€â”€ Section 3: This month â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildMonthSelector() {
     final now = DateTime.now();
@@ -781,7 +781,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.25),
+            color: const Color(0xFF6C5CE7).withAlpha(64),
             blurRadius: 16,
             offset: const Offset(0, 6),
           ),
@@ -796,21 +796,21 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             children: [
               Expanded(
                 child: _buildMonthStat(
-                  '📥 Income',
+                  'ðŸ“¥ Income',
                   TransactionService.formatCurrency(income),
                   const Color(0xFF86EFAC),
                 ),
               ),
               Expanded(
                 child: _buildMonthStat(
-                  '📤 Spent',
+                  'ðŸ“¤ Spent',
                   TransactionService.formatCurrency(expense),
                   const Color(0xFFFCA5A5),
                 ),
               ),
               Expanded(
                 child: _buildMonthStat(
-                  '💰 Remaining',
+                  'ðŸ’° Remaining',
                   '${netNeg ? '-' : ''}${TransactionService.formatCurrency(net.abs())}',
                   netNeg
                       ? const Color(0xFFFCA5A5)
@@ -823,7 +823,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           // Budget bar
           if (budgetPct != null) ...[
             Divider(
-                color: Colors.white.withValues(alpha: 0.2), height: 24),
+                color: Colors.white.withAlpha(51), height: 24),
             Row(
               children: [
                 const Expanded(
@@ -845,7 +845,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
               borderRadius: BorderRadius.circular(4),
               child: LinearProgressIndicator(
                 value: budgetPct,
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
+                backgroundColor: Colors.white.withAlpha(51),
                 valueColor: AlwaysStoppedAnimation(
                     budgetWarn
                         ? const Color(0xFFFCA5A5)
@@ -894,7 +894,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 4: Category spending ───────────────────────────────────────────
+  // â”€â”€ Section 4: Category spending â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildCategorySpending(double totalExpense) {
     final breakdown = _svc.expenseByCategory(_monthTxs);
@@ -950,7 +950,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                   child: LinearProgressIndicator(
                     value: pct,
                     backgroundColor:
-                        cat.color.withValues(alpha: 0.12),
+                        cat.color.withAlpha(31),
                     valueColor: AlwaysStoppedAnimation(cat.color),
                     minHeight: 6,
                   ),
@@ -963,14 +963,14 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 5: Recent transactions ────────────────────────────────────────
+  // â”€â”€ Section 5: Recent transactions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildTransactionList(List<Transaction> txs) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: txs.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (ctx, i) => _TransactionTile(
         transaction: txs[i],
         onTap: () => _showDetail(txs[i]),
@@ -988,7 +988,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
       ),
       child: Column(
         children: [
-          const Text('💰', style: TextStyle(fontSize: 48)),
+          const Text('ðŸ’°', style: TextStyle(fontSize: 48)),
           const SizedBox(height: 16),
           const Text('No transactions yet.',
               style: TextStyle(
@@ -1033,7 +1033,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Section 6: Monthly history ─────────────────────────────────────────────
+  // â”€â”€ Section 6: Monthly history â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildMonthlyHistory() {
     final now     = DateTime.now();
@@ -1136,8 +1136,8 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                             horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
                           color: netNeg
-                              ? const Color(0xFFFF6B6B).withValues(alpha: 0.1)
-                              : const Color(0xFF10B981).withValues(alpha: 0.1),
+                              ? const Color(0xFFFF6B6B).withAlpha(26)
+                              : const Color(0xFF10B981).withAlpha(26),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
@@ -1168,7 +1168,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
     );
   }
 
-  // ── Shared helpers ─────────────────────────────────────────────────────────
+  // â”€â”€ Shared helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildSectionHeader(String title) {
     return Text(title,
@@ -1180,7 +1180,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
   }
 }
 
-// ── Action button widget ───────────────────────────────────────────────────────
+// â”€â”€ Action button widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class _ActionButton extends StatelessWidget {
   final String label;
@@ -1202,9 +1202,9 @@ class _ActionButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.10),
+          color: color.withAlpha(26),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withValues(alpha: 0.25)),
+          border: Border.all(color: color.withAlpha(64)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -1223,7 +1223,7 @@ class _ActionButton extends StatelessWidget {
   }
 }
 
-// ── Pulsing mic animation ──────────────────────────────────────────────────────
+// â”€â”€ Pulsing mic animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class _PulsingMic extends StatefulWidget {
   const _PulsingMic({super.key});
@@ -1261,7 +1261,7 @@ class _PulsingMicState extends State<_PulsingMic>
   }
 }
 
-// ── Transaction tile widget ────────────────────────────────────────────────────
+// â”€â”€ Transaction tile widget â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class _TransactionTile extends StatelessWidget {
   final Transaction transaction;
@@ -1297,7 +1297,7 @@ class _TransactionTile extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: cat.color.withValues(alpha: 0.12),
+                color: cat.color.withAlpha(31),
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
@@ -1358,7 +1358,7 @@ class _TransactionTile extends StatelessWidget {
   }
 }
 
-// ── Transaction detail bottom sheet ───────────────────────────────────────────
+// â”€â”€ Transaction detail bottom sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class _TransactionDetailSheet extends StatelessWidget {
   final Transaction transaction;
@@ -1413,7 +1413,7 @@ class _TransactionDetailSheet extends StatelessWidget {
               color: (isEx
                       ? const Color(0xFFFF6B6B)
                       : const Color(0xFF10B981))
-                  .withValues(alpha: 0.1),
+                  .withAlpha(26),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
@@ -1499,3 +1499,4 @@ class _DetailRow extends StatelessWidget {
     );
   }
 }
+

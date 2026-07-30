@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../services/backup_manager_service.dart';
 import 'main_screen.dart';
@@ -224,7 +224,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
             children: [
               const SizedBox(height: 12),
 
-              // ── Lifemate Logo & Header Banner ──────────────────────────────
+              // â”€â”€ Lifemate Logo & Header Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(24),
@@ -244,11 +244,11 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.20),
+                        color: Colors.white.withAlpha(51),
                         shape: BoxShape.circle,
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.40), width: 2),
+                        border: Border.all(color: Colors.white.withAlpha(102), width: 2),
                       ),
-                      child: const Text('💖', style: TextStyle(fontSize: 40)),
+                      child: const Text('ðŸ’–', style: TextStyle(fontSize: 40)),
                     ),
                     const SizedBox(height: 14),
                     const Text(
@@ -266,7 +266,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
 
               const SizedBox(height: 24),
 
-              // ── Auth Mode Tabs ─────────────────────────────────────────────
+              // â”€â”€ Auth Mode Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -321,7 +321,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
 
               const SizedBox(height: 16),
 
-              // ── Guest Mode Section ─────────────────────────────────────────
+              // â”€â”€ Guest Mode Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
@@ -344,7 +344,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Use Lifemate offline. You can create an account later from Profile → Account & Cloud Backup without losing local data.',
+                      'Use Lifemate offline. You can create an account later from Profile â†’ Account & Cloud Backup without losing local data.',
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
                     ),
@@ -502,3 +502,4 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
     );
   }
 }
+

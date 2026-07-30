@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../models/task_item.dart';
 import '../services/task_service.dart';
 import '../services/notification_service.dart';
@@ -91,7 +91,7 @@ class _TasksScreenState extends State<TasksScreen>
     }
   }
 
-  // ── Build UI ──────────────────────────────────────────────────────────────
+  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class _TasksScreenState extends State<TasksScreen>
                 ),
               ),
 
-            // ── Top Header ───────────────────────────────────────────────
+            // â”€â”€ Top Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Row(
@@ -186,7 +186,7 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ),
 
-            // ── Filter Tabs ──────────────────────────────────────────────
+            // â”€â”€ Filter Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
@@ -211,7 +211,7 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ),
 
-            // ── Tab Bar Views ─────────────────────────────────────────────
+            // â”€â”€ Tab Bar Views â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -261,7 +261,7 @@ class _TasksScreenState extends State<TasksScreen>
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: const Color(0xFFF59E0B).withValues(alpha: 0.1),
+                color: const Color(0xFFF59E0B).withAlpha(26),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -311,7 +311,7 @@ class _TasksScreenState extends State<TasksScreen>
   }
 }
 
-// ── Reusable Task Card Item ───────────────────────────────────────────────────
+// â”€â”€ Reusable Task Card Item â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class _TaskTile extends StatelessWidget {
   final TaskItem task;
@@ -525,3 +525,4 @@ class _TaskTile extends StatelessWidget {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/translation_service.dart';
 import '../services/tts_service.dart';
@@ -9,7 +9,7 @@ import '../services/tts_service.dart';
 /// 1. Simple, beginner-friendly instructions.
 /// 2. Large Start Speaking / Stop microphone button.
 /// 3. Direct speech.listen(localeId: 'en_US') without speech.locales() blocking check.
-/// 4. Recognized speech display card with 🔊 Listen, 🔄 Try Again, and 🗑 Clear buttons.
+/// 4. Recognized speech display card with ðŸ”Š Listen, ðŸ”„ Try Again, and ðŸ—‘ Clear buttons.
 class SpokenEnglishPracticeScreen extends StatefulWidget {
   const SpokenEnglishPracticeScreen({super.key});
 
@@ -168,12 +168,12 @@ class _SpokenEnglishPracticeScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ── Instruction Banner ──────────────────────────────────────────
+            // â”€â”€ Instruction Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildInstructionCard(),
 
             const SizedBox(height: 24),
 
-            // ── Large Mic Button ─────────────────────────────────────────────
+            // â”€â”€ Large Mic Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildMicButton(),
 
             const SizedBox(height: 12),
@@ -192,7 +192,7 @@ class _SpokenEnglishPracticeScreenState
 
             const SizedBox(height: 28),
 
-            // ── Recognized Speech Card ───────────────────────────────────────
+            // â”€â”€ Recognized Speech Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildResultCard(),
 
             const SizedBox(height: 32),
@@ -271,7 +271,7 @@ class _SpokenEnglishPracticeScreenState
           boxShadow: [
             BoxShadow(
               color: (_isListening ? const Color(0xFFEF4444) : _purpleAccent)
-                  .withValues(alpha: 0.30),
+                  .withAlpha(76),
               blurRadius: 16,
               offset: const Offset(0, 6),
             ),
@@ -288,7 +288,7 @@ class _SpokenEnglishPracticeScreenState
             ),
             const SizedBox(width: 12),
             Text(
-              _isListening ? '⏹ Stop' : '🎤 Start Speaking',
+              _isListening ? 'â¹ Stop' : 'ðŸŽ¤ Start Speaking',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -310,7 +310,7 @@ class _SpokenEnglishPracticeScreenState
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: hasText ? _purpleAccent.withValues(alpha: 0.30) : const Color(0xFFE2E8F0),
+          color: hasText ? _purpleAccent.withAlpha(76) : const Color(0xFFE2E8F0),
           width: 1.5,
         ),
         boxShadow: const [
@@ -360,14 +360,14 @@ class _SpokenEnglishPracticeScreenState
               spacing: 10,
               runSpacing: 10,
               children: [
-                // 🔊 Listen Button
+                // ðŸ”Š Listen Button
                 ElevatedButton.icon(
                   onPressed: _listenToSentence,
                   icon: Icon(
                     _isSpeakingTts ? Icons.stop_rounded : Icons.volume_up_rounded,
                     size: 18,
                   ),
-                  label: Text(_isSpeakingTts ? '⏹ Stop' : '🔊 Listen'),
+                  label: Text(_isSpeakingTts ? 'â¹ Stop' : 'ðŸ”Š Listen'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _purpleAccent,
                     foregroundColor: Colors.white,
@@ -378,14 +378,14 @@ class _SpokenEnglishPracticeScreenState
                   ),
                 ),
 
-                // 🔄 Try Again Button
+                // ðŸ”„ Try Again Button
                 OutlinedButton.icon(
                   onPressed: () {
                     _clearText();
                     _toggleListening();
                   },
                   icon: const Icon(Icons.refresh_rounded, size: 18),
-                  label: const Text('🔄 Try Again'),
+                  label: const Text('ðŸ”„ Try Again'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: _purpleAccent,
                     side: const BorderSide(color: _purpleAccent),
@@ -396,7 +396,7 @@ class _SpokenEnglishPracticeScreenState
                   ),
                 ),
 
-                // 🗑 Clear Button
+                // ðŸ—‘ Clear Button
                 IconButton(
                   onPressed: _clearText,
                   icon: const Icon(Icons.delete_outline_rounded),
@@ -411,3 +411,4 @@ class _SpokenEnglishPracticeScreenState
     );
   }
 }
+

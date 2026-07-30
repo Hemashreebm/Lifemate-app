@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/translation_service.dart';
 import '../services/tts_service.dart';
@@ -7,8 +7,8 @@ import '../services/tts_service.dart';
 ///
 /// Features:
 /// 1. Built-in practice sentences with Previous / Next navigation.
-/// 2. 🔊 Listen button to hear native/correct English TTS pronunciation.
-/// 3. 🎤 Repeat Sentence button (speech_to_text with direct localeId: 'en_US').
+/// 2. ðŸ”Š Listen button to hear native/correct English TTS pronunciation.
+/// 3. ðŸŽ¤ Repeat Sentence button (speech_to_text with direct localeId: 'en_US').
 /// 4. Normalized word-by-word text comparison & match percentage feedback.
 /// 5. Visual word difference breakdown and simple, encouraging guidance.
 class PronunciationPracticeScreen extends StatefulWidget {
@@ -187,7 +187,7 @@ class _PronunciationPracticeScreenState
     );
   }
 
-  // ── Word Match Calculation & Comparison Logic ─────────────────────────────────
+  // â”€â”€ Word Match Calculation & Comparison Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   List<String> _normalizeToWords(String text) {
     return text
@@ -243,22 +243,22 @@ class _PronunciationPracticeScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ── Top Header Instructions ────────────────────────────────────
+            // â”€â”€ Top Header Instructions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildInstructionHeader(),
 
             const SizedBox(height: 20),
 
-            // ── Target Sentence Card & Nav ─────────────────────────────────
+            // â”€â”€ Target Sentence Card & Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildSentenceCard(),
 
             const SizedBox(height: 20),
 
-            // ── 🔊 Listen to Pronunciation Button ─────────────────────────
+            // â”€â”€ ðŸ”Š Listen to Pronunciation Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildListenButton(),
 
             const SizedBox(height: 16),
 
-            // ── 🎤 Repeat Sentence Button ─────────────────────────────────
+            // â”€â”€ ðŸŽ¤ Repeat Sentence Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildRepeatButton(),
 
             if (_statusMessage.isNotEmpty) ...[
@@ -276,7 +276,7 @@ class _PronunciationPracticeScreenState
 
             const SizedBox(height: 28),
 
-            // ── Recognized Speech & Feedback Card ──────────────────────────
+            // â”€â”€ Recognized Speech & Feedback Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             if (hasRecognized) _buildFeedbackCard(matchPercentage),
 
             const SizedBox(height: 32),
@@ -337,7 +337,7 @@ class _PronunciationPracticeScreenState
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _purpleAccent.withValues(alpha: 0.10),
+                  color: _purpleAccent.withAlpha(26),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -398,7 +398,7 @@ class _PronunciationPracticeScreenState
         size: 22,
       ),
       label: Text(
-        _isSpeakingTts ? '⏹ Stop Listening' : '🔊 Listen to Pronunciation',
+        _isSpeakingTts ? 'â¹ Stop Listening' : 'ðŸ”Š Listen to Pronunciation',
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
       ),
       style: OutlinedButton.styleFrom(
@@ -420,7 +420,7 @@ class _PronunciationPracticeScreenState
         size: 26,
       ),
       label: Text(
-        _isListening ? '⏹ Stop' : '🎤 Repeat Sentence',
+        _isListening ? 'â¹ Stop' : 'ðŸŽ¤ Repeat Sentence',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
       ),
       style: ElevatedButton.styleFrom(
@@ -441,15 +441,15 @@ class _PronunciationPracticeScreenState
     Color statusColor;
 
     if (percentage >= 90) {
-      feedbackTitle = 'Excellent match! 🌟';
+      feedbackTitle = 'Excellent match! ðŸŒŸ';
       feedbackSubtitle = 'Great pronunciation! Move to the next sentence.';
       statusColor = const Color(0xFF10B981);
     } else if (percentage >= 70) {
-      feedbackTitle = 'Good attempt! 👍';
+      feedbackTitle = 'Good attempt! ðŸ‘';
       feedbackSubtitle = 'Try once more for an even closer match.';
       statusColor = const Color(0xFFD97706);
     } else {
-      feedbackTitle = 'Keep practicing 💪';
+      feedbackTitle = 'Keep practicing ðŸ’ª';
       feedbackSubtitle = 'Listen again and repeat slowly.';
       statusColor = const Color(0xFFE11D48);
     }
@@ -459,7 +459,7 @@ class _PronunciationPracticeScreenState
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: statusColor.withValues(alpha: 0.30), width: 1.5),
+        border: Border.all(color: statusColor.withAlpha(76), width: 1.5),
         boxShadow: const [
           BoxShadow(
             color: Color(0x0A000000),
@@ -488,7 +488,7 @@ class _PronunciationPracticeScreenState
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.10),
+                  color: statusColor.withAlpha(26),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -537,11 +537,11 @@ class _PronunciationPracticeScreenState
             spacing: 10,
             runSpacing: 10,
             children: [
-              // 🔊 Listen Again
+              // ðŸ”Š Listen Again
               ElevatedButton.icon(
                 onPressed: _listenToCorrectPronunciation,
                 icon: const Icon(Icons.volume_up_rounded, size: 16),
-                label: const Text('🔊 Listen Again'),
+                label: const Text('ðŸ”Š Listen Again'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _purpleAccent,
                   foregroundColor: Colors.white,
@@ -553,11 +553,11 @@ class _PronunciationPracticeScreenState
                 ),
               ),
 
-              // 🎤 Try Again
+              // ðŸŽ¤ Try Again
               OutlinedButton.icon(
                 onPressed: _startRepeating,
                 icon: const Icon(Icons.mic_rounded, size: 16),
-                label: const Text('🎤 Try Again'),
+                label: const Text('ðŸŽ¤ Try Again'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: _purpleAccent,
                   side: const BorderSide(color: _purpleAccent),
@@ -569,12 +569,12 @@ class _PronunciationPracticeScreenState
                 ),
               ),
 
-              // ➡ Next Sentence
+              // âž¡ Next Sentence
               if (_currentIndex < _sentences.length - 1)
                 ElevatedButton.icon(
                   onPressed: _nextSentence,
                   icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                  label: const Text('➡ Next Sentence'),
+                  label: const Text('âž¡ Next Sentence'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF10B981),
                     foregroundColor: Colors.white,
@@ -629,3 +629,4 @@ class _PronunciationPracticeScreenState
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -82,7 +82,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     }
   }
 
-  // ── Language Swapping ─────────────────────────────────────────────────────
+  // â”€â”€ Language Swapping â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   void _swapLanguages() {
     _stopTts();
@@ -94,7 +94,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     });
   }
 
-  // ── Speech Recognition 🎤 ─────────────────────────────────────────────────
+  // â”€â”€ Speech Recognition ðŸŽ¤ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _toggleListening() async {
     _stopTts();
@@ -194,7 +194,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 
-  // ── Model Check & Translation ──────────────────────────────────────────────
+  // â”€â”€ Model Check & Translation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _performTranslation() async {
     _stopTts();
@@ -345,7 +345,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 
-  // ── Text-to-Speech (TTS) 🔊 ────────────────────────────────────────────────
+  // â”€â”€ Text-to-Speech (TTS) ðŸ”Š â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _stopTts() async {
     await TtsService.instance.stop();
@@ -394,7 +394,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     }
   }
 
-  // ── Copy & Clear 📋 ───────────────────────────────────────────────────────
+  // â”€â”€ Copy & Clear ðŸ“‹ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   void _copyTranslation() {
     if (_translatedText.isEmpty) return;
@@ -451,7 +451,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                             final isFav = _favoritePhrases.contains(item);
                             return ListTile(
                               title: Text(item['source'] ?? ''),
-                              subtitle: Text('${item['from']} → ${item['to']}: ${item['target']}'),
+                              subtitle: Text('${item['from']} â†’ ${item['to']}: ${item['target']}'),
                               trailing: IconButton(
                                 icon: Icon(
                                   isFav ? Icons.star_rounded : Icons.star_border_rounded,
@@ -479,7 +479,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                             final item = _favoritePhrases[i];
                             return ListTile(
                               title: Text(item['source'] ?? ''),
-                              subtitle: Text('${item['from']} → ${item['to']}: ${item['target']}'),
+                              subtitle: Text('${item['from']} â†’ ${item['to']}: ${item['target']}'),
                               trailing: const Icon(Icons.star_rounded, color: Colors.amber),
                             );
                           },
@@ -539,30 +539,30 @@ class _TranslationScreenState extends State<TranslationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── 1. Language Selectors & Swap ⇄ ─────────────────────────────
+            // â”€â”€ 1. Language Selectors & Swap â‡„ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildLanguageBar(),
 
             const SizedBox(height: 16),
 
-            // ── 2. Download Status Banner (If downloading) ─────────────────
+            // â”€â”€ 2. Download Status Banner (If downloading) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             if (_isDownloadingModel) _buildDownloadStatusBanner(),
 
-            // ── 3. Input Card (Typed or Speech) ────────────────────────────
+            // â”€â”€ 3. Input Card (Typed or Speech) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildInputCard(),
 
             const SizedBox(height: 20),
 
-            // ── 4. Translation Output Card ─────────────────────────────────
+            // â”€â”€ 4. Translation Output Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildTranslationOutputCard(),
 
             const SizedBox(height: 24),
 
-            // ── 5. Conversation Mode Banner Card ───────────────────────────
+            // â”€â”€ 5. Conversation Mode Banner Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildConversationModeCard(),
 
             const SizedBox(height: 20),
 
-            // ── 6. Privacy Banner ──────────────────────────────────────────
+            // â”€â”€ 6. Privacy Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildPrivacyCard(),
 
             const SizedBox(height: 32),
@@ -572,7 +572,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 
-  // ── Conversation Mode Card ──────────────────────────────────────────────────
+  // â”€â”€ Conversation Mode Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildConversationModeCard() {
     return GestureDetector(
@@ -606,10 +606,10 @@ class _TranslationScreenState extends State<TranslationScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.20),
+                color: Colors.white.withAlpha(51),
                 shape: BoxShape.circle,
               ),
-              child: const Text('🗣', style: TextStyle(fontSize: 26)),
+              child: const Text('ðŸ—£', style: TextStyle(fontSize: 26)),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -647,7 +647,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 
-  // ── UI Builders ───────────────────────────────────────────────────────────
+  // â”€â”€ UI Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildLanguageBar() {
     return Container(
@@ -684,7 +684,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
             ),
           ),
 
-          // Swap Button ⇄
+          // Swap Button â‡„
           IconButton(
             icon: const Icon(Icons.swap_horiz_rounded, color: Color(0xFF8B5CF6), size: 26),
             onPressed: _swapLanguages,
@@ -765,7 +765,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               const Spacer(),
               if (_isListening)
                 const Text(
-                  '🎤 Listening...',
+                  'ðŸŽ¤ Listening...',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFFEC4899)),
                 ),
             ],
@@ -786,7 +786,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
           const SizedBox(height: 8),
           Row(
             children: [
-              // 🎤 Speak Button
+              // ðŸŽ¤ Speak Button
               IconButton(
                 onPressed: _toggleListening,
                 icon: Icon(
@@ -826,9 +826,9 @@ class _TranslationScreenState extends State<TranslationScreen> {
 
   Widget _buildTranslationOutputCard() {
     String getButtonLabel() {
-      if (_isPlayingTts) return '⏹ Stop';
+      if (_isPlayingTts) return 'â¹ Stop';
       if (_isPreparingTts) return 'Preparing audio...';
-      return '🔊 Listen';
+      return 'ðŸ”Š Listen';
     }
 
     IconData getButtonIcon() {
@@ -875,7 +875,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
           const SizedBox(height: 12),
           Row(
             children: [
-              // 📋 Copy Button
+              // ðŸ“‹ Copy Button
               OutlinedButton.icon(
                 onPressed: _translatedText.isNotEmpty ? _copyTranslation : null,
                 icon: const Icon(Icons.copy_rounded, size: 16),
@@ -889,7 +889,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               ),
               const SizedBox(width: 12),
 
-              // 🔊 Listen / ⏹ Stop Speaker Button (Prominent & Large for Accessibility)
+              // ðŸ”Š Listen / â¹ Stop Speaker Button (Prominent & Large for Accessibility)
               Expanded(
                 child: FilledButton.icon(
                   onPressed: _translatedText.isNotEmpty ? _toggleTts : null,
@@ -952,3 +952,4 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 }
+

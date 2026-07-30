@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_theme.dart';
 
 /// A reusable card that showcases a single Lifemate feature.
 ///
@@ -29,7 +28,7 @@ class FeatureCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: color.withValues(alpha: 0.10),
+            color: color.withAlpha(26),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -46,8 +45,8 @@ class FeatureCard extends StatelessWidget {
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(16),
-          splashColor: color.withValues(alpha: 0.08),
-          highlightColor: color.withValues(alpha: 0.04),
+          splashColor: color.withAlpha(20),
+          highlightColor: color.withAlpha(10),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -57,7 +56,7 @@ class FeatureCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.12),
+                    color: color.withAlpha(31),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: color, size: 22),
@@ -76,7 +75,7 @@ class FeatureCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
 
-                // Feature description — fills remaining space
+                // Feature description â€” fills remaining space
                 Expanded(
                   child: Text(
                     description,
@@ -95,3 +94,4 @@ class FeatureCard extends StatelessWidget {
     );
   }
 }
+

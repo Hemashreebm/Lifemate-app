@@ -55,7 +55,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     super.dispose();
   }
 
-  // ── Actions ───────────────────────────────────────────────────────────────
+  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -173,7 +173,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     }
   }
 
-  // ── Build UI ──────────────────────────────────────────────────────────────
+  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +298,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 
-  // ── Helper Component Builders ─────────────────────────────────────────────
+  // â”€â”€ Helper Component Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildSectionLabel(String label) {
     return Text(
@@ -335,7 +335,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
               margin: const EdgeInsets.only(right: 8),
               padding: const EdgeInsets.symmetric(vertical: 12),
               decoration: BoxDecoration(
-                color: selected ? color.withValues(alpha: 0.15) : Colors.white,
+                color: selected ? color.withAlpha(38) : Colors.white,
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(
                   color: selected ? color : const Color(0xFFE2E8F0),
@@ -460,7 +460,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
               Switch(
                 value: _reminderEnabled,
                 onChanged: _onReminderToggled,
-                activeColor: const Color(0xFFF59E0B),
+                activeThumbColor: const Color(0xFFF59E0B),
               ),
             ],
           ),
@@ -513,7 +513,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                       decoration: BoxDecoration(
                         color: _reminderStyle == ReminderStyle.ringing
-                            ? const Color(0xFFEF4444).withValues(alpha: 0.12)
+                            ? const Color(0xFFEF4444).withAlpha(31)
                             : const Color(0xFFF8FAFC),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
@@ -528,7 +528,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.alarm_on_rounded, size: 22, color: Color(0xFFEF4444)),
                           const SizedBox(height: 4),
                           Text(
-                            '⏰ Ringing Alarm',
+                            'â° Ringing Alarm',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.ringing
@@ -557,7 +557,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                       decoration: BoxDecoration(
                         color: _reminderStyle == ReminderStyle.normal
-                            ? const Color(0xFF3B82F6).withValues(alpha: 0.12)
+                            ? const Color(0xFF3B82F6).withAlpha(31)
                             : const Color(0xFFF8FAFC),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
@@ -572,7 +572,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.notifications_active_rounded, size: 22, color: Color(0xFF3B82F6)),
                           const SizedBox(height: 4),
                           Text(
-                            '🔔 Normal Chime',
+                            'ðŸ”” Normal Chime',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.normal
@@ -629,3 +629,4 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 }
+

@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -81,7 +81,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     super.dispose();
   }
 
-  // ── Actions ───────────────────────────────────────────────────────────────
+  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -137,7 +137,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     }
   }
 
-  // ── Voice Recording (Preserved) ──────────────────────────────────────────
+  // â”€â”€ Voice Recording (Preserved) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _toggleAudioRecording() async {
     if (_isRecordingAudio) {
@@ -227,7 +227,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     });
   }
 
-  // ── Save Logic ─────────────────────────────────────────────────────────────
+  // â”€â”€ Save Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _saveEntry() async {
     final title = _titleController.text.trim();
@@ -290,7 +290,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
   }
 
-  // ── Build UI ──────────────────────────────────────────────────────────────
+  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   @override
   Widget build(BuildContext context) {
@@ -335,15 +335,15 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Date Selector ───────────────────────────────────────────────
+            // â”€â”€ Date Selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildDatePickerCard(),
             const SizedBox(height: 16),
 
-            // ── Mood Selector ───────────────────────────────────────────────
+            // â”€â”€ Mood Selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildMoodSelector(),
             const SizedBox(height: 16),
 
-            // ── Title Input ─────────────────────────────────────────────────
+            // â”€â”€ Title Input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -373,7 +373,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             ),
             const SizedBox(height: 16),
 
-            // ── Main Content Area ───────────────────────────────────────────
+            // â”€â”€ Main Content Area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             Container(
               constraints: const BoxConstraints(minHeight: 180),
               decoration: BoxDecoration(
@@ -402,15 +402,15 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             ),
             const SizedBox(height: 20),
 
-            // ── Photos Section ──────────────────────────────────────────────
+            // â”€â”€ Photos Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildPhotosSection(),
             const SizedBox(height: 20),
 
-            // ── Tags Section ────────────────────────────────────────────────
+            // â”€â”€ Tags Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildTagsSection(),
             const SizedBox(height: 20),
 
-            // ── Audio Recording Section (Preserved) ────────────────────────
+            // â”€â”€ Audio Recording Section (Preserved) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildAudioRecordingSection(),
             const SizedBox(height: 32),
           ],
@@ -419,7 +419,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
   }
 
-  // ── Helper Component Builders ─────────────────────────────────────────────
+  // â”€â”€ Helper Component Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildDatePickerCard() {
     return GestureDetector(
@@ -477,7 +477,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? mood.color.withValues(alpha: 0.15)
+                        ? mood.color.withAlpha(38)
                         : Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
@@ -659,7 +659,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          '🎙️ Voice Recording Attachment (Preserved)',
+          'ðŸŽ™ï¸ Voice Recording Attachment (Preserved)',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,
@@ -696,3 +696,4 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
   }
 }
+

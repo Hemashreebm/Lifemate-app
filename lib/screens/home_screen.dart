@@ -3,7 +3,6 @@ import '../theme/app_theme.dart';
 import '../widgets/ask_lifemate_card.dart';
 import '../widgets/feature_card.dart';
 import '../services/transaction_service.dart';
-import '../services/task_service.dart';
 import 'expense_tracker_screen.dart';
 import 'diary_screen.dart';
 import 'tasks_screen.dart';
@@ -29,10 +28,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   /// Returns a friendly greeting based on the current time of day.
   String get _greeting {
     final hour = DateTime.now().hour;
-    if (hour >= 5  && hour < 12) return 'Good morning 👋';
-    if (hour >= 12 && hour < 17) return 'Good afternoon 👋';
-    if (hour >= 17 && hour < 21) return 'Good evening 👋';
-    return 'Good night 👋';
+    if (hour >= 5  && hour < 12) return 'Good morning ðŸ‘‹';
+    if (hour >= 12 && hour < 17) return 'Good afternoon ðŸ‘‹';
+    if (hour >= 17 && hour < 21) return 'Good evening ðŸ‘‹';
+    return 'Good night ðŸ‘‹';
   }
 
   @override
@@ -76,37 +75,37 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
           children: [
             const SizedBox(height: 28),
 
-            // ── App Header ───────────────────────────────────────────────
+            // â”€â”€ App Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildHeader(theme),
 
             const SizedBox(height: 24),
 
-            // ── Greeting Card ────────────────────────────────────────────
+            // â”€â”€ Greeting Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildGreetingCard(theme),
 
             const SizedBox(height: 22),
 
-            // ── Ask Lifemate AI Card ─────────────────────────────────────
+            // â”€â”€ Ask Lifemate AI Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             const AskLifemateCard(),
 
             const SizedBox(height: 24),
 
-            // ── Expense Tracker quick-access ─────────────────────────────
+            // â”€â”€ Expense Tracker quick-access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildExpenseTrackerCard(theme),
 
             const SizedBox(height: 28),
 
-            // ── Features Section ─────────────────────────────────────────
+            // â”€â”€ Features Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildSectionHeader(theme),
 
             const SizedBox(height: 14),
 
-            // ── Feature Cards Grid ───────────────────────────────────────
+            // â”€â”€ Feature Cards Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildFeatureGrid(context),
 
             const SizedBox(height: 16),
 
-            // ── Temporary Build Diagnostic Marker ────────────────────────
+            // â”€â”€ Temporary Build Diagnostic Marker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             const Center(
               child: Text(
                 'Build check: Coach Card v1',
@@ -125,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     );
   }
 
-  // ── Private builders ─────────────────────────────────────────────────────
+  // â”€â”€ Private builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildHeader(ThemeData theme) {
     return Column(
@@ -159,15 +158,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.brandSeed.withValues(alpha: 0.07),
-            AppTheme.brandSeed.withValues(alpha: 0.02),
+            AppTheme.brandSeed.withAlpha(18),
+            AppTheme.brandSeed.withAlpha(5),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppTheme.brandSeed.withValues(alpha: 0.10),
+          color: AppTheme.brandSeed.withAlpha(26),
           width: 1,
         ),
       ),
@@ -224,10 +223,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.20),
+                color: Colors.white.withAlpha(51),
                 shape: BoxShape.circle,
               ),
-              child: const Text('🗣', style: TextStyle(fontSize: 28)),
+              child: const Text('ðŸ—£', style: TextStyle(fontSize: 28)),
             ),
             const SizedBox(width: 14),
             const Expanded(
@@ -275,13 +274,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.accentExpense.withValues(alpha: 0.12),
+              color: AppTheme.accentExpense.withAlpha(31),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
           ],
           border: Border.all(
-            color: AppTheme.accentExpense.withValues(alpha: 0.15),
+            color: AppTheme.accentExpense.withAlpha(38),
             width: 1,
           ),
         ),
@@ -292,7 +291,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: AppTheme.accentExpense.withValues(alpha: 0.10),
+                color: AppTheme.accentExpense.withAlpha(26),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(
@@ -404,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     return GridView.builder(
       shrinkWrap: true,
-      // Disable grid's own scrolling — parent SingleChildScrollView handles it
+      // Disable grid's own scrolling â€” parent SingleChildScrollView handles it
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -449,7 +448,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${f.title} — coming soon! 🚀'),
+                  content: Text('${f.title} â€” coming soon! ðŸš€'),
                   margin: const EdgeInsets.all(16),
                   duration: const Duration(seconds: 2),
                 ),
@@ -476,3 +475,4 @@ class _FeatureData {
     required this.color,
   });
 }
+

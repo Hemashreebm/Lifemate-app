@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Shared full-screen placeholder for features not yet implemented.
 ///
@@ -33,7 +33,7 @@ class ComingSoonScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
+                  color: color.withAlpha(26),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, size: 52, color: color),
@@ -70,11 +70,11 @@ class ComingSoonScreen extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
                 decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.10),
+                  color: color.withAlpha(26),
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  'Coming Soon ✨',
+                  'Coming Soon âœ¨',
                   style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.w600,
@@ -89,3 +89,4 @@ class ComingSoonScreen extends StatelessWidget {
     );
   }
 }
+

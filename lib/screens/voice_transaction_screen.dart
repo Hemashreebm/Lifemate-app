@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/transaction.dart';
 import '../models/transaction_category.dart';
@@ -44,14 +44,14 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     super.dispose();
   }
 
-  // ── Colors ─────────────────────────────────────────────────────────────────
+  // â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Color get _accent =>
       _type == TransactionType.expense
           ? const Color(0xFFFF6B6B)
           : const Color(0xFF10B981);
 
-  // ── Actions ────────────────────────────────────────────────────────────────
+  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -71,7 +71,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     }
     final amount = double.tryParse(_amountCtrl.text.trim()) ?? 0;
     if (amount <= 0) {
-      _showSnack('Amount must be greater than ₹0.');
+      _showSnack('Amount must be greater than â‚¹0.');
       return;
     }
 
@@ -100,7 +100,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     ));
   }
 
-  // ── Build ──────────────────────────────────────────────────────────────────
+  // â”€â”€ Build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   @override
   Widget build(BuildContext context) {
@@ -139,41 +139,41 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── Recognized speech ─────────────────────────────────────────
+              // â”€â”€ Recognized speech â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildRecognizedCard(),
               const SizedBox(height: 24),
 
-              // ── Type toggle ───────────────────────────────────────────────
+              // â”€â”€ Type toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildLabel('Transaction Type'),
               const SizedBox(height: 8),
               _buildTypeToggle(),
               const SizedBox(height: 24),
 
-              // ── Amount ────────────────────────────────────────────────────
+              // â”€â”€ Amount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildLabel('Amount'),
               const SizedBox(height: 8),
               _buildAmountField(),
               const SizedBox(height: 24),
 
-              // ── Category ──────────────────────────────────────────────────
+              // â”€â”€ Category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildLabel('Category'),
               const SizedBox(height: 10),
               _buildCategoryGrid(),
               const SizedBox(height: 24),
 
-              // ── Date ──────────────────────────────────────────────────────
+              // â”€â”€ Date â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildLabel('Date'),
               const SizedBox(height: 8),
               _buildDatePicker(),
               const SizedBox(height: 24),
 
-              // ── Note ──────────────────────────────────────────────────────
+              // â”€â”€ Note â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               _buildLabel('Note (optional)'),
               const SizedBox(height: 8),
               _buildNoteField(),
               const SizedBox(height: 32),
 
-              // ── Save button ───────────────────────────────────────────────
+              // â”€â”€ Save button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
@@ -212,17 +212,17 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     );
   }
 
-  // ── Widgets ────────────────────────────────────────────────────────────────
+  // â”€â”€ Widgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Widget _buildRecognizedCard() {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF6C5CE7).withValues(alpha: 0.08),
+        color: const Color(0xFF6C5CE7).withAlpha(20),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-            color: const Color(0xFF6C5CE7).withValues(alpha: 0.25)),
+            color: const Color(0xFF6C5CE7).withAlpha(64)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,7 +323,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  isExp ? '📤  Expense' : '📥  Income',
+                  isExp ? 'ðŸ“¤  Expense' : 'ðŸ“¥  Income',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,
@@ -364,7 +364,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
           color: _accent,
         ),
         decoration: InputDecoration(
-          prefixText: '₹ ',
+          prefixText: 'â‚¹ ',
           prefixStyle: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w800,
@@ -382,7 +382,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
         validator: (val) {
           if (val == null || val.trim().isEmpty) return 'Enter an amount';
           final n = double.tryParse(val.trim());
-          if (n == null || n <= 0) return 'Enter a valid amount > ₹0';
+          if (n == null || n <= 0) return 'Enter a valid amount > â‚¹0';
           return null;
         },
       ),
@@ -411,7 +411,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
               boxShadow: selected
                   ? [
                       BoxShadow(
-                          color: cat.color.withValues(alpha: 0.3),
+                          color: cat.color.withAlpha(76),
                           blurRadius: 8,
                           offset: const Offset(0, 3))
                     ]
@@ -516,3 +516,4 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     );
   }
 }
+

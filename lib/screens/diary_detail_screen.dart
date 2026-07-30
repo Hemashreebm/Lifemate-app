@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/diary_entry.dart';
 import '../models/diary_meta.dart';
@@ -144,7 +144,7 @@ class _DiaryDetailScreenState extends State<DiaryDetailScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: mood.color.withValues(alpha: 0.12),
+                      color: mood.color.withAlpha(31),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -270,7 +270,7 @@ class _DiaryDetailScreenState extends State<DiaryDetailScreen> {
                         return Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF8B5CF6).withValues(alpha: 0.1),
+                            color: const Color(0xFF8B5CF6).withAlpha(26),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -308,3 +308,4 @@ class _DiaryDetailScreenState extends State<DiaryDetailScreen> {
     );
   }
 }
+

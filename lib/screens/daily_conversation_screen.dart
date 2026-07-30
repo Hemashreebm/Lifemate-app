@@ -32,7 +32,7 @@ class DailyConversationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Top Banner ──────────────────────────────────────────────────
+            // â”€â”€ Top Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildHeaderBanner(),
 
             const SizedBox(height: 24),
@@ -48,12 +48,12 @@ class DailyConversationScreen extends StatelessWidget {
 
             const SizedBox(height: 14),
 
-            // ── Scenario List / Grid ─────────────────────────────────────────
+            // â”€â”€ Scenario List / Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: scenarios.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 14),
+              separatorBuilder: (_, _) => const SizedBox(height: 14),
               itemBuilder: (context, index) {
                 final item = scenarios[index];
                 return _buildCategoryCard(context, item);
@@ -91,10 +91,10 @@ class DailyConversationScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.20),
+              color: Colors.white.withAlpha(51),
               shape: BoxShape.circle,
             ),
-            child: const Text('💬', style: TextStyle(fontSize: 32)),
+            child: const Text('ðŸ’¬', style: TextStyle(fontSize: 32)),
           ),
           const SizedBox(width: 16),
           const Expanded(
@@ -161,7 +161,7 @@ class DailyConversationScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: item.color.withValues(alpha: 0.10),
+                    color: item.color.withAlpha(26),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Icon(item.icon, color: item.color, size: 28),
@@ -210,3 +210,4 @@ class DailyConversationScreen extends StatelessWidget {
     );
   }
 }
+

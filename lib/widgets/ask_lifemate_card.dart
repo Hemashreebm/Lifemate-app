@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// The prominent AI entry card shown at the top of the home screen.
@@ -21,7 +21,7 @@ class AskLifemateCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.brandSeed.withValues(alpha: 0.35),
+            color: AppTheme.brandSeed.withAlpha(89),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -39,7 +39,7 @@ class AskLifemateCard extends StatelessWidget {
                     Icon(Icons.auto_awesome, color: Colors.white, size: 18),
                     SizedBox(width: 10),
                     Text(
-                      'AI Assistant coming soon! 🤖',
+                      'AI Assistant coming soon! ðŸ¤–',
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -51,7 +51,7 @@ class AskLifemateCard extends StatelessWidget {
             );
           },
           borderRadius: BorderRadius.circular(20),
-          splashColor: Colors.white.withValues(alpha: 0.1),
+          splashColor: Colors.white.withAlpha(26),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             child: Row(
@@ -60,7 +60,7 @@ class AskLifemateCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.20),
+                    color: Colors.white.withAlpha(51),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: const Icon(
@@ -90,7 +90,7 @@ class AskLifemateCard extends StatelessWidget {
                       Text(
                         "What's on your mind?",
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.78),
+                          color: Colors.white.withAlpha(199),
                           fontSize: 13,
                         ),
                       ),
@@ -101,7 +101,7 @@ class AskLifemateCard extends StatelessWidget {
                 // Arrow icon
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: Colors.white.withValues(alpha: 0.6),
+                  color: Colors.white.withAlpha(153),
                   size: 16,
                 ),
               ],
@@ -112,3 +112,4 @@ class AskLifemateCard extends StatelessWidget {
     );
   }
 }
+
