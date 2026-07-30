@@ -60,6 +60,8 @@ dependencies:
   share_plus: ^10.1.4
   # On-device offline machine translation
   google_mlkit_translation: ^0.13.0
+  # On-device Text Recognition for OCR Bill & Receipt Scanning
+  google_mlkit_text_recognition: ^0.14.0
   # On-device Text-to-Speech engine
   flutter_tts: ^4.2.2
 

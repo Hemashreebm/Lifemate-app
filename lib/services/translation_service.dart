@@ -8,7 +8,8 @@ enum AppLanguage {
   telugu('Telugu', TranslateLanguage.telugu, 'te-IN', 'te-IN', 'te'),
   kannada('Kannada', TranslateLanguage.kannada, 'kn-IN', 'kn-IN', 'kn'),
   hindi('Hindi', TranslateLanguage.hindi, 'hi-IN', 'hi-IN', 'hi'),
-  tamil('Tamil', TranslateLanguage.tamil, 'ta-IN', 'ta-IN', 'ta');
+  tamil('Tamil', TranslateLanguage.tamil, 'ta-IN', 'ta-IN', 'ta'),
+  malayalam('Malayalam', TranslateLanguage.malayalam, 'ml-IN', 'ml-IN', 'ml');
 
   final String label;
   final TranslateLanguage mlKitLanguage;
@@ -40,6 +41,8 @@ class TranslationService {
         return 'HINDI DIAGNOSTIC';
       case AppLanguage.tamil:
         return 'TAMIL DIAGNOSTIC';
+      case AppLanguage.malayalam:
+        return 'MALAYALAM DIAGNOSTIC';
       case AppLanguage.kannada:
         return 'KANNADA DIAGNOSTIC';
       case AppLanguage.telugu:

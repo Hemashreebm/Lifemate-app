@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../models/transaction.dart';
 import '../models/transaction_category.dart';
 import '../services/transaction_service.dart';
 import '../services/voice_transaction_parser.dart';
+import '../services/ocr_bill_scanner_service.dart';
+import '../services/sms_expense_parser_service.dart';
 import 'add_edit_transaction_screen.dart';
 import 'voice_transaction_screen.dart';
 
@@ -505,6 +508,28 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                 icon: Icons.remove_circle_outline,
                 color: const Color(0xFFFF6B6B),
                 onTap: () => _openAdd(type: TransactionType.expense),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _ActionButton(
+                label: '📷 Scan Bill',
+                icon: Icons.receipt_long_rounded,
+                color: const Color(0xFF8B5CF6),
+                onTap: () => _scanReceipt(ImageSource.camera),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionButton(
+                label: '📲 SMS Tracker',
+                icon: Icons.sms_rounded,
+                color: const Color(0xFF00B894),
+                onTap: _showSmsTrackingDialog,
               ),
             ),
           ],
