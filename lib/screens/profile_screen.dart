@@ -8,6 +8,7 @@ import '../services/transaction_service.dart';
 import '../services/battery_optimization_service.dart';
 import 'edit_profile_screen.dart';
 import 'login_activity_screen.dart';
+import 'security_dashboard_screen.dart';
 
 /// Lifemate Profile Screen
 ///
@@ -352,6 +353,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Column(
         children: [
+          _buildSettingTile(
+            icon: Icons.shield_rounded,
+            iconColor: const Color(0xFF10B981),
+            title: 'Security & Privacy Dashboard',
+            subtitle: 'Central hub for biometrics, 2FA, devices & encryption',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SecurityDashboardScreen()),
+              );
+            },
+          ),
+          const Divider(height: 1, color: Color(0xFFF1F5F9)),
           _buildSettingTile(
             icon: Icons.devices_rounded,
             iconColor: const Color(0xFF7C3AED),
