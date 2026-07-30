@@ -291,6 +291,12 @@ class _TranslationScreenState extends State<TranslationScreen> {
       if (mounted) {
         setState(() {
           _translatedText = result;
+          _translationHistory.insert(0, {
+            'from': _fromLang.label,
+            'to': _toLang.label,
+            'source': text,
+            'target': result,
+          });
         });
       }
     } catch (e) {
