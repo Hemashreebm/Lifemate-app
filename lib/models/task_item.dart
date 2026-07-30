@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Priority levels for a task.
 enum TaskPriority { low, medium, high }
@@ -59,13 +60,13 @@ class TaskItem {
     return 'task_${ts}_$rand';
   }
 
-  /// Exact DateTime when the reminder notification should fire (normalized to 00 seconds & 00 milliseconds).
+  /// Exact DateTime when the reminder notification should fire.
   DateTime get scheduledReminderTime {
     final d = dueDate.subtract(Duration(minutes: reminderOffsetMinutes));
     return DateTime(d.year, d.month, d.day, d.hour, d.minute, 0, 0, 0);
   }
 
-  /// Whether the task is overdue (past due date & time and incomplete).
+  /// Whether the task is overdue.
   bool get isOverdue {
     if (isCompleted) return false;
     final now = DateTime.now();
@@ -143,11 +144,30 @@ class TaskItem {
         'modifiedAt': modifiedAt.toIso8601String(),
       };
 
+  Map<String, dynamic> toFirestore() => {
+        'title': title,
+        'description': notes,
+        'category': 'General',
+        'priority': priority.name,
+        'dueDate': dueDate.toIso8601String(),
+        'reminderTime': scheduledReminderTime.toIso8601String(),
+        'completed': isCompleted,
+        'hasTime': hasTime,
+        'repeat': repeat.name,
+        'reminderEnabled': reminderEnabled,
+        'reminderOffsetMinutes': reminderOffsetMinutes,
+        'reminderStyle': reminderStyle.name,
+        'ringDurationSeconds': ringDurationSeconds,
+        'notificationId': notificationId,
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
   factory TaskItem.fromJson(Map<String, dynamic> json) {
     return TaskItem(
       id: json['id'] as String,
       title: json['title'] as String,
-      notes: (json['notes'] as String?) ?? '',
+      notes: (json['notes'] as String?) ?? (json['description'] as String?) ?? '',
       dueDate: DateTime.parse(json['dueDate'] as String),
       hasTime: (json['hasTime'] as bool?) ?? false,
       priority: TaskPriority.values.firstWhere(
@@ -158,7 +178,7 @@ class TaskItem {
         (e) => e.name == json['repeat'],
         orElse: () => TaskRepeat.never,
       ),
-      isCompleted: (json['isCompleted'] as bool?) ?? false,
+      isCompleted: (json['isCompleted'] as bool?) ?? (json['completed'] as bool?) ?? false,
       reminderEnabled: (json['reminderEnabled'] as bool?) ?? false,
       reminderOffsetMinutes: (json['reminderOffsetMinutes'] as int?) ?? 0,
       reminderStyle: ReminderStyle.values.firstWhere(
@@ -167,8 +187,64 @@ class TaskItem {
       ),
       ringDurationSeconds: (json['ringDurationSeconds'] as int?) ?? 5,
       notificationId: (json['notificationId'] as int?) ?? generateNotificationId(),
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      modifiedAt: DateTime.parse(json['modifiedAt'] as String),
+      createdAt: DateTime.tryParse((json['createdAt'] as String?) ?? '') ?? DateTime.now(),
+      modifiedAt: DateTime.tryParse((json['modifiedAt'] as String?) ?? '') ?? DateTime.now(),
+    );
+  }
+
+  factory TaskItem.fromFirestore(Map<String, dynamic> data, String docId) {
+    DateTime parsedDueDate;
+    if (data['dueDate'] is String) {
+      parsedDueDate = DateTime.parse(data['dueDate'] as String);
+    } else if (data['dueDate'] is Timestamp) {
+      parsedDueDate = (data['dueDate'] as Timestamp).toDate();
+    } else {
+      parsedDueDate = DateTime.now();
+    }
+
+    DateTime parsedCreatedAt;
+    if (data['createdAt'] is Timestamp) {
+      parsedCreatedAt = (data['createdAt'] as Timestamp).toDate();
+    } else if (data['createdAt'] is String) {
+      parsedCreatedAt = DateTime.tryParse(data['createdAt'] as String) ?? DateTime.now();
+    } else {
+      parsedCreatedAt = DateTime.now();
+    }
+
+    DateTime parsedUpdatedAt;
+    if (data['updatedAt'] is Timestamp) {
+      parsedUpdatedAt = (data['updatedAt'] as Timestamp).toDate();
+    } else if (data['updatedAt'] is String) {
+      parsedUpdatedAt = DateTime.tryParse(data['updatedAt'] as String) ?? DateTime.now();
+    } else {
+      parsedUpdatedAt = DateTime.now();
+    }
+
+    return TaskItem(
+      id: docId,
+      title: (data['title'] as String?) ?? '',
+      notes: (data['description'] as String?) ?? (data['notes'] as String?) ?? '',
+      dueDate: parsedDueDate,
+      hasTime: (data['hasTime'] as bool?) ?? false,
+      priority: TaskPriority.values.firstWhere(
+        (e) => e.name == data['priority'],
+        orElse: () => TaskPriority.medium,
+      ),
+      repeat: TaskRepeat.values.firstWhere(
+        (e) => e.name == data['repeat'],
+        orElse: () => TaskRepeat.never,
+      ),
+      isCompleted: (data['completed'] as bool?) ?? (data['isCompleted'] as bool?) ?? false,
+      reminderEnabled: (data['reminderEnabled'] as bool?) ?? false,
+      reminderOffsetMinutes: (data['reminderOffsetMinutes'] as int?) ?? 0,
+      reminderStyle: ReminderStyle.values.firstWhere(
+        (e) => e.name == data['reminderStyle'],
+        orElse: () => ReminderStyle.normal,
+      ),
+      ringDurationSeconds: (data['ringDurationSeconds'] as int?) ?? 5,
+      notificationId: (data['notificationId'] as int?) ?? generateNotificationId(),
+      createdAt: parsedCreatedAt,
+      modifiedAt: parsedUpdatedAt,
     );
   }
 }
