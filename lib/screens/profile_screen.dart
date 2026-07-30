@@ -7,6 +7,7 @@ import '../services/diary_service.dart';
 import '../services/transaction_service.dart';
 import '../services/auth_service.dart';
 import '../services/backup_manager_service.dart';
+import '../services/battery_optimization_service.dart';
 import 'edit_profile_screen.dart';
 import 'login_activity_screen.dart';
 import 'security_dashboard_screen.dart';
