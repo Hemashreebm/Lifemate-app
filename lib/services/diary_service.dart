@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/diary_entry.dart';
+import 'auth_service.dart';
 
-/// Singleton service for managing My Life Book entries locally on-device.
+/// Singleton service for managing My Life Book entries with local storage and Cloud Firestore sync.
 class DiaryService {
   static const String _storageKey = 'lifemate_diary_entries_v1';
 
@@ -11,6 +16,7 @@ class DiaryService {
   DiaryService._();
 
   List<DiaryEntry> _entries = [];
+  StreamSubscription<QuerySnapshot>? _diarySubscription;
 
   /// Get all diary entries, newest created date first.
   List<DiaryEntry> get all => List.unmodifiable(_entries);
@@ -38,23 +44,75 @@ class DiaryService {
     return counts;
   }
 
-  /// Load entries from SharedPreferences.
+  /// Load entries from SharedPreferences and subscribe to Firestore real-time updates.
   Future<void> load() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonStr = prefs.getString(_storageKey);
-      if (jsonStr == null) {
+      if (jsonStr != null) {
+        final List<dynamic> raw = jsonDecode(jsonStr) as List<dynamic>;
+        _entries = raw
+            .map((j) => DiaryEntry.fromJson(j as Map<String, dynamic>))
+            .toList();
+        _sort();
+      } else {
         _entries = [];
-        return;
       }
-      final List<dynamic> raw = jsonDecode(jsonStr) as List<dynamic>;
-      _entries = raw
-          .map((j) => DiaryEntry.fromJson(j as Map<String, dynamic>))
-          .toList();
-      _sort();
-    } catch (_) {
+
+      // Initialize real-time Cloud Firestore sync
+      initCloudSync();
+    } catch (e) {
+      debugPrint('[DIARY SERVICE] Error loading local entries: $e');
       _entries = [];
     }
+  }
+
+  /// Initialize real-time Cloud Firestore listener for users/{uid}/diary
+  void initCloudSync() {
+    _diarySubscription?.cancel();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null || AuthService.instance.isGuestMode) {
+      debugPrint('[DIARY CLOUD] Guest mode or unauthenticated. Using local storage only.');
+      return;
+    }
+
+    final collectionPath = 'users/${user.uid}/diary';
+    debugPrint('[DIARY CLOUD] Subscribing to real-time stream at $collectionPath...');
+
+    _diarySubscription = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('diary')
+        .snapshots()
+        .listen(
+      (snapshot) async {
+        debugPrint('[DIARY CLOUD STREAM] Received ${snapshot.docs.length} entries from Firestore');
+        final List<DiaryEntry> remoteEntries = [];
+        for (final doc in snapshot.docs) {
+          try {
+            final entry = DiaryEntry.fromFirestore(doc.data(), doc.id);
+            remoteEntries.add(entry);
+          } catch (e) {
+            debugPrint('[DIARY CLOUD PARSE ERROR] Error parsing entry ${doc.id}: $e');
+          }
+        }
+
+        if (remoteEntries.isNotEmpty || snapshot.docs.isEmpty) {
+          _entries = remoteEntries;
+          _sort();
+          await _save();
+        }
+      },
+      onError: (error) {
+        debugPrint('[DIARY CLOUD STREAM ERROR] Error listening to diary stream: $error');
+      },
+    );
+  }
+
+  /// Stop active Cloud Firestore real-time stream listener
+  void stopCloudSync() {
+    _diarySubscription?.cancel();
+    _diarySubscription = null;
   }
 
   Future<void> _save() async {
@@ -63,14 +121,17 @@ class DiaryService {
     await prefs.setString(_storageKey, jsonStr);
   }
 
-  /// Add a new diary entry.
+  /// Add a new diary entry and upload to Cloud Firestore.
   Future<void> add(DiaryEntry entry) async {
     _entries.insert(0, entry);
     _sort();
     await _save();
+
+    // Cloud Firestore Upload
+    await _uploadEntryToCloud(entry);
   }
 
-  /// Update an existing diary entry.
+  /// Update an existing diary entry and sync to Cloud Firestore.
   Future<void> update(DiaryEntry entry) async {
     final index = _entries.indexWhere((e) => e.id == entry.id);
     if (index != -1) {
@@ -81,21 +142,28 @@ class DiaryService {
       _entries[index] = entry;
       _sort();
       await _save();
+
+      // Cloud Firestore Update
+      await _uploadEntryToCloud(entry);
     }
   }
 
-  /// Toggle favorite status of an entry.
+  /// Toggle favorite status of an entry and sync to Cloud Firestore.
   Future<void> toggleFavorite(String id) async {
     final index = _entries.indexWhere((e) => e.id == id);
     if (index != -1) {
-      _entries[index] = _entries[index].copyWith(
+      final updated = _entries[index].copyWith(
         favorite: !_entries[index].favorite,
       );
+      _entries[index] = updated;
       await _save();
+
+      // Cloud Firestore Update
+      await _uploadEntryToCloud(updated);
     }
   }
 
-  /// Delete a diary entry and its associated local audio file.
+  /// Delete a diary entry and remove from Cloud Firestore.
   Future<void> delete(String id) async {
     final index = _entries.indexWhere((e) => e.id == id);
     if (index != -1) {
@@ -105,6 +173,9 @@ class DiaryService {
       }
       _entries.removeAt(index);
       await _save();
+
+      // Cloud Firestore Deletion
+      await _deleteEntryFromCloud(id);
     }
   }
 
@@ -118,7 +189,54 @@ class DiaryService {
     } catch (_) {}
   }
 
-  /// Filter entries by query (title, content, or tags, case-insensitive).
+  // ── Cloud Firestore Operations ───────────────────────────────────────────
+
+  Future<void> _uploadEntryToCloud(DiaryEntry entry) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || AuthService.instance.isGuestMode) return;
+
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('diary')
+          .doc(entry.id);
+
+      debugPrint('[DIARY CLOUD] Uploading diary entry ${entry.id} to users/${user.uid}/diary...');
+      await docRef
+          .set(entry.toFirestore(), SetOptions(merge: true))
+          .timeout(const Duration(seconds: 12));
+      debugPrint('[DIARY CLOUD SUCCESS] Entry ${entry.id} saved in Firestore users/${user.uid}/diary');
+    } on FirebaseException catch (e) {
+      debugPrint('[DIARY CLOUD ERROR] FirebaseException uploading entry: ${e.code} - ${e.message}');
+    } catch (e) {
+      debugPrint('[DIARY CLOUD ERROR] Error uploading entry: $e');
+    }
+  }
+
+  Future<void> _deleteEntryFromCloud(String entryId) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || AuthService.instance.isGuestMode) return;
+
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('diary')
+          .doc(entryId);
+
+      debugPrint('[DIARY CLOUD] Deleting entry $entryId from users/${user.uid}/diary...');
+      await docRef.delete().timeout(const Duration(seconds: 12));
+      debugPrint('[DIARY CLOUD SUCCESS] Deleted entry $entryId from Firestore');
+    } on FirebaseException catch (e) {
+      debugPrint('[DIARY CLOUD ERROR] FirebaseException deleting entry: ${e.code} - ${e.message}');
+    } catch (e) {
+      debugPrint('[DIARY CLOUD ERROR] Error deleting entry from Firestore: $e');
+    }
+  }
+
+  // ── Search & Filter ───────────────────────────────────────────────────────
+
   List<DiaryEntry> search(String query) {
     if (query.trim().isEmpty) return all;
     final q = query.trim().toLowerCase();

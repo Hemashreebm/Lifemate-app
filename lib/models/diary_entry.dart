@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Represents a single personal diary memory in My Life Book.
 ///
@@ -7,12 +8,12 @@ class DiaryEntry {
   final String id;
   final String title;
   final String content;
-  final String mood;        // e.g. "Happy", "Calm", "Normal", "Sad", "Stressed", "Very Happy", "Loved", "Excited", "Angry", "Very Sad"
-  final String language;    // e.g. "English", "Telugu", "Kannada", "Hindi", "Tamil"
-  final String? audioPath;  // Local device path to recorded voice audio file
+  final String mood; // e.g. "Happy", "Calm", "Normal", "Sad", "Stressed"
+  final String language; // e.g. "English", "Telugu", "Kannada", "Hindi", "Tamil"
+  final String? audioPath; // Local device path to recorded voice audio file
   final int? audioDurationSeconds;
-  final bool favorite;      // Whether entry is marked as favorite
-  final List<String> tags;  // Memory tags e.g. ['Family', 'Temple']
+  final bool favorite; // Whether entry is marked as favorite
+  final List<String> tags; // Memory tags e.g. ['Family', 'Temple']
   final List<String> photoPaths; // Local image file paths attached to memory
   final DateTime createdAt;
   final DateTime modifiedAt;
@@ -87,6 +88,22 @@ class DiaryEntry {
         'modifiedAt': modifiedAt.toIso8601String(),
       };
 
+  Map<String, dynamic> toFirestore() => {
+        'title': title,
+        'content': content,
+        'mood': mood,
+        'language': language,
+        'favorite': favorite,
+        'tags': tags,
+        'images': photoPaths,
+        'voiceRecording': {
+          'audioPath': audioPath,
+          'duration': audioDurationSeconds,
+        },
+        'createdAt': FieldValue.serverTimestamp(),
+        'updatedAt': FieldValue.serverTimestamp(),
+      };
+
   factory DiaryEntry.fromJson(Map<String, dynamic> json) {
     return DiaryEntry(
       id: json['id'] as String,
@@ -107,6 +124,58 @@ class DiaryEntry {
           const [],
       createdAt: DateTime.parse(json['createdAt'] as String),
       modifiedAt: DateTime.parse(json['modifiedAt'] as String),
+    );
+  }
+
+  factory DiaryEntry.fromFirestore(Map<String, dynamic> data, String docId) {
+    DateTime parsedCreatedAt;
+    if (data['createdAt'] is Timestamp) {
+      parsedCreatedAt = (data['createdAt'] as Timestamp).toDate();
+    } else if (data['createdAt'] is String) {
+      parsedCreatedAt =
+          DateTime.tryParse(data['createdAt'] as String) ?? DateTime.now();
+    } else {
+      parsedCreatedAt = DateTime.now();
+    }
+
+    DateTime parsedUpdatedAt;
+    if (data['updatedAt'] is Timestamp) {
+      parsedUpdatedAt = (data['updatedAt'] as Timestamp).toDate();
+    } else if (data['updatedAt'] is String) {
+      parsedUpdatedAt =
+          DateTime.tryParse(data['updatedAt'] as String) ?? DateTime.now();
+    } else {
+      parsedUpdatedAt = DateTime.now();
+    }
+
+    Map<String, dynamic>? voiceMap;
+    if (data['voiceRecording'] is Map) {
+      voiceMap = Map<String, dynamic>.from(data['voiceRecording'] as Map);
+    }
+
+    return DiaryEntry(
+      id: docId,
+      title: (data['title'] as String?) ?? '',
+      content: (data['content'] as String?) ?? '',
+      mood: (data['mood'] as String?) ?? 'Normal',
+      language: (data['language'] as String?) ?? 'English',
+      favorite: (data['favorite'] as bool?) ?? false,
+      tags: (data['tags'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      photoPaths: (data['images'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          (data['photoPaths'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          const [],
+      audioPath: voiceMap?['audioPath'] as String? ?? data['audioPath'] as String?,
+      audioDurationSeconds:
+          voiceMap?['duration'] as int? ?? data['audioDurationSeconds'] as int?,
+      createdAt: parsedCreatedAt,
+      modifiedAt: parsedUpdatedAt,
     );
   }
 }
