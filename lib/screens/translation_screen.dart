@@ -145,6 +145,9 @@ class _TranslationScreenState extends State<TranslationScreen> {
       case AppLanguage.kannada:
         fallbackLocaleId = 'kn_IN';
         break;
+      case AppLanguage.malayalam:
+        fallbackLocaleId = 'ml_IN';
+        break;
     }
 
     stt.LocaleName? matched;

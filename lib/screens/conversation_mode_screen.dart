@@ -439,6 +439,9 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       case AppLanguage.kannada:
         targetLocaleId = 'kn_IN';
         break;
+      case AppLanguage.malayalam:
+        targetLocaleId = 'ml_IN';
+        break;
     }
 
     debugPrint('[CONVERSATION STT] BUTTON = Speak ${srcLang.label}');
