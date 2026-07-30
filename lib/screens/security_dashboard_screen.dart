@@ -4,6 +4,7 @@ import '../services/profile_service.dart';
 import '../services/device_info_service.dart';
 import '../services/secure_storage_service.dart';
 import 'login_activity_screen.dart';
+import 'welcome_auth_screen.dart';
 
 /// Central Material 3 Security Dashboard for Lifemate.
 ///
@@ -593,7 +594,12 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
             title: const Text('Sign Out This Device', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _dangerRed)),
             onTap: () async {
               await _authSvc.signOut();
-              if (mounted) Navigator.pop(context);
+              if (mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const WelcomeAuthScreen()),
+                  (route) => false,
+                );
+              }
             },
           ),
           const Divider(height: 1, color: Color(0xFFFCA5A5)),

@@ -124,11 +124,14 @@ class LoginHistoryRecord {
 class AuthService {
   static const String _prefUserKey = 'lifemate_auth_user_v1';
   static const String _prefHistoryKey = 'lifemate_login_history_v1';
+  static const String _prefRememberMeKey = 'lifemate_remember_me_v1';
+  static const String _prefGuestModeKey = 'lifemate_guest_mode_v1';
 
   static final AuthService instance = AuthService._();
   AuthService._();
 
   bool _isLoggedIn = false;
+  bool _isGuestMode = false;
   String? _currentUserUid;
   String? _currentUserEmail;
   String? _currentUserName;
@@ -136,6 +139,7 @@ class AuthService {
   int _failedLoginAttempts = 0;
 
   bool get isLoggedIn => _isLoggedIn;
+  bool get isGuestMode => _isGuestMode;
   String? get currentUserUid => _currentUserUid;
   String? get currentUserEmail => _currentUserEmail;
   String? get currentUserName => _currentUserName;
@@ -147,24 +151,47 @@ class AuthService {
       final token = await SecureStorageService.instance.getAuthToken();
       final prefs = await SharedPreferences.getInstance();
       final userJson = prefs.getString(_prefUserKey);
+      final rememberMe = prefs.getBool(_prefRememberMeKey) ?? false;
+      final guestMode = prefs.getBool(_prefGuestModeKey) ?? false;
 
-      if (token != null && userJson != null) {
+      if ((token != null || rememberMe) && userJson != null) {
         final map = jsonDecode(userJson) as Map<String, dynamic>;
         _isLoggedIn = true;
+        _isGuestMode = false;
         _currentUserUid = map['uid'] as String;
         _currentUserEmail = map['email'] as String;
         _currentUserName = map['name'] as String;
-      } else {
+        await _refreshCurrentSession();
+      } else if (guestMode) {
         _isLoggedIn = true;
-        _currentUserUid = 'local_user_101';
-        _currentUserEmail = 'user@lifemate.app';
-        _currentUserName = 'Lifemate User';
+        _isGuestMode = true;
+        _currentUserUid = 'guest_user_local';
+        _currentUserEmail = 'guest@lifemate.local';
+        _currentUserName = 'Guest User';
+        await _refreshCurrentSession();
+      } else {
+        // First launch or logged-out state
+        _isLoggedIn = false;
+        _isGuestMode = false;
+        _currentUserUid = null;
+        _currentUserEmail = null;
+        _currentUserName = null;
       }
-
-      await _refreshCurrentSession();
     } catch (e) {
       debugPrint('[AUTH SERVICE] Error initializing auth state: $e');
     }
+  }
+
+  /// Enable Guest Mode (Offline Mode without cloud sync).
+  Future<void> setGuestMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefGuestModeKey, true);
+    _isLoggedIn = true;
+    _isGuestMode = true;
+    _currentUserUid = 'guest_user_local';
+    _currentUserEmail = 'guest@lifemate.local';
+    _currentUserName = 'Guest User';
+    await _refreshCurrentSession();
   }
 
   /// Strong password validator (min 8 chars, 1 uppercase, 1 digit).
@@ -205,7 +232,7 @@ class AuthService {
   }
 
   /// Sign in with Email & Password (with brute-force rate limit protection).
-  Future<bool> signInWithEmail(String email, String password) async {
+  Future<bool> signInWithEmail(String email, String password, {bool rememberMe = true}) async {
     // Brute-force delay protection
     if (_failedLoginAttempts > 3) {
       await Future.delayed(Duration(seconds: _failedLoginAttempts * 2));
@@ -222,6 +249,7 @@ class AuthService {
       _failedLoginAttempts = 0;
       final prefs = await SharedPreferences.getInstance();
       _isLoggedIn = true;
+      _isGuestMode = false;
       _currentUserUid = 'usr_${email.hashCode.abs()}';
       _currentUserEmail = email;
       _currentUserName = email.split('@').first;
@@ -238,6 +266,9 @@ class AuthService {
       await SecureStorageService.instance.setRefreshToken('ref_$mockJwtToken');
 
       await prefs.setString(_prefUserKey, jsonEncode(userMap));
+      await prefs.setBool(_prefRememberMeKey, rememberMe);
+      await prefs.setBool(_prefGuestModeKey, false);
+
       await _refreshCurrentSession();
       return true;
     } catch (e) {
@@ -255,6 +286,7 @@ class AuthService {
 
       final prefs = await SharedPreferences.getInstance();
       _isLoggedIn = true;
+      _isGuestMode = false;
       _currentUserUid = 'usr_${email.hashCode.abs()}';
       _currentUserEmail = email;
       _currentUserName = name;
@@ -270,6 +302,9 @@ class AuthService {
       await SecureStorageService.instance.setRefreshToken('ref_$mockJwtToken');
 
       await prefs.setString(_prefUserKey, jsonEncode(userMap));
+      await prefs.setBool(_prefRememberMeKey, true);
+      await prefs.setBool(_prefGuestModeKey, false);
+
       await _refreshCurrentSession();
       return true;
     } catch (e) {
@@ -283,10 +318,14 @@ class AuthService {
     await _recordHistory('LOGOUT');
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_prefUserKey);
+    await prefs.setBool(_prefRememberMeKey, false);
+    await prefs.setBool(_prefGuestModeKey, false);
     await SecureStorageService.instance.clearAllTokens();
     _isLoggedIn = false;
+    _isGuestMode = false;
     _currentUserUid = null;
     _currentUserEmail = null;
+    _currentUserName = null;
   }
 
   /// Retrieve list of all active sessions for current user.
