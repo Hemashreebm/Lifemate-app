@@ -7,6 +7,7 @@ import '../services/diary_service.dart';
 import '../services/transaction_service.dart';
 import '../services/battery_optimization_service.dart';
 import 'edit_profile_screen.dart';
+import 'login_activity_screen.dart';
 
 /// Lifemate Profile Screen
 ///
@@ -351,6 +352,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Column(
         children: [
+          _buildSettingTile(
+            icon: Icons.devices_rounded,
+            iconColor: const Color(0xFF7C3AED),
+            title: 'Login Activity & Devices',
+            subtitle: 'View logged-in devices & active sessions',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginActivityScreen()),
+              );
+            },
+          ),
+          const Divider(height: 1, color: Color(0xFFF1F5F9)),
           _buildSettingTile(
             icon: Icons.battery_charging_full_rounded,
             iconColor: const Color(0xFFF59E0B),

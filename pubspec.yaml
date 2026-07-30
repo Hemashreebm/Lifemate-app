@@ -64,6 +64,8 @@ dependencies:
   google_mlkit_text_recognition: ^0.15.1
   # On-device Text-to-Speech engine
   flutter_tts: ^4.2.2
+  # Real device hardware and OS info reader
+  device_info_plus: ^11.1.0
 
 dependency_overrides:
   record_linux: 2.1.1
