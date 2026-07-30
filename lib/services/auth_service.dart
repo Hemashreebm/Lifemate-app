@@ -346,36 +346,35 @@ class AuthService {
         await user.sendEmailVerification();
 
         // Mandatorily await Firestore document creation in 'users' collection
-        final nowIso = DateTime.now().toIso8601String();
         final userData = {
           'uid': user.uid,
           'name': name.trim(),
           'email': email.trim(),
           'photoURL': user.photoURL,
-          'createdAt': nowIso,
-          'updatedAt': nowIso,
+          'createdAt': FieldValue.serverTimestamp(),
+          'updatedAt': FieldValue.serverTimestamp(),
           'language': 'English',
         };
 
         try {
-          debugPrint('[FIRESTORE START] Writing document for UID ${user.uid}...');
+          debugPrint('[FIRESTORE START] Writing document for UID ${user.uid} in collection "users"...');
           await FirebaseFirestore.instance
               .collection('users')
               .doc(user.uid)
               .set(userData)
-              .timeout(const Duration(seconds: 12));
-          debugPrint('[FIRESTORE VERIFIED SUCCESS] Created users/${user.uid} -> $userData');
+              .timeout(const Duration(seconds: 15));
+          debugPrint('[FIRESTORE VERIFIED SUCCESS] Document users/${user.uid} written to Cloud Firestore successfully!');
         } on FirebaseException catch (dbErr) {
           debugPrint('[FIRESTORE ERROR] FirebaseException writing user doc: ${dbErr.code} - ${dbErr.message}');
           return AuthResult(
             success: false,
-            errorMessage: 'Firestore Error (${dbErr.code}): ${dbErr.message}. Check Firebase Console Firestore Rules.',
+            errorMessage: 'Firestore Error (${dbErr.code}): ${dbErr.message}. Ensure Cloud Firestore database is created in Firebase Console and rules are enabled.',
           );
         } catch (dbErr) {
           debugPrint('[FIRESTORE ERROR] General error writing user doc: $dbErr');
           return AuthResult(
             success: false,
-            errorMessage: 'Firestore Write Failed: $dbErr',
+            errorMessage: 'Firestore Write Exception: $dbErr',
           );
         }
 
