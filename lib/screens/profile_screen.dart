@@ -5,7 +5,8 @@ import '../services/profile_service.dart';
 import '../services/task_service.dart';
 import '../services/diary_service.dart';
 import '../services/transaction_service.dart';
-import '../services/battery_optimization_service.dart';
+import '../services/auth_service.dart';
+import '../services/backup_manager_service.dart';
 import 'edit_profile_screen.dart';
 import 'login_activity_screen.dart';
 import 'security_dashboard_screen.dart';
@@ -264,6 +265,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: Color(0xFFDDD6FE),
                         height: 1.3,
                       ),
+                    ),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: AuthService.instance.isGuestMode
+                                ? const Color(0xFFF59E0B)
+                                : const Color(0xFF10B981),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            AuthService.instance.isGuestMode ? 'GUEST ACCOUNT' : 'CLOUD ACCOUNT',
+                            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: Colors.white),
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.20),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active ☁️' : 'Local Only 💾',
+                            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
