@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' hide Transaction;
 import 'app.dart';
+import 'services/settings_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,5 +15,9 @@ void main() async {
   } catch (e) {
     debugPrint('[FIREBASE] Error initializing Firebase Core: $e');
   }
+
+  // Initialize Settings Service with Cloud Sync
+  await SettingsService.instance.load();
+
   runApp(const LifemateApp());
 }
