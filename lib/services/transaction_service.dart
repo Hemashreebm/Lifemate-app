@@ -1,26 +1,21 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/transaction.dart';
+import 'auth_service.dart';
 
-/// Manages all Lifemate transaction data.
-///
-/// Provides in-memory access with automatic JSON persistence via SharedPreferences.
-/// All financial data stays on the user's device — no network calls are made.
-///
-/// Usage:
-/// ```dart
-/// await TransactionService.instance.load();  // once per screen open
-/// await TransactionService.instance.add(tx);
-/// ```
+/// Manages all Lifemate transaction and expense data with local persistence and Cloud Firestore sync.
 class TransactionService {
-  // Storage key — versioned so future migrations are possible
   static const String _storageKey = 'lifemate_transactions_v1';
 
-  /// Global singleton — access everywhere without passing instances around.
   static final TransactionService instance = TransactionService._();
   TransactionService._();
 
   List<Transaction> _transactions = [];
+  StreamSubscription<QuerySnapshot>? _expensesSubscription;
 
   // ── Read ──────────────────────────────────────────────────────────────────
 
@@ -35,27 +30,77 @@ class TransactionService {
         .toList();
   }
 
-  // ── Persistence ───────────────────────────────────────────────────────────
+  // ── Persistence & Cloud Sync ───────────────────────────────────────────────
 
-  /// Load all transactions from device storage into memory.
-  /// Call this before reading data (e.g. in [initState] of each screen).
+  /// Load all transactions from device storage and initialize real-time Firestore stream listener.
   Future<void> load() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final jsonStr = prefs.getString(_storageKey);
-      if (jsonStr == null) {
+      if (jsonStr != null) {
+        final List<dynamic> raw = jsonDecode(jsonStr) as List<dynamic>;
+        _transactions = raw
+            .map((j) => Transaction.fromJson(j as Map<String, dynamic>))
+            .toList();
+        _sort();
+      } else {
         _transactions = [];
-        return;
       }
-      final List<dynamic> raw = jsonDecode(jsonStr) as List<dynamic>;
-      _transactions = raw
-          .map((j) => Transaction.fromJson(j as Map<String, dynamic>))
-          .toList();
-      _sort();
-    } catch (_) {
-      // Corrupted data — start fresh rather than crash
+
+      // Initialize real-time Cloud Firestore sync
+      initCloudSync();
+    } catch (e) {
+      debugPrint('[TRANSACTION SERVICE] Error loading local transactions: $e');
       _transactions = [];
     }
+  }
+
+  /// Initialize real-time Cloud Firestore listener for users/{uid}/expenses
+  void initCloudSync() {
+    _expensesSubscription?.cancel();
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null || AuthService.instance.isGuestMode) {
+      debugPrint('[EXPENSE CLOUD] Guest mode or unauthenticated. Using local storage only.');
+      return;
+    }
+
+    final collectionPath = 'users/${user.uid}/expenses';
+    debugPrint('[EXPENSE CLOUD] Subscribing to real-time stream at $collectionPath...');
+
+    _expensesSubscription = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('expenses')
+        .snapshots()
+        .listen(
+      (snapshot) async {
+        debugPrint('[EXPENSE CLOUD STREAM] Received ${snapshot.docs.length} expenses from Firestore');
+        final List<Transaction> remoteTransactions = [];
+        for (final doc in snapshot.docs) {
+          try {
+            final tx = Transaction.fromFirestore(doc.data(), doc.id);
+            remoteTransactions.add(tx);
+          } catch (e) {
+            debugPrint('[EXPENSE CLOUD PARSE ERROR] Error parsing expense ${doc.id}: $e');
+          }
+        }
+
+        if (remoteTransactions.isNotEmpty || snapshot.docs.isEmpty) {
+          _transactions = remoteTransactions;
+          _sort();
+          await _save();
+        }
+      },
+      onError: (error) {
+        debugPrint('[EXPENSE CLOUD STREAM ERROR] Error listening to expenses stream: $error');
+      },
+    );
+  }
+
+  /// Stop active Cloud Firestore real-time stream listener
+  void stopCloudSync() {
+    _expensesSubscription?.cancel();
+    _expensesSubscription = null;
   }
 
   Future<void> _save() async {
@@ -67,27 +112,82 @@ class TransactionService {
 
   // ── CRUD ──────────────────────────────────────────────────────────────────
 
-  /// Persist a new [transaction].
+  /// Persist a new [transaction] locally and sync to Cloud Firestore.
   Future<void> add(Transaction transaction) async {
     _transactions.insert(0, transaction);
     _sort();
     await _save();
+
+    // Cloud Firestore Upload
+    await _uploadExpenseToCloud(transaction);
   }
 
-  /// Replace an existing transaction (matched by [id]).
+  /// Replace an existing transaction (matched by [id]) locally and sync to Cloud Firestore.
   Future<void> update(Transaction transaction) async {
     final i = _transactions.indexWhere((t) => t.id == transaction.id);
     if (i != -1) {
       _transactions[i] = transaction;
       _sort();
       await _save();
+
+      // Cloud Firestore Update
+      await _uploadExpenseToCloud(transaction);
     }
   }
 
-  /// Remove a transaction by [id].
+  /// Remove a transaction by [id] locally and delete from Cloud Firestore.
   Future<void> delete(String id) async {
     _transactions.removeWhere((t) => t.id == id);
     await _save();
+
+    // Cloud Firestore Deletion
+    await _deleteExpenseFromCloud(id);
+  }
+
+  // ── Cloud Firestore Operations ───────────────────────────────────────────
+
+  Future<void> _uploadExpenseToCloud(Transaction transaction) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || AuthService.instance.isGuestMode) return;
+
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('expenses')
+          .doc(transaction.id);
+
+      debugPrint('[EXPENSE CLOUD] Uploading expense ${transaction.id} to users/${user.uid}/expenses...');
+      await docRef
+          .set(transaction.toFirestore(), SetOptions(merge: true))
+          .timeout(const Duration(seconds: 12));
+      debugPrint('[EXPENSE CLOUD SUCCESS] Expense ${transaction.id} saved in Firestore users/${user.uid}/expenses');
+    } on FirebaseException catch (e) {
+      debugPrint('[EXPENSE CLOUD ERROR] FirebaseException uploading expense: ${e.code} - ${e.message}');
+    } catch (e) {
+      debugPrint('[EXPENSE CLOUD ERROR] Error uploading expense: $e');
+    }
+  }
+
+  Future<void> _deleteExpenseFromCloud(String expenseId) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null || AuthService.instance.isGuestMode) return;
+
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('expenses')
+          .doc(expenseId);
+
+      debugPrint('[EXPENSE CLOUD] Deleting expense $expenseId from users/${user.uid}/expenses...');
+      await docRef.delete().timeout(const Duration(seconds: 12));
+      debugPrint('[EXPENSE CLOUD SUCCESS] Deleted expense $expenseId from Firestore');
+    } on FirebaseException catch (e) {
+      debugPrint('[EXPENSE CLOUD ERROR] FirebaseException deleting expense: ${e.code} - ${e.message}');
+    } catch (e) {
+      debugPrint('[EXPENSE CLOUD ERROR] Error deleting expense from Firestore: $e');
+    }
   }
 
   // ── Calculations (all pure — no side effects) ────────────────────────────
@@ -116,7 +216,6 @@ class TransactionService {
   // ── Formatting helpers ────────────────────────────────────────────────────
 
   /// Format a double as a ₹ currency string with thousands separators.
-  /// e.g. 12345.0 → '₹12,345'
   static String formatCurrency(double amount) {
     final whole = amount.abs().toInt().toString();
     final buf = StringBuffer();
@@ -180,7 +279,7 @@ class TransactionService {
   /// Returns every distinct year-month that contains at least one transaction,
   /// sorted newest-first.
   List<DateTime> getTransactionMonths() {
-    final seen  = <String>{};
+    final seen = <String>{};
     final months = <DateTime>[];
     for (final t in _transactions) {
       final key = '${t.date.year}_${t.date.month}';
