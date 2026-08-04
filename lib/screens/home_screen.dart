@@ -146,7 +146,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         Text(
           'Your Life. Smarter. Together.',
           style: theme.textTheme.bodyMedium?.copyWith(
-            color: const Color(0xFFAAAAAA),
+            color: const Color(0xFF64748B),
+            fontWeight: FontWeight.w500,
             letterSpacing: 0.1,
           ),
         ),
@@ -161,17 +162,24 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            AppTheme.brandSeed.withAlpha(18),
-            AppTheme.brandSeed.withAlpha(5),
+            AppTheme.brandSeed.withAlpha(22),
+            AppTheme.brandSeed.withAlpha(8),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppTheme.brandSeed.withAlpha(26),
+          color: AppTheme.brandSeed.withAlpha(35),
           width: 1,
         ),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.brandSeed.withAlpha(12),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,14 +188,16 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             _greeting,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w700,
-              color: const Color(0xFF1A1A2E),
+              color: const Color(0xFF0F172A),
+              letterSpacing: -0.2,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           Text(
             'How can Lifemate help you today?',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF888888),
+              color: const Color(0xFF475569),
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
