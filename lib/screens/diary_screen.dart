@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/diary_entry.dart';
 import '../models/diary_meta.dart';
 import '../services/diary_service.dart';
@@ -10,7 +10,7 @@ import 'diary_detail_screen.dart';
 ///
 /// Features:
 ///  1. Header: "My Life Book" & subtitle
-///  2. Quick action buttons: âœï¸ Write Memory & ðŸŽ¤ Speak to Diary
+///  2. Quick action buttons: ✍️ï¸ Write Memory & 🎤 Speak to Diary
 ///  3. Search & Filter Bar (title, content, tags)
 ///  4. Calendar Date Selector Filter
 ///  5. Mood Overview (monthly statistics)
@@ -142,7 +142,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   children: [
                     Expanded(
                       child: _ActionButton(
-                        label: 'âœï¸ Write Memory',
+                        label: '✍️ï¸ Write Memory',
                         color: const Color(0xFF8B5CF6),
                         onTap: _openWriteMemory,
                       ),
@@ -150,7 +150,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: _ActionButton(
-                        label: 'ðŸŽ¤ Speak to Diary',
+                        label: '🎤 Speak to Diary',
                         color: const Color(0xFFEC4899),
                         onTap: _openSpeakToDiary,
                       ),
@@ -185,7 +185,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                       _showFavoritesOnly
                           ? 'â¤ï¸ Favorite Memories'
                           : _selectedDateFilter != null
-                              ? 'ðŸ“… Memories on ${DiaryService.formatShortDate(_selectedDateFilter!)}'
+                              ? '📅 Memories on ${DiaryService.formatShortDate(_selectedDateFilter!)}'
                               : 'Recent Memories',
                       style: const TextStyle(
                         fontSize: 18,
@@ -416,7 +416,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'ðŸ˜Š Mood Overview â€” This Month',
+              '😊 Mood Overview — This Month',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -498,7 +498,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             Text(
               isSearching
                   ? 'Try clearing the search or date filter to see all entries.'
-                  : 'Tap âœï¸ Write Memory or ðŸŽ¤ Speak to Diary to record your thoughts.',
+                  : 'Tap ✍️ï¸ Write Memory or 🎤 Speak to Diary to record your thoughts.',
               style: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8), height: 1.4),
               textAlign: TextAlign.center,
             ),

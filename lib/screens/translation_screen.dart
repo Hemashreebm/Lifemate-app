@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
@@ -94,7 +94,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     });
   }
 
-  // â”€â”€ Speech Recognition ðŸŽ¤ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â”€â”€ Speech Recognition 🎤 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _toggleListening() async {
     _stopTts();
@@ -345,7 +345,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     );
   }
 
-  // â”€â”€ Text-to-Speech (TTS) ðŸ”Š â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â”€â”€ Text-to-Speech (TTS) 🔊 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   Future<void> _stopTts() async {
     await TtsService.instance.stop();
@@ -609,7 +609,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
                 color: Colors.white.withAlpha(51),
                 shape: BoxShape.circle,
               ),
-              child: const Text('ðŸ—£', style: TextStyle(fontSize: 26)),
+              child: const Text('🗣️', style: TextStyle(fontSize: 26)),
             ),
             const SizedBox(width: 14),
             Expanded(
@@ -765,7 +765,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               const Spacer(),
               if (_isListening)
                 const Text(
-                  'ðŸŽ¤ Listening...',
+                  '🎤 Listening...',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFFEC4899)),
                 ),
             ],
@@ -786,7 +786,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
           const SizedBox(height: 8),
           Row(
             children: [
-              // ðŸŽ¤ Speak Button
+              // 🎤 Speak Button
               IconButton(
                 onPressed: _toggleListening,
                 icon: Icon(
@@ -828,7 +828,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
     String getButtonLabel() {
       if (_isPlayingTts) return 'â¹ Stop';
       if (_isPreparingTts) return 'Preparing audio...';
-      return 'ðŸ”Š Listen';
+      return '🔊 Listen';
     }
 
     IconData getButtonIcon() {
@@ -889,7 +889,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               ),
               const SizedBox(width: 12),
 
-              // ðŸ”Š Listen / â¹ Stop Speaker Button (Prominent & Large for Accessibility)
+              // 🔊 Listen / â¹ Stop Speaker Button (Prominent & Large for Accessibility)
               Expanded(
                 child: FilledButton.icon(
                   onPressed: _translatedText.isNotEmpty ? _toggleTts : null,

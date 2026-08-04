@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import '../models/saved_place.dart';
@@ -253,7 +253,7 @@ class _LocationScreenState extends State<LocationScreen> {
 
             const SizedBox(height: 20),
 
-            // â”€â”€ Safety â€” Coming Later Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // â”€â”€ Safety — Coming Later Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildSafetyComingLaterCard(),
 
             const SizedBox(height: 32),
@@ -609,7 +609,7 @@ class _LocationScreenState extends State<LocationScreen> {
             ),
             title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E))),
             subtitle: Text(
-              distanceStr.isNotEmpty ? '$distanceStr â€¢ ${p.address}' : p.address,
+              distanceStr.isNotEmpty ? '$distanceStr • ${p.address}' : p.address,
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             trailing: Row(

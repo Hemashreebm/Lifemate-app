@@ -572,7 +572,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.notifications_active_rounded, size: 22, color: Color(0xFF3B82F6)),
                           const SizedBox(height: 4),
                           Text(
-                            'ðŸ”” Normal Chime',
+                            '🔔 Normal Chime',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.normal

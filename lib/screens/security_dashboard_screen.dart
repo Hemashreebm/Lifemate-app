@@ -115,7 +115,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('âœ… Password updated successfully!'),
+                      content: Text('✍️… Password updated successfully!'),
                       backgroundColor: Color(0xFF10B981),
                     ),
                   );
@@ -314,7 +314,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
                 children: [
                   Text('Security Health Score', style: TextStyle(fontSize: 12, color: Color(0xFFDDD6FE))),
                   SizedBox(height: 4),
-                  Text('95% â€¢ Excellent', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
+                  Text('95% • Excellent', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
                 ],
               ),
               Container(

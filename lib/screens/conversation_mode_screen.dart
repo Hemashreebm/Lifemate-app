@@ -31,7 +31,7 @@ class _ConvMessage {
 
 // â”€â”€â”€ Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
-/// Phase 2 â€” Conversation Mode (Optimized STT/TTS & Zero-Delay Flow).
+/// Phase 2 — Conversation Mode (Optimized STT/TTS & Zero-Delay Flow).
 class ConversationModeScreen extends StatefulWidget {
   const ConversationModeScreen({super.key});
 
@@ -231,7 +231,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       spk == _Speaker.personA ? _langA : _langB;
 
   String _personLabel(_Speaker spk) =>
-      spk == _Speaker.personA ? 'YOU â€” ${_langA.label}' : 'OTHER PERSON â€” ${_langB.label}';
+      spk == _Speaker.personA ? 'YOU — ${_langA.label}' : 'OTHER PERSON — ${_langB.label}';
 
   Color _accentFor(_Speaker spk) =>
       spk == _Speaker.personA ? _purpleA : _tealB;
@@ -474,7 +474,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     setState(() {
       _activeSpk  = spk;
       _isListening = true;
-      _statusText  = 'ðŸŽ™ Listening in ${srcLang.label}...';
+      _statusText  = '🎙️ Listening in ${srcLang.label}...';
     });
 
     await _speech.listen(
@@ -485,7 +485,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
         debugPrint('[CONVERSATION STT] RESULT = "${result.recognizedWords}" (final: ${result.finalResult})');
         if (mounted) {
           recognizedText = result.recognizedWords;
-          setState(() => _statusText = 'ðŸŽ™ "${result.recognizedWords}"');
+          setState(() => _statusText = '🎙️ "${result.recognizedWords}"');
         }
       },
     );
@@ -665,7 +665,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text(
-        'ðŸ—£ Conversation Mode',
+        '🗣️ Conversation Mode',
         style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
       ),
       backgroundColor: Colors.white,
@@ -1032,7 +1032,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              isReplaying ? 'â¹ Stop' : 'ðŸ”Š Replay',
+                              isReplaying ? 'â¹ Stop' : '🔊 Replay',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -1131,16 +1131,16 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     String label;
     IconData icon;
     if (isActive) {
-      label = 'ðŸŽ™ Listening...';
+      label = '🎙️ Listening...';
       icon  = Icons.mic_rounded;
     } else if (isThisSpeaker && _isTranslating) {
       label = 'â³ Translating...';
       icon  = Icons.translate_rounded;
     } else if (isThisSpeaker && _isSpeaking) {
-      label = 'ðŸ”Š Speaking...';
+      label = '🔊 Speaking...';
       icon  = Icons.volume_up_rounded;
     } else {
-      label = 'ðŸŽ¤ Speak ${lang.label}';
+      label = '🎤 Speak ${lang.label}';
       icon  = Icons.mic_none_rounded;
     }
 

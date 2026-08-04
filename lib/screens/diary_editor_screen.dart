@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -659,7 +659,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          'ðŸŽ™ï¸ Voice Recording Attachment (Preserved)',
+          '🎙️ Voice Recording Attachment (Preserved)',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,

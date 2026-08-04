@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/translation_service.dart';
 import '../services/tts_service.dart';
@@ -9,7 +9,7 @@ import '../services/tts_service.dart';
 /// 1. Simple, beginner-friendly instructions.
 /// 2. Large Start Speaking / Stop microphone button.
 /// 3. Direct speech.listen(localeId: 'en_US') without speech.locales() blocking check.
-/// 4. Recognized speech display card with ðŸ”Š Listen, ðŸ”„ Try Again, and ðŸ—‘ Clear buttons.
+/// 4. Recognized speech display card with 🔊 Listen, 🔄 Try Again, and ðŸ—‘ Clear buttons.
 class SpokenEnglishPracticeScreen extends StatefulWidget {
   const SpokenEnglishPracticeScreen({super.key});
 
@@ -288,7 +288,7 @@ class _SpokenEnglishPracticeScreenState
             ),
             const SizedBox(width: 12),
             Text(
-              _isListening ? 'â¹ Stop' : 'ðŸŽ¤ Start Speaking',
+              _isListening ? 'â¹ Stop' : '🎤 Start Speaking',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -360,14 +360,14 @@ class _SpokenEnglishPracticeScreenState
               spacing: 10,
               runSpacing: 10,
               children: [
-                // ðŸ”Š Listen Button
+                // 🔊 Listen Button
                 ElevatedButton.icon(
                   onPressed: _listenToSentence,
                   icon: Icon(
                     _isSpeakingTts ? Icons.stop_rounded : Icons.volume_up_rounded,
                     size: 18,
                   ),
-                  label: Text(_isSpeakingTts ? 'â¹ Stop' : 'ðŸ”Š Listen'),
+                  label: Text(_isSpeakingTts ? 'â¹ Stop' : '🔊 Listen'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _purpleAccent,
                     foregroundColor: Colors.white,
@@ -378,14 +378,14 @@ class _SpokenEnglishPracticeScreenState
                   ),
                 ),
 
-                // ðŸ”„ Try Again Button
+                // 🔄 Try Again Button
                 OutlinedButton.icon(
                   onPressed: () {
                     _clearText();
                     _toggleListening();
                   },
                   icon: const Icon(Icons.refresh_rounded, size: 18),
-                  label: const Text('ðŸ”„ Try Again'),
+                  label: const Text('🔄 Try Again'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: _purpleAccent,
                     side: const BorderSide(color: _purpleAccent),

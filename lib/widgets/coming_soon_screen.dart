@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Shared full-screen placeholder for features not yet implemented.
 ///
@@ -74,7 +74,7 @@ class ComingSoonScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(24),
                 ),
                 child: Text(
-                  'Coming Soon âœ¨',
+                  'Coming Soon ✍️¨',
                   style: TextStyle(
                     color: color,
                     fontWeight: FontWeight.w600,

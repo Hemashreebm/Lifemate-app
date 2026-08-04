@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../services/device_info_service.dart';
 
@@ -220,7 +220,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
             children: [
               _buildSecurityStat('Total Devices', '${_sessions.length}', const Color(0xFF3B82F6)),
               _buildSecurityStat('Active Sessions', '${_sessions.where((s) => s.isCurrent).length}', const Color(0xFF10B981)),
-              _buildSecurityStat('2FA Status', 'Enabled ðŸ”’', const Color(0xFF7C3AED)),
+              _buildSecurityStat('2FA Status', 'Enabled 🔒', const Color(0xFF7C3AED)),
             ],
           ),
         ],
@@ -280,7 +280,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${info.platform} â€¢ ${info.androidVersion}',
+                      '${info.platform} • ${info.androidVersion}',
                       style: const TextStyle(fontSize: 13, color: Color(0xFFDDD6FE)),
                     ),
                   ],
@@ -363,7 +363,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
             ),
             subtitle: Text(
-              '${session.platform} â€¢ Version ${session.appVersion}\nLast Active: Today',
+              '${session.platform} • Version ${session.appVersion}\nLast Active: Today',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             isThreeLine: true,
@@ -417,7 +417,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
             ),
             subtitle: Text(
-              '${item.deviceName} â€¢ ${item.platform}\n${item.timestamp.toString().substring(0, 16)}',
+              '${item.deviceName} • ${item.platform}\n${item.timestamp.toString().substring(0, 16)}',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             isThreeLine: true,

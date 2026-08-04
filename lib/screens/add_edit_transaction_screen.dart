@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/transaction.dart';
 import '../models/transaction_category.dart';
@@ -250,7 +250,7 @@ class _AddEditTransactionScreenState
           final isExp    = t == TransactionType.expense;
           final color    = isExp ? const Color(0xFFFF6B6B) : const Color(0xFF10B981);
           final label    = isExp ? 'Expense' : 'Income';
-          final emoji    = isExp ? 'ðŸ“¤' : 'ðŸ“¥';
+          final emoji    = isExp ? '📤' : '📥';
           return Expanded(
             child: GestureDetector(
               onTap: () => setState(() {

@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/profile_service.dart';
@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('âœ… Backup data copied to clipboard! Save it safely.'),
+            content: Text('✍️… Backup data copied to clipboard! Save it safely.'),
             backgroundColor: Color(0xFF10B981),
           ),
         );
@@ -259,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 4),
                     Text(
                       _profileService.isCompleted
-                          ? '${_profileService.occupation} â€¢ ${_profileService.preferredLanguage}'
+                          ? '${_profileService.occupation} • ${_profileService.preferredLanguage}'
                           : 'Personalize Lifemate for you',
                       style: const TextStyle(
                         fontSize: 13,
@@ -311,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: _openEditProfile,
             icon: const Icon(Icons.edit_outlined, size: 18),
             label: Text(
-              _profileService.isCompleted ? 'âœï¸ Edit Profile' : 'âœï¸ Set Up Profile',
+              _profileService.isCompleted ? '✍️ï¸ Edit Profile' : '✍️ï¸ Set Up Profile',
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
             ),
             style: OutlinedButton.styleFrom(
@@ -469,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icons.info_outline_rounded,
             iconColor: const Color(0xFF06B6D4),
             title: 'About Lifemate',
-            subtitle: 'Version 1.0.0 â€” Open-source edition',
+            subtitle: 'Version 1.0.0 — Open-source edition',
             onTap: _showAboutDialog,
           ),
         ],
@@ -540,7 +540,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
         content: const Text(
-          'All your data â€” including diary logs, tasks, profile info, and transactions â€” is stored 100% locally on your device.\n\nLifemate does not upload your personal data to remote tracking servers.',
+          'All your data — including diary logs, tasks, profile info, and transactions — is stored 100% locally on your device.\n\nLifemate does not upload your personal data to remote tracking servers.',
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),

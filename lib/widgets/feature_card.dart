@@ -75,7 +75,7 @@ class FeatureCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
 
-                // Feature description â€” fills remaining space
+                // Feature description — fills remaining space
                 Expanded(
                   child: Text(
                     description,

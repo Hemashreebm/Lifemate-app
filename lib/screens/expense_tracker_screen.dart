@@ -15,7 +15,7 @@ import 'voice_transaction_screen.dart';
 ///
 /// Layout (top â†’ bottom):
 ///  1. All-time summary card  (Total Money / Total Spent / Balance)
-///  2. Quick action buttons   (+ Add Money | + Add Expense | ðŸŽ¤ Voice)
+///  2. Quick action buttons   (+ Add Money | + Add Expense | 🎤 Voice)
 ///  3. This Month section     (month selector, income/spent/remaining, budget bar)
 ///  4. Spending by Category   (this month)
 ///  5. Recent Transactions    (last 10 across all months)
@@ -130,7 +130,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
 
     setState(() {
       _isListening  = true;
-      _voiceStatus  = 'Listeningâ€¦';
+      _voiceStatus  = 'Listening…';
     });
 
     await _speech.listen(
@@ -209,7 +209,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
         title:   const Text('Delete this transaction?'),
         content: Text(
           '${tx.type == TransactionType.expense ? "Expense" : "Income"}: '
-          '${TransactionService.formatCurrency(tx.amount)} â€” ${tx.category}',
+          '${TransactionService.formatCurrency(tx.amount)} — ${tx.category}',
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         actions: [
@@ -373,7 +373,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
       context: context,
       builder: (_) => AlertDialog(
         title: Text(
-          'Set Budget â€” ${TransactionService.formatMonthYear(_month)}',
+          'Set Budget — ${TransactionService.formatMonthYear(_month)}',
           style: const TextStyle(fontSize: 16),
         ),
         content: TextField(
@@ -578,7 +578,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             children: [
               Expanded(
                 child: _buildAllTimeStat(
-                  'ðŸ“¥ Total Money',
+                  '📥 Total Money',
                   TransactionService.formatCurrency(allIncome),
                   const Color(0xFF86EFAC),
                 ),
@@ -589,7 +589,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                   color: Colors.white.withAlpha(38)),
               Expanded(
                 child: _buildAllTimeStat(
-                  'ðŸ“¤ Total Spent',
+                  '📤 Total Spent',
                   TransactionService.formatCurrency(allExpense),
                   const Color(0xFFFCA5A5),
                 ),
@@ -650,7 +650,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           children: [
             Expanded(
               child: _ActionButton(
-                label: 'ðŸ“· Scan Bill',
+                label: '📷 Scan Bill',
                 icon: Icons.receipt_long_rounded,
                 color: const Color(0xFF8B5CF6),
                 onTap: () => _scanReceipt(ImageSource.camera),
@@ -659,7 +659,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: _ActionButton(
-                label: 'ðŸ“² SMS Tracker',
+                label: '📱 SMS Tracker',
                 icon: Icons.sms_rounded,
                 color: const Color(0xFF00B894),
                 onTap: _showSmsTrackingDialog,
@@ -668,7 +668,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           ],
         ),
         const SizedBox(height: 12),
-        // Voice button â€” full width
+        // Voice button — full width
         _buildVoiceButton(),
       ],
     );
@@ -713,7 +713,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             ),
             const SizedBox(width: 10),
             Text(
-              isActive ? 'Listeningâ€¦ tap to stop' : 'ðŸŽ¤  Add by Voice',
+              isActive ? 'Listening… tap to stop' : '🎤  Add by Voice',
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 15,
@@ -796,14 +796,14 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             children: [
               Expanded(
                 child: _buildMonthStat(
-                  'ðŸ“¥ Income',
+                  '📥 Income',
                   TransactionService.formatCurrency(income),
                   const Color(0xFF86EFAC),
                 ),
               ),
               Expanded(
                 child: _buildMonthStat(
-                  'ðŸ“¤ Spent',
+                  '📤 Spent',
                   TransactionService.formatCurrency(expense),
                   const Color(0xFFFCA5A5),
                 ),

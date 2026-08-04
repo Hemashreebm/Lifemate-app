@@ -1,15 +1,15 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 /// Central theme configuration for Lifemate.
 ///
-/// Design philosophy: warm, calm, modern, friendly â€” like a personal companion.
-/// Uses Material 3 with a soft violet brand color.
+/// Design philosophy: warm, calm, modern, friendly — like a personal companion.
+/// Uses Material 3 with a clean solid background system (no wallpaper images).
 class AppTheme {
-  AppTheme._(); // Prevent instantiation â€” static use only
+  AppTheme._(); // Prevent instantiation — static use only
 
-  // â”€â”€ Brand Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Brand Colors ──────────────────────────────────────────────────────────
 
-  /// Primary brand color â€” soft violet, warm and inviting
+  /// Primary brand color — soft violet, warm and inviting
   static const Color brandSeed = Color(0xFF6C5CE7);
 
   /// Accent used for feature icon: diary
@@ -27,7 +27,7 @@ class AppTheme {
   /// Accent used for the Expense Tracker feature
   static const Color accentExpense = Color(0xFF0EA5E9);
 
-  // â”€â”€ Light Theme â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Light Theme ───────────────────────────────────────────────────────────
 
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
@@ -39,10 +39,10 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
 
-      // Slightly warm off-white page background
+      // Clean Material light page background (solid light grey / off-white)
       scaffoldBackgroundColor: const Color(0xFFF7F8FF),
 
-      // App bar: transparent, zero elevation â€” we style headers manually
+      // App bar: transparent, zero elevation
       appBarTheme: AppBarTheme(
         centerTitle: false,
         elevation: 0,
@@ -51,7 +51,7 @@ class AppTheme {
         foregroundColor: colorScheme.onSurface,
       ),
 
-      // Cards: white, rounded, no shadow (shadows added per card as needed)
+      // Cards: white, rounded
       cardTheme: CardThemeData(
         elevation: 0,
         color: Colors.white,
@@ -100,5 +100,58 @@ class AppTheme {
       ),
     );
   }
-}
 
+  // ── Dark Theme ────────────────────────────────────────────────────────────
+
+  static ThemeData get darkTheme {
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: brandSeed,
+      brightness: Brightness.dark,
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: colorScheme,
+
+      // Clean Material dark page background (solid dark grey/black)
+      scaffoldBackgroundColor: const Color(0xFF121212),
+
+      // App bar: transparent, zero elevation
+      appBarTheme: AppBarTheme(
+        centerTitle: false,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.transparent,
+        foregroundColor: colorScheme.onSurface,
+      ),
+
+      // Cards: dark surface grey
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: const Color(0xFF1E1E1E),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
+
+      // Navigation Bar
+      navigationBarTheme: NavigationBarThemeData(
+        elevation: 0,
+        shadowColor: Colors.transparent,
+        backgroundColor: const Color(0xFF1E1E1E),
+        surfaceTintColor: Colors.transparent,
+        height: 68,
+        indicatorColor: brandSeed.withAlpha(51),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      ),
+
+      // Snack bars
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    );
+  }
+}

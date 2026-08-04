@@ -6,7 +6,7 @@ import 'services/auth_service.dart';
 import 'theme/app_theme.dart';
 
 /// Root widget of the Lifemate application.
-/// Sets up MaterialApp with Lifemate theme and Auto-Login router.
+/// Sets up MaterialApp with Lifemate Material theme and Auto-Login router.
 class LifemateApp extends StatelessWidget {
   const LifemateApp({super.key});
 
@@ -23,6 +23,8 @@ class LifemateApp extends StatelessWidget {
       title: 'Lifemate',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       home: FutureBuilder<void>(
         future: AuthService.instance.init(),
         builder: (context, snapshot) {

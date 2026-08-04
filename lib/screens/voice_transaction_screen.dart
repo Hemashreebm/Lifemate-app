@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/transaction.dart';
 import '../models/transaction_category.dart';
@@ -323,7 +323,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  isExp ? 'ðŸ“¤  Expense' : 'ðŸ“¥  Income',
+                  isExp ? '📤  Expense' : '📥  Income',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,

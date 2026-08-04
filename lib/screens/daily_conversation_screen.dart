@@ -94,7 +94,7 @@ class DailyConversationScreen extends StatelessWidget {
               color: Colors.white.withAlpha(51),
               shape: BoxShape.circle,
             ),
-            child: const Text('ðŸ’¬', style: TextStyle(fontSize: 32)),
+            child: const Text('💬', style: TextStyle(fontSize: 32)),
           ),
           const SizedBox(width: 16),
           const Expanded(

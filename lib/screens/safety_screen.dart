@@ -1,11 +1,11 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/trusted_contact.dart';
 import '../services/location_service.dart';
 import '../services/safety_service.dart';
 
-/// Screen for Smart Location Phase 2 â€” Safety & SOS
+/// Screen for Smart Location Phase 2 — Safety & SOS
 class SafetyScreen extends StatefulWidget {
   const SafetyScreen({super.key});
 
@@ -164,7 +164,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
                       title: Text(contact.name, style: const TextStyle(fontWeight: FontWeight.w700)),
                       subtitle: Text(
                         contact.relationship.isNotEmpty
-                            ? '${contact.relationship} â€¢ ${contact.phoneNumber}'
+                            ? '${contact.relationship} • ${contact.phoneNumber}'
                             : contact.phoneNumber,
                       ),
                       trailing: Row(
@@ -448,7 +448,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
 
             const SizedBox(height: 24),
 
-            // â”€â”€ ðŸ”’ Privacy Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            // â”€â”€ 🔒 Privacy Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
             _buildPrivacyBanner(),
 
             const SizedBox(height: 32),
@@ -561,7 +561,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
           if (_emergencyPos != null) ...[
             const SizedBox(height: 4),
             Text(
-              'Lat: ${_emergencyPos!.latitude.toStringAsFixed(6)} â€¢ Lng: ${_emergencyPos!.longitude.toStringAsFixed(6)} (Â±${_emergencyPos!.accuracy.round()} m)',
+              'Lat: ${_emergencyPos!.latitude.toStringAsFixed(6)} • Lng: ${_emergencyPos!.longitude.toStringAsFixed(6)} (Â±${_emergencyPos!.accuracy.round()} m)',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
           ],
@@ -657,7 +657,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
             ),
             title: Text(c.name, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E))),
             subtitle: Text(
-              c.relationship.isNotEmpty ? '${c.relationship} â€¢ ${c.phoneNumber}' : c.phoneNumber,
+              c.relationship.isNotEmpty ? '${c.relationship} • ${c.phoneNumber}' : c.phoneNumber,
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             trailing: Row(

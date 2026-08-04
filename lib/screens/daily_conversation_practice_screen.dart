@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../models/conversation_scenario.dart';
 import '../services/translation_service.dart';
@@ -9,11 +9,11 @@ import '../services/tts_service.dart';
 /// Features:
 /// 1. Scripted 5-6 turn practice conversations for 8 situations.
 /// 2. Chat-style UI (Lifemate on left, User on right).
-/// 3. ðŸ”Š Listen to Lifemate line & ðŸ”Š Listen to suggestion.
-/// 4. ðŸ’¡ Suggested reply & Need Help? simple meaning toggle.
-/// 5. ðŸŽ¤ Speak Reply (speech_to_text with direct localeId: 'en_US').
+/// 3. 🔊 Listen to Lifemate line & 🔊 Listen to suggestion.
+/// 4. 💡 Suggested reply & Need Help? simple meaning toggle.
+/// 5. 🎤 Speak Reply (speech_to_text with direct localeId: 'en_US').
 /// 6. âž¡ Continue button to advance to next turn.
-/// 7. ðŸŽ‰ Practice Complete screen with Practice Again & Choose Another Situation.
+/// 7. 🎉 Practice Complete screen with Practice Again & Choose Another Situation.
 class DailyConversationPracticeScreen extends StatefulWidget {
   final ConversationScenario scenario;
 
@@ -287,7 +287,7 @@ class _DailyConversationPracticeScreenState
             label: Text(
               _currentTurnIndex < widget.scenario.turns.length - 1
                   ? 'âž¡ Continue to Next Turn'
-                  : 'ðŸŽ‰ Finish Conversation',
+                  : '🎉 Finish Conversation',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
             ),
             style: ElevatedButton.styleFrom(
@@ -384,7 +384,7 @@ class _DailyConversationPracticeScreenState
               const Row(
                 children: [
                   Text(
-                    'ðŸ—£ Lifemate',
+                    '🗣️ Lifemate',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
@@ -418,7 +418,7 @@ class _DailyConversationPracticeScreenState
                       Icon(Icons.volume_up_rounded, size: 14, color: _purpleAccent),
                       SizedBox(width: 4),
                       Text(
-                        'ðŸ”Š Listen',
+                        '🔊 Listen',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -459,7 +459,7 @@ class _DailyConversationPracticeScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'ðŸ‘¤ You said:',
+                '👤 You said:',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
@@ -498,7 +498,7 @@ class _DailyConversationPracticeScreenState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text(
-                'ðŸ’¡ Suggested reply:',
+                '💡 Suggested reply:',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
@@ -550,7 +550,7 @@ class _DailyConversationPracticeScreenState
                       Icon(Icons.volume_up_rounded, size: 14, color: Color(0xFFB45309)),
                       SizedBox(width: 4),
                       Text(
-                        'ðŸ”Š Listen to suggestion',
+                        '🔊 Listen to suggestion',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
@@ -591,7 +591,7 @@ class _DailyConversationPracticeScreenState
         size: 26,
       ),
       label: Text(
-        _isListening ? 'â¹ Stop' : 'ðŸŽ¤ Speak Reply',
+        _isListening ? 'â¹ Stop' : '🎤 Speak Reply',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
       ),
       style: ElevatedButton.styleFrom(
@@ -619,7 +619,7 @@ class _DailyConversationPracticeScreenState
               color: const Color(0xFFDCFCE7),
               shape: BoxShape.circle,
             ),
-            child: const Text('ðŸŽ‰', style: TextStyle(fontSize: 54)),
+            child: const Text('🎉', style: TextStyle(fontSize: 54)),
           ),
           const SizedBox(height: 20),
           const Text(
@@ -643,11 +643,11 @@ class _DailyConversationPracticeScreenState
           ),
           const SizedBox(height: 36),
 
-          // ðŸ”„ Practice Again
+          // 🔄 Practice Again
           ElevatedButton.icon(
             onPressed: _restartConversation,
             icon: const Icon(Icons.refresh_rounded, size: 20),
-            label: const Text('ðŸ”„ Practice Again'),
+            label: const Text('🔄 Practice Again'),
             style: ElevatedButton.styleFrom(
               backgroundColor: _purpleAccent,
               foregroundColor: Colors.white,

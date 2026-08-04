@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../widgets/ask_lifemate_card.dart';
 import '../widgets/feature_card.dart';
+import '../services/profile_service.dart';
 import '../services/transaction_service.dart';
 import 'expense_tracker_screen.dart';
 import 'diary_screen.dart';
@@ -27,11 +28,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
   /// Returns a friendly greeting based on the current time of day.
   String get _greeting {
+    final name = ProfileService.instance.name.trim();
+    final nameSuffix = name.isNotEmpty ? ', $name' : '';
     final hour = DateTime.now().hour;
-    if (hour >= 5  && hour < 12) return 'Good morning ðŸ‘‹';
-    if (hour >= 12 && hour < 17) return 'Good afternoon ðŸ‘‹';
-    if (hour >= 17 && hour < 21) return 'Good evening ðŸ‘‹';
-    return 'Good night ðŸ‘‹';
+    if (hour >= 5  && hour < 12) return 'Good morning$nameSuffix 👋';
+    if (hour >= 12 && hour < 17) return 'Good afternoon$nameSuffix 👋';
+    if (hour >= 17 && hour < 21) return 'Good evening$nameSuffix 👋';
+    return 'Good night$nameSuffix 👋';
   }
 
   @override
@@ -226,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 color: Colors.white.withAlpha(51),
                 shape: BoxShape.circle,
               ),
-              child: const Text('ðŸ—£', style: TextStyle(fontSize: 28)),
+              child: const Text('🗣️', style: TextStyle(fontSize: 28)),
             ),
             const SizedBox(width: 14),
             const Expanded(
@@ -403,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     return GridView.builder(
       shrinkWrap: true,
-      // Disable grid's own scrolling â€” parent SingleChildScrollView handles it
+      // Disable grid's own scrolling — parent SingleChildScrollView handles it
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -448,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${f.title} â€” coming soon! ðŸš€'),
+                  content: Text('${f.title} — coming soon! 🚀'),
                   margin: const EdgeInsets.all(16),
                   duration: const Duration(seconds: 2),
                 ),
