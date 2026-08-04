@@ -5,6 +5,7 @@ import '../services/task_service.dart';
 import '../services/diary_service.dart';
 import '../services/transaction_service.dart';
 import '../services/tts_service.dart';
+import '../services/translation_service.dart';
 import '../theme/app_theme.dart';
 
 /// Intelligent Lifemate AI Assistant screen.
@@ -79,7 +80,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
       final now = DateTime.now();
       final monthTx = TransactionService.instance.getForMonth(DateTime(now.year, now.month));
       final totalSpent = TransactionService.instance.totalExpense(monthTx);
-      final formatted = TransactionService.instance.formatCurrency(totalSpent);
+      final formatted = TransactionService.formatCurrency(totalSpent);
       response = 'This month you have recorded $formatted in total expenses across ${monthTx.length} transactions.';
     } else if (lower.contains('memory') || lower.contains('diary') || lower.contains('journal')) {
       final entries = DiaryService.instance.all;
@@ -116,7 +117,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   Future<void> _speakResponse(String text) async {
     setState(() => _isSpeaking = true);
-    await TtsService.instance.speak(text: text);
+    await TtsService.instance.speak(text: text, targetLang: AppLanguage.english);
     if (mounted) {
       setState(() => _isSpeaking = false);
     }
