@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 /// Central theme configuration for Lifemate.
 ///
 /// Design philosophy: warm, calm, modern, friendly — like a personal companion.
-/// Uses Material 3 with a clean solid background system (no wallpaper images).
+/// Uses Material 3 with the original soft off-white/light lavender page background (#F7F8FF).
 class AppTheme {
   AppTheme._(); // Prevent instantiation — static use only
 
@@ -39,7 +39,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
 
-      // Clean Material light page background (solid light grey / off-white)
+      // Clean original soft off-white / light lavender page background
       scaffoldBackgroundColor: const Color(0xFFF7F8FF),
 
       // App bar: transparent, zero elevation
@@ -101,57 +101,7 @@ class AppTheme {
     );
   }
 
-  // ── Dark Theme ────────────────────────────────────────────────────────────
+  // ── Dark Theme (Soft Light Lavender Fallback) ──────────────────────────────
 
-  static ThemeData get darkTheme {
-    final colorScheme = ColorScheme.fromSeed(
-      seedColor: brandSeed,
-      brightness: Brightness.dark,
-    );
-
-    return ThemeData(
-      useMaterial3: true,
-      colorScheme: colorScheme,
-
-      // Clean Material dark page background (solid dark grey/black)
-      scaffoldBackgroundColor: const Color(0xFF121212),
-
-      // App bar: transparent, zero elevation
-      appBarTheme: AppBarTheme(
-        centerTitle: false,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: colorScheme.onSurface,
-      ),
-
-      // Cards: dark surface grey
-      cardTheme: CardThemeData(
-        elevation: 0,
-        color: const Color(0xFF1E1E1E),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-      ),
-
-      // Navigation Bar
-      navigationBarTheme: NavigationBarThemeData(
-        elevation: 0,
-        shadowColor: Colors.transparent,
-        backgroundColor: const Color(0xFF1E1E1E),
-        surfaceTintColor: Colors.transparent,
-        height: 68,
-        indicatorColor: brandSeed.withAlpha(51),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-      ),
-
-      // Snack bars
-      snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-    );
-  }
+  static ThemeData get darkTheme => lightTheme;
 }
