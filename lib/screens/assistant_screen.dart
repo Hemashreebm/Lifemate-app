@@ -116,7 +116,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   Future<void> _speakResponse(String text) async {
     setState(() => _isSpeaking = true);
-    await TtsService.instance.speak(text);
+    await TtsService.instance.speak(text: text);
     if (mounted) {
       setState(() => _isSpeaking = false);
     }
