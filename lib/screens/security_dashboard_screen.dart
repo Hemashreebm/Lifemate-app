@@ -411,17 +411,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
       child: SwitchListTile(
         value: _twoFactorEnabled,
         onChanged: (val) => setState(() => _twoFactorEnabled = val),
-        title: const Row(
-          children: [
-            Text('2-Factor Authentication (2FA)', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B))),
-            SizedBox(width: 8),
-            Chip(
-              label: Text('Coming Soon', style: TextStyle(fontSize: 10, color: Colors.white)),
-              backgroundColor: Color(0xFF8B5CF6),
-              visualDensity: VisualDensity.compact,
-            ),
-          ],
-        ),
+        title: const Text('2-Factor Authentication (2FA)', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B))),
         subtitle: const Text('Add an extra layer of login verification'),
       ),
     );
