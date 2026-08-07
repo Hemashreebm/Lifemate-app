@@ -6,6 +6,7 @@ import 'services/settings_service.dart';
 import 'services/ai_memory_service.dart';
 import 'services/budget_service.dart';
 import 'services/habit_service.dart';
+import 'services/communication_platform_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ void main() async {
   await AiMemoryService.instance.init();
   await BudgetService.instance.init();
   await HabitService.instance.init();
+  await CommunicationPlatformService.instance.init();
 
   runApp(const LifemateApp());
 }

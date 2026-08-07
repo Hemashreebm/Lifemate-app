@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import '../services/communication_curriculum_service.dart';
+import '../services/communication_platform_service.dart';
 import 'spoken_english_practice_screen.dart';
 import 'pronunciation_practice_screen.dart';
 import 'daily_conversation_screen.dart';
+import 'daily_english_challenge_screen.dart';
+import 'grammar_coach_screen.dart';
+import 'vocabulary_builder_screen.dart';
+import 'conversation_simulator_screen.dart';
+import 'interview_prep_screen.dart';
+import 'public_speaking_coach_screen.dart';
+import 'writing_assistant_screen.dart';
 
 /// Gamified Communication Coach Screen
 ///
@@ -121,9 +129,9 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   const SizedBox(height: 28),
 
-                  //  Practice Modes Quick Access 
+                  //  Practice Modes & Learning Modules 
                   const Text(
-                    'Practice Modes',
+                    'Learning Modules & Tools',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -134,14 +142,44 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 12),
 
                   _buildPracticeModeCard(
-                    icon: Icons.mic_rounded,
-                    title: 'Spoken English Practice',
-                    subtitle: 'Practice speaking English with AI feedback',
-                    color: const Color(0xFF7C3AED),
+                    icon: Icons.local_fire_department_rounded,
+                    title: '1. Daily English Challenge',
+                    subtitle: '5 new words, pronunciations, audio, meanings & quiz',
+                    color: const Color(0xFFD97706),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const SpokenEnglishPracticeScreen()),
+                        MaterialPageRoute(builder: (_) => const DailyEnglishChallengeScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.spellcheck_rounded,
+                    title: '2. Grammar Coach',
+                    subtitle: 'Tenses, Articles, Prepositions & Sentence Rules',
+                    color: const Color(0xFF2563EB),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const GrammarCoachScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.menu_book_rounded,
+                    title: '3. Vocabulary Builder',
+                    subtitle: 'Office, Tech, Travel, Business & Saved Favorite words',
+                    color: const Color(0xFF10B981),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const VocabularyBuilderScreen()),
                       );
                     },
                   ),
@@ -150,9 +188,9 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   _buildPracticeModeCard(
                     icon: Icons.volume_up_rounded,
-                    title: 'Pronunciation Practice',
-                    subtitle: 'Listen, repeat and improve speech clarity',
-                    color: const Color(0xFF2563EB),
+                    title: '4. Pronunciation Practice',
+                    subtitle: 'Listen, repeat & improve speech accuracy score',
+                    color: const Color(0xFF7C3AED),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -165,13 +203,58 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   _buildPracticeModeCard(
                     icon: Icons.forum_rounded,
-                    title: 'Daily Conversation Simulator',
-                    subtitle: 'Practice dialogue for shopping, travel & office',
-                    color: const Color(0xFF10B981),
+                    title: '5. Conversation Simulator',
+                    subtitle: 'Restaurant, Airport, Hotel, Hospital & Shopping AI roleplay',
+                    color: const Color(0xFF0284C7),
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const DailyConversationScreen()),
+                        MaterialPageRoute(builder: (_) => const ConversationSimulatorScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.business_center_rounded,
+                    title: '6. Interview Preparation',
+                    subtitle: 'HR, Technical, Self Intro & GD voice practice with AI feedback',
+                    color: const Color(0xFFEA580C),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const InterviewPrepScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.record_voice_over_rounded,
+                    title: '7. Public Speaking Coach',
+                    subtitle: 'Analyze speaking speed (WPM), fillers & confidence',
+                    color: const Color(0xFF9333EA),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const PublicSpeakingCoachScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.edit_note_rounded,
+                    title: '8. Writing Assistant',
+                    subtitle: 'Instant grammar & sentence proofreader with explanations',
+                    color: const Color(0xFF059669),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const WritingAssistantScreen()),
                       );
                     },
                   ),
