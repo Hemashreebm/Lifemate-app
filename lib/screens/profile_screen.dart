@@ -326,7 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildAvatarWidget() {
-    final photoUrl = AuthService.instance.currentUserPhotoUrl;
+    final photoUrl = FirebaseAuth.instance.currentUser?.photoURL;
     if (photoUrl != null && photoUrl.isNotEmpty) {
       return CircleAvatar(
         radius: 34,
