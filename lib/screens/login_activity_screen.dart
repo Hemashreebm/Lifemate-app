@@ -220,7 +220,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
             children: [
               _buildSecurityStat('Total Devices', '${_sessions.length}', const Color(0xFF3B82F6)),
               _buildSecurityStat('Active Sessions', '${_sessions.where((s) => s.isCurrent).length}', const Color(0xFF10B981)),
-              _buildSecurityStat('2FA Status', 'Enabled 🔒', const Color(0xFF7C3AED)),
+              _buildSecurityStat('2FA Status', 'Enabled', const Color(0xFF7C3AED)),
             ],
           ),
         ],

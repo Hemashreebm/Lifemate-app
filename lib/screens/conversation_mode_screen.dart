@@ -29,7 +29,7 @@ class _ConvMessage {
   });
 }
 
-// â”€â”€â”€ Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ——— Screen —————————————————————————————————————————————————————————————————
 
 /// Phase 2 — Conversation Mode (Optimized STT/TTS & Zero-Delay Flow).
 class ConversationModeScreen extends StatefulWidget {
@@ -40,19 +40,18 @@ class ConversationModeScreen extends StatefulWidget {
 }
 
 class _ConversationModeScreenState extends State<ConversationModeScreen> {
-  // â”€â”€ Services â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— Services —————————————————————————————————————————————————————————————
   final _transSvc = TranslationService.instance;
   final _speech = stt.SpeechToText();
-  final _tts = FlutterTts();
 
-  // â”€â”€ Language pair â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— Language pair ————————————————————————————————————————————————————————
   AppLanguage _langA = AppLanguage.telugu;  // Person A default
   AppLanguage _langB = AppLanguage.english; // Person B default
 
-  // â”€â”€ Conversation history (in-memory) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— Conversation history (in-memory) ——————————————————————————————————————
   final List<_ConvMessage> _messages = [];
 
-  // â”€â”€ Lifecycle & Busy state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— Lifecycle & Busy state ———————————————————————————————————————————————
   _Speaker? _activeSpk;           // who is currently speaking (null = idle)
   bool _isSpeaking   = false;     // TTS is currently playing
   bool _isListening  = false;     // STT is active
@@ -61,7 +60,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
   String _statusText = '';        // banner text while busy
   String _dlText = '';            // download status text
 
-  // â”€â”€ Cached STT / TTS Capabilities (Loaded ONCE at init) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ——— Cached STT / TTS Capabilities (Loaded ONCE at init) ——————————————————
   bool _speechInitialized = false;
   int _sttInitDurationMs = 0;
   final Map<AppLanguage, stt.LocaleName> _cachedSttLocales = {};
@@ -171,49 +170,9 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       }
     }
 
-    // 3. Initialize TTS ONCE & Check Availability for All 5 Languages
+    // 3. Initialize TtsService ONCE
     try {
-      await _tts.setSpeechRate(0.45);
-      await _tts.setVolume(1.0);
-      await _tts.setPitch(1.0);
-
-      _tts.setStartHandler(() {
-        final t = DateTime.now().millisecondsSinceEpoch;
-        debugPrint('[PERF DIAGNOSTIC] TTS SPEECH START at $t');
-        if (mounted) setState(() => _isSpeaking = true);
-      });
-
-      _tts.setCompletionHandler(() {
-        debugPrint('[PERF DIAGNOSTIC] TTS SPEECH COMPLETED');
-        if (mounted) {
-          setState(() {
-            _isSpeaking     = false;
-            _replayingIndex = -1;
-            _activeSpk      = null;
-            _statusText     = '';
-          });
-        }
-      });
-
-      _tts.setCancelHandler(() {
-        if (mounted) {
-          setState(() {
-            _isSpeaking     = false;
-            _replayingIndex = -1;
-          });
-        }
-      });
-
-      _tts.setErrorHandler((err) {
-        debugPrint('[TTS DIAGNOSTIC] Error: $err');
-        if (mounted) {
-          setState(() {
-            _isSpeaking     = false;
-            _replayingIndex = -1;
-          });
-        }
-      });
-
+      await TtsService.instance.init();
     } catch (e) {
       debugPrint('[TTS DIAGNOSTIC] TTS init error: $e');
     }

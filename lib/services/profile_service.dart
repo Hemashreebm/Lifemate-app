@@ -22,7 +22,7 @@ class ProfileService {
   String age = '';
   String occupation = 'Student';
   String preferredLanguage = 'English';
-  String avatar = '👤';
+  String avatar = 'Profile';
   bool isCompleted = false;
 
   /// Loads profile from local SharedPreferences and initiates Firestore Cloud Sync
@@ -34,7 +34,7 @@ class ProfileService {
       age = prefs.getString(_keyAge) ?? '';
       occupation = prefs.getString(_keyOccupation) ?? 'Student';
       preferredLanguage = prefs.getString(_keyLanguage) ?? 'English';
-      avatar = prefs.getString(_keyAvatar) ?? '👤';
+      avatar = prefs.getString(_keyAvatar) ?? 'Profile';
       isCompleted = prefs.getBool(_keyCompleted) ?? false;
 
       // Automatically sync from cloud if user is authenticated
@@ -66,7 +66,7 @@ class ProfileService {
         final cloudAge = (data['age'] as String?) ?? '';
         final cloudOccupation = (data['occupation'] as String?) ?? 'Student';
         final cloudLanguage = (data['language'] as String?) ?? 'English';
-        final cloudAvatar = (data['avatar'] as String?) ?? '👤';
+        final cloudAvatar = (data['avatar'] as String?) ?? 'Profile';
 
         if (cloudName.isNotEmpty) {
           name = cloudName;

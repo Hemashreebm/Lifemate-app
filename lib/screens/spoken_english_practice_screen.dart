@@ -288,7 +288,7 @@ class _SpokenEnglishPracticeScreenState
             ),
             const SizedBox(width: 12),
             Text(
-              _isListening ? 'â¹ Stop' : '🎤 Start Speaking',
+              _isListening ? 'Stop' : 'Start Speaking',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
@@ -360,14 +360,14 @@ class _SpokenEnglishPracticeScreenState
               spacing: 10,
               runSpacing: 10,
               children: [
-                // 🔊 Listen Button
+                // Listen Button
                 ElevatedButton.icon(
                   onPressed: _listenToSentence,
                   icon: Icon(
                     _isSpeakingTts ? Icons.stop_rounded : Icons.volume_up_rounded,
                     size: 18,
                   ),
-                  label: Text(_isSpeakingTts ? 'â¹ Stop' : '🔊 Listen'),
+                  label: Text(_isSpeakingTts ? 'Stop' : 'Listen'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _purpleAccent,
                     foregroundColor: Colors.white,
@@ -378,14 +378,14 @@ class _SpokenEnglishPracticeScreenState
                   ),
                 ),
 
-                // 🔄 Try Again Button
+                // Try Again Button
                 OutlinedButton.icon(
                   onPressed: () {
                     _clearText();
                     _toggleListening();
                   },
                   icon: const Icon(Icons.refresh_rounded, size: 18),
-                  label: const Text('🔄 Try Again'),
+                  label: const Text('Try Again'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: _purpleAccent,
                     side: const BorderSide(color: _purpleAccent),

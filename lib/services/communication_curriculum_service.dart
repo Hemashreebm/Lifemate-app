@@ -71,7 +71,7 @@ class CommunicationCurriculumService {
 
   int _totalXp = 0;
   int _streakDays = 1;
-  List<String> _earnedBadges = ['First Step 🌟'];
+  List<String> _earnedBadges = ['First Step'];
 
   int get totalXp => _totalXp;
   int get streakDays => _streakDays;
@@ -291,14 +291,14 @@ class CommunicationCurriculumService {
   }
 
   void _evaluateBadges() {
-    final badges = <String>['First Step 🌟'];
+    final badges = <String>['First Step'];
     final completedCount = _lessons.where((l) => l.isCompleted).length;
 
-    if (completedCount >= 1) badges.add('Word Starter 🗣️');
-    if (completedCount >= 3) badges.add('Level 1 Champion 🏆');
-    if (completedCount >= 6) badges.add('Interview Pro 💼');
-    if (completedCount >= 9) badges.add('Master Orator 👑');
-    if (_totalXp >= 500) badges.add('XP Legend ⚡');
+    if (completedCount >= 1) badges.add('Word Starter');
+    if (completedCount >= 3) badges.add('Level 1 Champion');
+    if (completedCount >= 6) badges.add('Interview Pro');
+    if (completedCount >= 9) badges.add('Master Orator');
+    if (_totalXp >= 500) badges.add('XP Legend');
 
     _earnedBadges = badges;
   }

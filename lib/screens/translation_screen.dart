@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/translation_service.dart';
 import '../services/tts_service.dart';
@@ -18,7 +17,6 @@ class _TranslationScreenState extends State<TranslationScreen> {
   final _transSvc = TranslationService.instance;
   final _inputCtrl = TextEditingController();
   final _speech = stt.SpeechToText();
-  final _tts = FlutterTts();
 
   AppLanguage _fromLang = AppLanguage.english;
   AppLanguage _toLang = AppLanguage.telugu;
@@ -47,7 +45,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
   @override
   void dispose() {
     _speech.stop();
-    _tts.stop();
+    TtsService.instance.stop();
     _inputCtrl.dispose();
     super.dispose();
   }
@@ -765,7 +763,7 @@ class _TranslationScreenState extends State<TranslationScreen> {
               const Spacer(),
               if (_isListening)
                 const Text(
-                  '🎤 Listening...',
+                  'Listening...',
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFFEC4899)),
                 ),
             ],
@@ -826,9 +824,9 @@ class _TranslationScreenState extends State<TranslationScreen> {
 
   Widget _buildTranslationOutputCard() {
     String getButtonLabel() {
-      if (_isPlayingTts) return 'â¹ Stop';
+      if (_isPlayingTts) return 'Stop';
       if (_isPreparingTts) return 'Preparing audio...';
-      return '🔊 Listen';
+      return 'Listen';
     }
 
     IconData getButtonIcon() {

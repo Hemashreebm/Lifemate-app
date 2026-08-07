@@ -398,7 +398,7 @@ class _PronunciationPracticeScreenState
         size: 22,
       ),
       label: Text(
-        _isSpeakingTts ? 'â¹ Stop Listening' : '🔊 Listen to Pronunciation',
+        _isSpeakingTts ? 'Stop Listening' : 'Listen to Pronunciation',
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
       ),
       style: OutlinedButton.styleFrom(
@@ -420,7 +420,7 @@ class _PronunciationPracticeScreenState
         size: 26,
       ),
       label: Text(
-        _isListening ? 'â¹ Stop' : '🎤 Repeat Sentence',
+        _isListening ? 'Stop' : 'Repeat Sentence',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
       ),
       style: ElevatedButton.styleFrom(
@@ -441,15 +441,15 @@ class _PronunciationPracticeScreenState
     Color statusColor;
 
     if (percentage >= 90) {
-      feedbackTitle = 'Excellent match! 🌟';
+      feedbackTitle = 'Excellent match!';
       feedbackSubtitle = 'Great pronunciation! Move to the next sentence.';
       statusColor = const Color(0xFF10B981);
     } else if (percentage >= 70) {
-      feedbackTitle = 'Good attempt! ðŸ‘';
+      feedbackTitle = 'Good attempt!';
       feedbackSubtitle = 'Try once more for an even closer match.';
       statusColor = const Color(0xFFD97706);
     } else {
-      feedbackTitle = 'Keep practicing ðŸ’ª';
+      feedbackTitle = 'Keep practicing';
       feedbackSubtitle = 'Listen again and repeat slowly.';
       statusColor = const Color(0xFFE11D48);
     }
@@ -541,7 +541,7 @@ class _PronunciationPracticeScreenState
               ElevatedButton.icon(
                 onPressed: _listenToCorrectPronunciation,
                 icon: const Icon(Icons.volume_up_rounded, size: 16),
-                label: const Text('🔊 Listen Again'),
+                label: const Text('Listen Again'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _purpleAccent,
                   foregroundColor: Colors.white,
@@ -553,11 +553,11 @@ class _PronunciationPracticeScreenState
                 ),
               ),
 
-              // 🎤 Try Again
+              // Try Again
               OutlinedButton.icon(
                 onPressed: _startRepeating,
                 icon: const Icon(Icons.mic_rounded, size: 16),
-                label: const Text('🎤 Try Again'),
+                label: const Text('Try Again'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: _purpleAccent,
                   side: const BorderSide(color: _purpleAccent),

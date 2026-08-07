@@ -138,7 +138,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
             const Icon(Icons.check_circle_rounded, color: Color(0xFF10B981), size: 54),
             const SizedBox(height: 12),
             Text(
-              'Welcome back, ${_authSvc.currentUserName}! 👋',
+              'Welcome back, ${_authSvc.currentUserName}!',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Color(0xFF1E293B)),
             ),
             const SizedBox(height: 8),

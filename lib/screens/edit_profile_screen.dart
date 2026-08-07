@@ -37,14 +37,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   ];
 
   static const List<String> _avatars = [
-    '👤',
-    '🎓',
-    '💻',
-    '🎨',
-    '🚀',
-    '🌟',
-    'â˜•',
-    '🌺',
+    'Profile',
+    'Student',
+    'Professional',
+    'Artist',
+    'Tech',
+    'Star',
+    'Coffee',
+    'Nature',
   ];
 
   static const _purpleAccent = Color(0xFF7C3AED);
@@ -183,7 +183,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                     const SizedBox(height: 8),
                     TextButton(
-                      onPressed: () => setState(() => _selectedAvatar = '👤'),
+                      onPressed: () => setState(() => _selectedAvatar = 'Profile'),
                       child: const Text(
                         'Use default avatar',
                         style: TextStyle(color: _purpleAccent, fontSize: 13),

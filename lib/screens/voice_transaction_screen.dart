@@ -323,7 +323,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  isExp ? '📤  Expense' : '📥  Income',
+                  isExp ? 'Expense' : 'Income',
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 14,

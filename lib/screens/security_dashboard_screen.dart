@@ -115,7 +115,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
                   Navigator.pop(ctx);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('✍️… Password updated successfully!'),
+                      content: Text('Password updated successfully.'),
                       backgroundColor: Color(0xFF10B981),
                     ),
                   );

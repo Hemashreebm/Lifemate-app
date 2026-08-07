@@ -117,9 +117,18 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   Future<void> _speakResponse(String text) async {
     setState(() => _isSpeaking = true);
-    await TtsService.instance.speak(text: text, targetLang: AppLanguage.english);
+    final ok = await TtsService.instance.speak(text: text, targetLang: AppLanguage.english);
     if (mounted) {
       setState(() => _isSpeaking = false);
+      if (!ok) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('English voice playback is unavailable on this device.'),
+            backgroundColor: Color(0xFFE11D48),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 

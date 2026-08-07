@@ -26,64 +26,54 @@ class TtsService {
   List<String> get availableLanguages => List.unmodifiable(_availableLanguages);
   List<Map<String, String>> get availableVoices => List.unmodifiable(_availableVoices);
 
-  /// Initialize TTS once: select preferred Google engine, discover voices/languages, attach handlers.
+  /// Initialize TTS once: discover voices/languages and attach handlers.
   Future<void> init() async {
     if (_initialized) return;
 
     try {
-      debugPrint('[TTS DIAGNOSTIC] === INITIALIZING TTS SERVICE ===');
+      debugPrint('[TTS] Initializing TtsService...');
 
-      // 1. Get engines
+      // 1. Get available engines
       try {
         final enginesRaw = await _tts.getEngines;
         if (enginesRaw is List) {
           _availableEngines = enginesRaw.map((e) => e.toString()).toList();
         }
-        debugPrint('[TTS DIAGNOSTIC] Available engines: $_availableEngines');
+        debugPrint('[TTS] Engines: $_availableEngines');
       } catch (e) {
-        debugPrint('[TTS DIAGNOSTIC] getEngines error: $e');
+        debugPrint('[TTS] getEngines error: $e');
       }
 
       try {
         final defaultEng = await _tts.getDefaultEngine;
         _defaultEngine = defaultEng?.toString();
-        debugPrint('[TTS DIAGNOSTIC] Default engine: $_defaultEngine');
+        debugPrint('[TTS] Default engine: $_defaultEngine');
       } catch (e) {
-        debugPrint('[TTS DIAGNOSTIC] getDefaultEngine error: $e');
+        debugPrint('[TTS] getDefaultEngine error: $e');
       }
 
-      // Prefer Google TTS engine if available (com.google.android.tts)
-      if (_availableEngines.contains('com.google.android.tts')) {
-        try {
-          debugPrint('[TTS DIAGNOSTIC] Setting engine to com.google.android.tts...');
-          await _tts.setEngine('com.google.android.tts');
-        } catch (e) {
-          debugPrint('[TTS DIAGNOSTIC] setEngine error: $e');
-        }
-      }
-
-      // 2. Set default speech rate & pitch
+      // 2. Set default speech parameters
       try {
-        await _tts.setSpeechRate(0.45);
         await _tts.setVolume(1.0);
+        await _tts.setSpeechRate(0.45);
         await _tts.setPitch(1.0);
       } catch (e) {
-        debugPrint('[TTS DIAGNOSTIC] setSpeechRate/setPitch error: $e');
+        debugPrint('[TTS] Speech rate/pitch error: $e');
       }
 
       // 3. Attach handlers
       _tts.setStartHandler(() {
-        debugPrint('[TTS] START');
+        debugPrint('[TTS] START PLAYBACK');
         _isPlaying = true;
       });
 
       _tts.setCompletionHandler(() {
-        debugPrint('[TTS] COMPLETE');
+        debugPrint('[TTS] PLAYBACK COMPLETED');
         _isPlaying = false;
       });
 
       _tts.setCancelHandler(() {
-        debugPrint('[TTS] CANCELLED');
+        debugPrint('[TTS] PLAYBACK CANCELLED');
         _isPlaying = false;
       });
 
@@ -96,7 +86,7 @@ class TtsService {
       await refreshCapabilities();
       _initialized = true;
     } catch (e) {
-      debugPrint('[TTS DIAGNOSTIC] Init error: $e');
+      debugPrint('[TTS] Init error: $e');
     }
   }
 
@@ -107,7 +97,7 @@ class TtsService {
       if (langsRaw is List) {
         _availableLanguages = langsRaw.map((l) => l.toString()).toList();
       }
-      debugPrint('[TTS DIAGNOSTIC] Locales returned by getLanguages (${_availableLanguages.length}): $_availableLanguages');
+      debugPrint('[TTS] Languages count: ${_availableLanguages.length}');
 
       final voicesRaw = await _tts.getVoices;
       _availableVoices.clear();
@@ -122,20 +112,13 @@ class TtsService {
           }
         }
       }
-      debugPrint('[TTS DIAGNOSTIC] Total voices returned by getVoices: ${_availableVoices.length}');
-
-      // Log matching voices for each of the 5 AppLanguages
-      for (final lang in AppLanguage.values) {
-        final matches = _findVoicesForLang(lang);
-        debugPrint('[TTS DIAGNOSTIC] ${lang.label} voices found (${matches.length}): $matches');
-      }
+      debugPrint('[TTS] Voices count: ${_availableVoices.length}');
     } catch (e) {
-      debugPrint('[TTS DIAGNOSTIC] refreshCapabilities error: $e');
+      debugPrint('[TTS] refreshCapabilities error: $e');
     }
   }
 
   /// Find matching voices from `getVoices` for a given AppLanguage.
-  /// Normalizes '-' and '_' and matches primarily by language code (en, te, kn, hi, ta).
   List<Map<String, String>> _findVoicesForLang(AppLanguage lang) {
     final code = lang.code.toLowerCase(); // 'en', 'te', 'kn', 'hi', 'ta'
     return _availableVoices.where((v) {
@@ -150,7 +133,7 @@ class TtsService {
     try {
       await _tts.stop();
     } catch (e) {
-      debugPrint('[TTS DIAGNOSTIC] Stop error: $e');
+      debugPrint('[TTS] Stop error: $e');
     } finally {
       _isPlaying = false;
     }
@@ -165,113 +148,103 @@ class TtsService {
     await init();
     await stop();
 
-    final reqLangLabel = targetLang.label;
     final code = targetLang.code.toLowerCase(); // 'en', 'te', 'kn', 'hi', 'ta'
-    
-    debugPrint('[TTS] Requested language: $reqLangLabel (code: $code)');
+    final rawLocale = targetLang.ttsLocale; // 'te-IN', 'kn-IN', 'hi-IN', 'ta-IN', 'en-US'
+    final normalizedLocale = rawLocale.replaceAll('-', '_'); // 'te_IN', 'kn_IN', 'hi_IN', 'ta_IN', 'en_US'
 
-    // 1. Find matching voices from getVoices
+    debugPrint('[TTS] Requesting speak for ${targetLang.label} (locale: $normalizedLocale)');
+
+    // 1. Set Language Locale FIRST
+    bool langSupported = false;
+    try {
+      final res = await _tts.setLanguage(normalizedLocale);
+      debugPrint('[TTS] setLanguage ($normalizedLocale) result: $res');
+      if (res == 1 || res == true || res == 0) {
+        langSupported = true;
+      }
+    } catch (e) {
+      debugPrint('[TTS] setLanguage ($normalizedLocale) error: $e');
+    }
+
+    if (!langSupported) {
+      try {
+        final res = await _tts.setLanguage(code);
+        debugPrint('[TTS] setLanguage fallback ($code) result: $res');
+        if (res == 1 || res == true || res == 0) {
+          langSupported = true;
+        }
+      } catch (e) {
+        debugPrint('[TTS] setLanguage fallback error: $e');
+      }
+    }
+
+    // 2. Set Matching Voice if available
     final matchingVoices = _findVoicesForLang(targetLang);
-    debugPrint('[TTS] Available matching voices: $matchingVoices');
-
-    Map<String, String>? selectedVoice;
-    String selectedLocale = targetLang.ttsLocale; // Default fallback e.g. 'te-IN'
-
     if (matchingVoices.isNotEmpty) {
-      // Prefer an IN (India) voice if available
-      selectedVoice = matchingVoices.firstWhere(
+      final selectedVoice = matchingVoices.firstWhere(
         (v) => (v['locale']?.toLowerCase().contains('in') ?? false) ||
                (v['name']?.toLowerCase().contains('in') ?? false),
         orElse: () => matchingVoices.first,
       );
-      selectedLocale = selectedVoice['locale'] ?? targetLang.ttsLocale;
-    } else {
-      // Match from getLanguages list
-      final matchingLangStr = _availableLanguages.firstWhere(
-        (l) {
-          final normalized = l.toLowerCase().replaceAll('_', '-');
-          return normalized == code || normalized.startsWith('$code-') || normalized.contains('-$code');
-        },
-        orElse: () => targetLang.ttsLocale,
-      );
-      selectedLocale = matchingLangStr;
-    }
-
-    debugPrint('[TTS] Selected voice: $selectedVoice');
-    debugPrint('[TTS] Selected locale: $selectedLocale');
-
-    // 2. Set Voice if voice object available
-    dynamic setVoiceResult = 'N/A';
-    if (selectedVoice != null && selectedVoice['name']!.isNotEmpty) {
       try {
-        setVoiceResult = await _tts.setVoice({
+        await _tts.setVoice({
           'name': selectedVoice['name']!,
           'locale': selectedVoice['locale']!,
         });
-        debugPrint('[TTS] setVoice result: $setVoiceResult');
+        debugPrint('[TTS] Selected voice set: ${selectedVoice['name']}');
       } catch (e) {
         debugPrint('[TTS] setVoice error: $e');
-        setVoiceResult = 'ERROR: $e';
       }
     }
 
-    // 3. Set Language locale
-    dynamic setLangResult = 'N/A';
+    // 3. Configure audio parameters
     try {
-      setLangResult = await _tts.setLanguage(selectedLocale);
-      debugPrint('[TTS] setLanguage result: $setLangResult');
-    } catch (e) {
-      debugPrint('[TTS] setLanguage error: $e');
-      setLangResult = 'ERROR: $e';
-      // Fallback: try raw BCP-47 language code e.g. "te"
-      try {
-        setLangResult = await _tts.setLanguage(code);
-        debugPrint('[TTS] setLanguage fallback ($code) result: $setLangResult');
-      } catch (e2) {
-        debugPrint('[TTS] setLanguage fallback error: $e2');
-      }
-    }
-
-    // 4. Configure speech rate & pitch
-    try {
+      await _tts.setVolume(1.0);
       await _tts.setSpeechRate(0.45);
       await _tts.setPitch(1.0);
     } catch (_) {}
 
-    // 5. Speak text
-    debugPrint('[TTS] Text: "$text"');
-    dynamic speakResult = 'N/A';
+    // 4. Trigger Speech
+    debugPrint('[TTS] Speaking: "$text"');
     try {
-      speakResult = await _tts.speak(text);
-      debugPrint('[TTS] speak result: $speakResult');
-      return (speakResult == 1 || speakResult == true);
+      _isPlaying = true;
+      final speakResult = await _tts.speak(text);
+      debugPrint('[TTS] speak() returned: $speakResult');
+
+      if (speakResult == 1 || speakResult == true) {
+        return true;
+      } else {
+        _isPlaying = false;
+        return false;
+      }
     } catch (e) {
-      debugPrint('[TTS] ERROR: $e');
+      debugPrint('[TTS] speak() error: $e');
+      _isPlaying = false;
       return false;
     }
   }
 
-  /// Run direct TTS diagnostic tests for all 5 languages without ML Kit translation.
+  /// Run direct TTS diagnostic tests for all 5 languages.
   Future<Map<AppLanguage, bool>> runDirectDiagnosticTest() async {
     await init();
     final Map<AppLanguage, bool> results = {};
     final testPhrases = {
-      AppLanguage.english: 'Hello',
+      AppLanguage.english: 'Hello, welcome to Lifemate.',
       AppLanguage.telugu: 'నమస్కారం',
       AppLanguage.kannada: 'ನಮಸ್ಕಾರ',
       AppLanguage.hindi: 'नमस्ते',
       AppLanguage.tamil: 'வணக்கம்',
     };
 
-    debugPrint('[TTS DIAGNOSTIC] === RUNNING DIRECT TTS DIAGNOSTIC TEST FOR ALL 5 LANGUAGES ===');
+    debugPrint('[TTS DIAGNOSTIC] === RUNNING DIRECT TTS DIAGNOSTIC TEST ===');
     for (final entry in testPhrases.entries) {
       final lang = entry.key;
       final text = entry.value;
-      debugPrint('[TTS DIAGNOSTIC] Testing direct TTS for ${lang.label} ("$text")...');
+      debugPrint('[TTS DIAGNOSTIC] Testing direct TTS for ${lang.label}...');
       final ok = await speak(text: text, targetLang: lang);
       results[lang] = ok;
       debugPrint('[TTS DIAGNOSTIC] Direct TTS result for ${lang.label}: ${ok ? "PASS" : "FAIL"}');
-      await Future.delayed(const Duration(milliseconds: 1200));
+      await Future.delayed(const Duration(milliseconds: 1500));
     }
 
     return results;

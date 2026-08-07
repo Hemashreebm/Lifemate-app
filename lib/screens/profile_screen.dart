@@ -97,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('✍️… Backup data copied to clipboard! Save it safely.'),
+            content: Text('Backup data copied to clipboard. Save it safely.'),
             backgroundColor: Color(0xFF10B981),
           ),
         );
@@ -311,7 +311,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: _openEditProfile,
             icon: const Icon(Icons.edit_outlined, size: 18),
             label: Text(
-              _profileService.isCompleted ? '✍️ï¸ Edit Profile' : '✍️ï¸ Set Up Profile',
+              _profileService.isCompleted ? 'Edit Profile' : 'Set Up Profile',
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
             ),
             style: OutlinedButton.styleFrom(

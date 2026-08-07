@@ -31,10 +31,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     final name = ProfileService.instance.name.trim();
     final nameSuffix = name.isNotEmpty ? ', $name' : '';
     final hour = DateTime.now().hour;
-    if (hour >= 5  && hour < 12) return 'Good morning$nameSuffix 👋';
-    if (hour >= 12 && hour < 17) return 'Good afternoon$nameSuffix 👋';
-    if (hour >= 17 && hour < 21) return 'Good evening$nameSuffix 👋';
-    return 'Good night$nameSuffix 👋';
+    if (hour >= 5  && hour < 12) return 'Good morning$nameSuffix';
+    if (hour >= 12 && hour < 17) return 'Good afternoon$nameSuffix';
+    if (hour >= 17 && hour < 21) return 'Good evening$nameSuffix';
+    return 'Good night$nameSuffix';
   }
 
   @override
@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 color: Colors.white.withAlpha(51),
                 shape: BoxShape.circle,
               ),
-              child: const Text('🗣️', style: TextStyle(fontSize: 28)),
+              child: const Icon(Icons.record_voice_over_rounded, color: Colors.white, size: 28),
             ),
             const SizedBox(width: 14),
             const Expanded(
@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${f.title} — coming soon! 🚀'),
+                  content: Text('${f.title} — coming soon.'),
                   margin: const EdgeInsets.all(16),
                   duration: const Duration(seconds: 2),
                 ),
