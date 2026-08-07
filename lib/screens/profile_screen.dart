@@ -77,7 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _exportBackup() async {
     try {
       final backupData = {
-        'version': '1.0.0',
+        'version': '1.0.3',
         'exportDate': DateTime.now().toIso8601String(),
         'profile': {
           'name': _profileService.name,
@@ -469,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icons.info_outline_rounded,
             iconColor: const Color(0xFF06B6D4),
             title: 'About Lifemate',
-            subtitle: 'Version 1.0.0  Open-source edition',
+            subtitle: 'Version 1.0.3  Open-source edition',
             onTap: _showAboutDialog,
           ),
         ],
@@ -568,7 +568,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(height: 4),
             Text('Your personal everyday companion.', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
             SizedBox(height: 14),
-            Text('Version: 1.0.0\nAuthor: Hemashree B M', style: TextStyle(fontSize: 13, color: Color(0xFF334155))),
+            Text('Version: 1.0.3\nAuthor: Hemashree B M', style: TextStyle(fontSize: 13, color: Color(0xFF334155))),
           ],
         ),
         actions: [
