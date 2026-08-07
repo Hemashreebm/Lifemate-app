@@ -10,6 +10,7 @@ import '../services/ocr_bill_scanner_service.dart';
 import '../services/sms_expense_parser_service.dart';
 import 'add_edit_transaction_screen.dart';
 import 'voice_transaction_screen.dart';
+import 'sms_import_history_screen.dart';
 
 /// The Expense Tracker main dashboard.
 ///
@@ -335,6 +336,18 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
               ),
               const SizedBox(height: 12),
               OutlinedButton.icon(
+                onPressed: () {
+                  Navigator.pop(ctx);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SmsImportHistoryScreen()),
+                  );
+                },
+                icon: const Icon(Icons.history_rounded, size: 18),
+                label: const Text('View SMS Import History'),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
                 onPressed: () async {
                   final sample = SmsExpenseParserService.instance.parseSmsText(
                     'HDFCBK',
@@ -352,7 +365,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                   }
                 },
                 icon: const Icon(Icons.download_rounded, size: 18),
-                label: const Text('Import Recent Bank SMS'),
+                label: const Text('Import Sample Bank SMS'),
               ),
             ],
           ),
