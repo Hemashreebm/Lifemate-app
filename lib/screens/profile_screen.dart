@@ -236,10 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   border: Border.all(color: Colors.white.withAlpha(102), width: 2),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  _profileService.avatar,
-                  style: const TextStyle(fontSize: 34),
-                ),
+                child: _buildAvatarWidget(),
               ),
 
               const SizedBox(width: 16),
@@ -325,6 +322,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAvatarWidget() {
+    final photoUrl = AuthService.instance.currentUserPhotoUrl;
+    if (photoUrl != null && photoUrl.isNotEmpty) {
+      return CircleAvatar(
+        radius: 34,
+        backgroundImage: NetworkImage(photoUrl),
+        backgroundColor: Colors.white.withAlpha(51),
+      );
+    }
+
+    final avatarStr = _profileService.avatar.trim();
+    // If custom single emoji/icon string (not 'Profile', 'Student', 'Professional' labels)
+    if (avatarStr.isNotEmpty &&
+        avatarStr != 'Profile' &&
+        avatarStr != 'Student' &&
+        avatarStr != 'Professional' &&
+        avatarStr != 'Default' &&
+        avatarStr.length <= 2) {
+      return FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          avatarStr,
+          style: const TextStyle(fontSize: 32),
+        ),
+      );
+    }
+
+    // Extract user initials from name (e.g. "Hemashree B M" -> "HB")
+    final name = _profileService.name.trim();
+    String initials = '';
+    if (name.isNotEmpty) {
+      final parts = name.split(RegExp(r'\s+'));
+      if (parts.length >= 2) {
+        initials = '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+      } else if (parts.isNotEmpty && parts[0].isNotEmpty) {
+        initials = parts[0].substring(0, parts[0].length >= 2 ? 2 : 1).toUpperCase();
+      }
+    }
+
+    if (initials.isNotEmpty && initials != 'PR' && initials != 'PRO') {
+      return Text(
+        initials,
+        style: const TextStyle(
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      );
+    }
+
+    return const Icon(
+      Icons.person_rounded,
+      size: 38,
+      color: Colors.white,
     );
   }
 
