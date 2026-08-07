@@ -11,6 +11,12 @@ import 'conversation_simulator_screen.dart';
 import 'interview_prep_screen.dart';
 import 'public_speaking_coach_screen.dart';
 import 'writing_assistant_screen.dart';
+import 'daily_speaking_practice_screen.dart';
+import 'pronunciation_lab_screen.dart';
+import 'group_discussion_trainer_screen.dart';
+import 'reading_listening_coach_screen.dart';
+import 'communication_dashboard_screen.dart';
+import 'coach_settings_screen.dart';
 
 /// Gamified Communication Coach Screen
 ///
@@ -130,20 +136,50 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 28),
 
                   //  Practice Modes & Learning Modules 
-                  const Text(
-                    'Learning Modules & Tools',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF1E293B),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'PRO Modules & Practice Tools',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF1E293B),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.analytics_rounded, color: _purpleAccent),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const CommunicationDashboardScreen()),
+                          );
+                        },
+                        tooltip: 'Communication Dashboard & Progress',
+                      ),
+                    ],
                   ),
 
                   const SizedBox(height: 12),
 
                   _buildPracticeModeCard(
+                    icon: Icons.mic_rounded,
+                    title: '1. Daily Speaking Practice',
+                    subtitle: 'Topic of the day, 5-min task & AI streak evaluation',
+                    color: const Color(0xFFEA580C),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const DailySpeakingPracticeScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
                     icon: Icons.local_fire_department_rounded,
-                    title: '1. Daily English Challenge',
+                    title: '2. Daily English Challenge',
                     subtitle: '5 new words, pronunciations, audio, meanings & quiz',
                     color: const Color(0xFFD97706),
                     onTap: () {
@@ -157,9 +193,24 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 10),
 
                   _buildPracticeModeCard(
+                    icon: Icons.record_voice_over_rounded,
+                    title: '3. Pronunciation Lab',
+                    subtitle: 'Word, sentence, paragraph, tongue twisters & IPA guide',
+                    color: const Color(0xFF7C3AED),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const PronunciationLabScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
                     icon: Icons.spellcheck_rounded,
-                    title: '2. Grammar Coach',
-                    subtitle: 'Tenses, Articles, Prepositions & Sentence Rules',
+                    title: '4. Grammar Master',
+                    subtitle: 'Tenses, Articles, Prepositions, Voice & Conjunctions',
                     color: const Color(0xFF2563EB),
                     onTap: () {
                       Navigator.push(
@@ -173,8 +224,8 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   _buildPracticeModeCard(
                     icon: Icons.menu_book_rounded,
-                    title: '3. Vocabulary Builder',
-                    subtitle: 'Office, Tech, Travel, Business & Saved Favorite words',
+                    title: '5. Vocabulary Master',
+                    subtitle: 'Business, Tech, Engineering, Medical & Saved Words',
                     color: const Color(0xFF10B981),
                     onTap: () {
                       Navigator.push(
@@ -187,24 +238,9 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 10),
 
                   _buildPracticeModeCard(
-                    icon: Icons.volume_up_rounded,
-                    title: '4. Pronunciation Practice',
-                    subtitle: 'Listen, repeat & improve speech accuracy score',
-                    color: const Color(0xFF7C3AED),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const PronunciationPracticeScreen()),
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  _buildPracticeModeCard(
                     icon: Icons.forum_rounded,
-                    title: '5. Conversation Simulator',
-                    subtitle: 'Restaurant, Airport, Hotel, Hospital & Shopping AI roleplay',
+                    title: '6. AI Conversation Partner',
+                    subtitle: 'Student, Teacher, HR, Doctor, Police & Staff roleplay',
                     color: const Color(0xFF0284C7),
                     onTap: () {
                       Navigator.push(
@@ -218,9 +254,9 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   _buildPracticeModeCard(
                     icon: Icons.business_center_rounded,
-                    title: '6. Interview Preparation',
-                    subtitle: 'HR, Technical, Self Intro & GD voice practice with AI feedback',
-                    color: const Color(0xFFEA580C),
+                    title: '7. HR Interview Trainer',
+                    subtitle: 'Mock rounds with Confidence, Grammar & Communication score',
+                    color: const Color(0xFFD97706),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -232,9 +268,24 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 10),
 
                   _buildPracticeModeCard(
-                    icon: Icons.record_voice_over_rounded,
-                    title: '7. Public Speaking Coach',
-                    subtitle: 'Analyze speaking speed (WPM), fillers & confidence',
+                    icon: Icons.groups_rounded,
+                    title: '8. Group Discussion Trainer',
+                    subtitle: 'AI topics, Climate Change, Tech & Women Empowerment',
+                    color: const Color(0xFF4F46E5),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const GroupDiscussionTrainerScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.graphic_eq_rounded,
+                    title: '9. Public Speaking Trainer',
+                    subtitle: '1, 3, 5-min speeches with pace WPM, fillers & confidence',
                     color: const Color(0xFF9333EA),
                     onTap: () {
                       Navigator.push(
@@ -247,14 +298,59 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                   const SizedBox(height: 10),
 
                   _buildPracticeModeCard(
+                    icon: Icons.menu_book_outlined,
+                    title: '10. Reading & Listening Coach',
+                    subtitle: 'Passages read aloud + Audio comprehension quizzes',
+                    color: const Color(0xFF0284C7),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ReadingListeningCoachScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
                     icon: Icons.edit_note_rounded,
-                    title: '8. Writing Assistant',
-                    subtitle: 'Instant grammar & sentence proofreader with explanations',
+                    title: '11. Writing Coach',
+                    subtitle: 'Grammar, spelling, sentence & email proofreading',
                     color: const Color(0xFF059669),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const WritingAssistantScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.insights_rounded,
+                    title: '12. Communication Dashboard & Certificates',
+                    subtitle: 'Overall score breakdown, Certificates & Weak Area AI Tips',
+                    color: const Color(0xFF7C3AED),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CommunicationDashboardScreen()),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _buildPracticeModeCard(
+                    icon: Icons.settings_suggest_rounded,
+                    title: '13. Settings & Reminders',
+                    subtitle: 'Voice speed, daily reminder times & offline download quality',
+                    color: const Color(0xFF64748B),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CoachSettingsScreen()),
                       );
                     },
                   ),
