@@ -289,7 +289,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active ÂÂ' : 'Local Only ',
+                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active' : 'Local Only',
                             style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
                           ),
                         ),
