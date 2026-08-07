@@ -239,7 +239,7 @@ class SmsExpenseParserService {
   Future<bool> importParsedSms(ParsedSmsTransaction smsTx) async {
     try {
       // Prevent Duplicate Import
-      final existingTx = TransactionService.instance.transactions.firstWhere(
+      final existingTx = TransactionService.instance.all.firstWhere(
         (t) => t.smsReference == smsTx.smsReference ||
                (t.amount == smsTx.amount &&
                 t.date.day == smsTx.date.day &&
