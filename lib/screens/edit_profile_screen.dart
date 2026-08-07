@@ -143,50 +143,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: Text(
-                        _selectedAvatar,
-                        style: const TextStyle(fontSize: 42),
+                      child: const Icon(
+                        Icons.person_rounded,
+                        size: 42,
+                        color: _purpleAccent,
                       ),
                     ),
                     const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      alignment: WrapAlignment.center,
-                      children: _avatars.map((emoji) {
-                        final isSelected = emoji == _selectedAvatar;
-                        return GestureDetector(
-                          onTap: () => setState(() => _selectedAvatar = emoji),
-                          child: Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                              color: isSelected
-                                  ? _purpleAccent.withAlpha(38)
-                                  : Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: isSelected
-                                    ? _purpleAccent
-                                    : const Color(0xFFE2E8F0),
-                                width: isSelected ? 2 : 1,
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              emoji,
-                              style: const TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                    const SizedBox(height: 8),
-                    TextButton(
-                      onPressed: () => setState(() => _selectedAvatar = 'Profile'),
-                      child: const Text(
-                        'Use default avatar',
-                        style: TextStyle(color: _purpleAccent, fontSize: 13),
+                    TextButton.icon(
+                      onPressed: () => setState(() => _selectedAvatar = 'Default'),
+                      icon: const Icon(Icons.refresh_rounded, size: 16),
+                      label: const Text(
+                        'Reset to Default Avatar',
+                        style: TextStyle(color: _purpleAccent, fontSize: 13, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
