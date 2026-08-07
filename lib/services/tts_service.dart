@@ -133,7 +133,7 @@ class TtsService {
   /// Speak `text` using target language locale.
   Future<bool> speak({
     required String text,
-    required AppLanguage targetLang,
+    AppLanguage targetLang = AppLanguage.english,
   }) async {
     if (text.trim().isEmpty) return false;
     await init();

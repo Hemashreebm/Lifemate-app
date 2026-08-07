@@ -102,7 +102,7 @@ class _VocabularyBuilderScreenState extends State<VocabularyBuilderScreen> {
                                     const SizedBox(width: 8),
                                     IconButton(
                                       icon: const Icon(Icons.volume_up_rounded, color: _purpleAccent, size: 22),
-                                      onPressed: () => TtsService.instance.speak(word.word, language: 'en-US'),
+                                      onPressed: () => TtsService.instance.speak(text: word.word),
                                       tooltip: 'Listen Pronunciation',
                                     ),
                                   ],

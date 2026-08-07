@@ -58,7 +58,7 @@ class _ConversationSimulatorScreenState extends State<ConversationSimulatorScree
     });
 
     try {
-      final prompt = 'Roleplay as a native English conversation partner in a $scenarioName scenario. Respond naturally, politely, and keep your reply under 2-3 sentences. User said: "$text"';
+      final prompt = 'Roleplay as a native English conversation partner in a $_selectedScenario scenario. Respond naturally, politely, and keep your reply under 2-3 sentences. User said: "$text"';
       final response = await AiAssistantService.instance.sendMessage(prompt);
 
       if (mounted) {
@@ -66,7 +66,7 @@ class _ConversationSimulatorScreenState extends State<ConversationSimulatorScree
           _messages.add({'role': 'assistant', 'content': response});
           _isSending = false;
         });
-        TtsService.instance.speak(response, language: 'en-US');
+        TtsService.instance.speak(text: response);
       }
     } catch (e) {
       if (mounted) {

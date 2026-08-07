@@ -170,7 +170,7 @@ class _InterviewPrepScreenState extends State<InterviewPrepScreen> {
             const SizedBox(height: 8),
             Container(
               width: double.infinity,
-              minHeight: 120,
+              constraints: const BoxConstraints(minHeight: 120),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFCBD5E1))),
               child: Text(

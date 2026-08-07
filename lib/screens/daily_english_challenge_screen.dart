@@ -166,7 +166,7 @@ class _DailyEnglishChallengeScreenState extends State<DailyEnglishChallengeScree
               const SizedBox(width: 10),
               IconButton(
                 icon: const Icon(Icons.volume_up_rounded, color: _purpleAccent, size: 28),
-                onPressed: () => TtsService.instance.speak(word.word, language: 'en-US'),
+                onPressed: () => TtsService.instance.speak(text: word.word),
                 tooltip: 'Pronounce Word',
               ),
             ],
