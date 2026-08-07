@@ -10,6 +10,7 @@ import 'tasks_screen.dart';
 import 'location_screen.dart';
 import 'translation_screen.dart';
 import 'communication_coach_screen.dart';
+import 'citizen_services_screen.dart';
 
 /// The main home screen of Lifemate.
 ///
@@ -108,17 +109,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
             const SizedBox(height: 16),
 
-            //  Temporary Build Diagnostic Marker 
-            const Center(
-              child: Text(
-                'Build check: Coach Card v1',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF94A3B8),
-                ),
-              ),
-            ),
+            //  Citizen Services Hero Card 
+            _buildCitizenServicesCard(context),
 
             const SizedBox(height: 32),
           ],
@@ -367,6 +359,75 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
           ),
         ),
       ],
+    );
+  }
+
+  /// Citizen Services hero card shown between features and expense tracker.
+  Widget _buildCitizenServicesCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const CitizenServicesScreen()),
+      ),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6B35), Color(0xFF138808)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF6B35).withAlpha(60),
+              blurRadius: 14,
+              offset: const Offset(0, 5),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Colors.white.withAlpha(40),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.account_balance_rounded,
+                  color: Colors.white, size: 26),
+            ),
+            const SizedBox(width: 14),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '🇮🇳 Citizen Services Hub',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 3),
+                  Text(
+                    'Govt schemes, helplines & digital services',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Color(0xFFDDFFDD),
+                      height: 1.3,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Icon(Icons.arrow_forward_ios_rounded,
+                color: Colors.white, size: 16),
+          ],
+        ),
+      ),
     );
   }
 
