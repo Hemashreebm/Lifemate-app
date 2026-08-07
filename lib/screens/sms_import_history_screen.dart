@@ -31,7 +31,7 @@ class _SmsImportHistoryScreenState extends State<SmsImportHistoryScreen> {
     if (mounted) {
       setState(() {
         _smsTransactions = TransactionService.instance.all
-            .where((t) => t.source == 'sms' || t.smsReference.isNotEmpty)
+            .where((t) => t.source == 'sms' || (t.smsReference?.isNotEmpty ?? false))
             .toList();
         _smsTransactions.sort((a, b) => b.date.compareTo(a.date));
         _isLoading = false;
@@ -69,7 +69,7 @@ class _SmsImportHistoryScreenState extends State<SmsImportHistoryScreen> {
   Future<void> _editTransaction(Transaction tx) async {
     final result = await Navigator.push<bool>(
       context,
-      MaterialPageRoute(builder: (_) => AddEditTransactionScreen(transaction: tx)),
+      MaterialPageRoute(builder: (_) => AddEditTransactionScreen(existing: tx)),
     );
 
     if (result == true) {
