@@ -89,7 +89,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
   @override
   void dispose() {
     _speech.stop();
-    _tts.stop();
+    TtsService.instance.stop();
     _scrollCtrl.dispose();
     super.dispose();
   }
