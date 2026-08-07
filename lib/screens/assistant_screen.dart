@@ -6,6 +6,7 @@ import '../services/diary_service.dart';
 import '../services/transaction_service.dart';
 import '../services/tts_service.dart';
 import '../services/translation_service.dart';
+import '../services/ai_memory_service.dart';
 import '../theme/app_theme.dart';
 
 /// Intelligent Lifemate AI Assistant screen.
@@ -68,7 +69,33 @@ class _AssistantScreenState extends State<AssistantScreen> {
         ? ProfileService.instance.name
         : 'Friend';
 
-    if (lower.contains('task') || lower.contains('todo') || lower.contains('do')) {
+    // 1. Explicit Memory Ingestion ("remember that ...")
+    if (lower.startsWith('remember ') || lower.contains('remember that ') || lower.contains('my favorite ') || lower.contains('my nickname is ')) {
+      String key = 'Preference';
+      String val = query;
+
+      if (lower.contains('favorite food is ')) {
+        key = 'Favorite Food';
+        val = query.substring(query.toLowerCase().indexOf('favorite food is ') + 17).trim();
+      } else if (lower.contains('nickname is ')) {
+        key = 'Nickname';
+        val = query.substring(query.toLowerCase().indexOf('nickname is ') + 12).trim();
+      } else if (lower.startsWith('remember ')) {
+        key = 'Fact';
+        val = query.substring(9).trim();
+      }
+
+      await AiMemoryService.instance.remember(key: key, value: val);
+      response = 'Got it, $userName! I have stored "$val" in my AI Memory.';
+    } else if (lower.contains('what do you remember') || lower.contains('show memory') || lower.contains('my preferences')) {
+      final facts = AiMemoryService.instance.allFacts;
+      if (facts.isEmpty) {
+        response = 'I don\'t have any specific facts stored in my AI Memory yet, $userName. Tell me things like "Remember my favorite food is Biryani" or "My nickname is Hema"!';
+      } else {
+        final list = facts.values.map((f) => '${f.key}: ${f.value}').join(', ');
+        response = 'Here is what I remember about you, $userName: $list.';
+      }
+    } else if (lower.contains('task') || lower.contains('todo') || lower.contains('do')) {
       final tasks = TaskService.instance.all;
       final pending = tasks.where((t) => !t.isCompleted).length;
       if (tasks.isEmpty) {
@@ -99,7 +126,14 @@ class _AssistantScreenState extends State<AssistantScreen> {
       affirmations.shuffle();
       response = affirmations.first;
     } else {
-      response = 'That\'s a great question, $userName! Lifemate is actively syncing your tasks, diary entries, and expenses in real-time to keep your life balanced.';
+      final memoryContext = AiMemoryService.instance.buildSystemContextPrompt();
+      response = 'That\'s a great question, $userName! Lifemate is actively syncing your tasks, diary entries, expenses, and AI memory facts in real-time to keep your life balanced.';
+      if (memoryContext.isNotEmpty) {
+        final fav = AiMemoryService.instance.getFact('Favorite Food');
+        if (fav != null) {
+          response += ' By the way, hope you get to enjoy some $fav today!';
+        }
+      }
     }
 
     await Future.delayed(const Duration(milliseconds: 600));
