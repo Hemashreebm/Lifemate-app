@@ -32,7 +32,7 @@ class DailyConversationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // â”€â”€ Top Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Top Banner 
             _buildHeaderBanner(),
 
             const SizedBox(height: 24),
@@ -48,7 +48,7 @@ class DailyConversationScreen extends StatelessWidget {
 
             const SizedBox(height: 14),
 
-            // â”€â”€ Scenario List / Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Scenario List / Grid 
             ListView.separated(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -94,7 +94,7 @@ class DailyConversationScreen extends StatelessWidget {
               color: Colors.white.withAlpha(51),
               shape: BoxShape.circle,
             ),
-            child: const Text('💬', style: TextStyle(fontSize: 32)),
+            child: const Text('', style: TextStyle(fontSize: 32)),
           ),
           const SizedBox(width: 16),
           const Expanded(

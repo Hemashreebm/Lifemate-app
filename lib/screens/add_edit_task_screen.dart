@@ -55,7 +55,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     super.dispose();
   }
 
-  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Actions 
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -173,7 +173,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     }
   }
 
-  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build UI 
 
   @override
   Widget build(BuildContext context) {
@@ -298,7 +298,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
     );
   }
 
-  // â”€â”€ Helper Component Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Helper Component Builders 
 
   Widget _buildSectionLabel(String label) {
     return Text(
@@ -528,7 +528,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.alarm_on_rounded, size: 22, color: Color(0xFFEF4444)),
                           const SizedBox(height: 4),
                           Text(
-                            'â° Ringing Alarm',
+                            'Â° Ringing Alarm',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.ringing
@@ -572,7 +572,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.notifications_active_rounded, size: 22, color: Color(0xFF3B82F6)),
                           const SizedBox(height: 4),
                           Text(
-                            '🔔 Normal Chime',
+                            ' Normal Chime',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.normal

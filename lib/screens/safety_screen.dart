@@ -5,7 +5,7 @@ import '../models/trusted_contact.dart';
 import '../services/location_service.dart';
 import '../services/safety_service.dart';
 
-/// Screen for Smart Location Phase 2 — Safety & SOS
+/// Screen for Smart Location Phase 2  Safety & SOS
 class SafetyScreen extends StatefulWidget {
   const SafetyScreen({super.key});
 
@@ -52,7 +52,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     }
   }
 
-  // â”€â”€ SOS Trigger â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  SOS Trigger 
 
   Future<void> _triggerSOS() async {
     final confirm = await showDialog<bool>(
@@ -164,7 +164,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
                       title: Text(contact.name, style: const TextStyle(fontWeight: FontWeight.w700)),
                       subtitle: Text(
                         contact.relationship.isNotEmpty
-                            ? '${contact.relationship} • ${contact.phoneNumber}'
+                            ? '${contact.relationship}  ${contact.phoneNumber}'
                             : contact.phoneNumber,
                       ),
                       trailing: Row(
@@ -198,7 +198,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     );
   }
 
-  // â”€â”€ Quick Call â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Quick Call 
 
   Future<void> _confirmCallContact(TrustedContact contact) async {
     if (contact.phoneNumber.trim().isEmpty) {
@@ -238,7 +238,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     }
   }
 
-  // â”€â”€ Share Emergency Message â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Share Emergency Message 
 
   Future<void> _openShareMessageDialog({TrustedContact? targetContact}) async {
     final lat = _emergencyPos?.latitude ?? 0.0;
@@ -300,7 +300,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     }
   }
 
-  // â”€â”€ Contact Dialogs (Add & Edit) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Contact Dialogs (Add & Edit) 
 
   Future<void> _showAddEditContactDialog({TrustedContact? existing}) async {
     final nameCtrl = TextEditingController(text: existing?.name ?? '');
@@ -424,31 +424,31 @@ class _SafetyScreenState extends State<SafetyScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // â”€â”€ Header Subtitle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Header Subtitle 
             const Text(
               'Help when you need it.',
               style: TextStyle(fontSize: 13, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 20),
 
-            // â”€â”€ ðŸ†˜ Large SOS Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Large SOS Button 
             _buildSOSButtonCard(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ ðŸ“ Emergency Location Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Emergency Location Card 
             _buildEmergencyLocationCard(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ ðŸ‘¥ Trusted Contacts Header & List â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Trusted Contacts Header & List 
             _buildTrustedContactsHeader(),
             const SizedBox(height: 12),
             _buildTrustedContactsList(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ 🔒 Privacy Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Privacy Banner 
             _buildPrivacyBanner(),
 
             const SizedBox(height: 32),
@@ -458,7 +458,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
     );
   }
 
-  // â”€â”€ Section Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section Builders 
 
   Widget _buildSOSButtonCard() {
     return Container(
@@ -561,7 +561,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
           if (_emergencyPos != null) ...[
             const SizedBox(height: 4),
             Text(
-              'Lat: ${_emergencyPos!.latitude.toStringAsFixed(6)} • Lng: ${_emergencyPos!.longitude.toStringAsFixed(6)} (Â±${_emergencyPos!.accuracy.round()} m)',
+              'Lat: ${_emergencyPos!.latitude.toStringAsFixed(6)}  Lng: ${_emergencyPos!.longitude.toStringAsFixed(6)} (${_emergencyPos!.accuracy.round()} m)',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
           ],
@@ -604,7 +604,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
-          'ðŸ‘¥ Trusted Contacts',
+          ' Trusted Contacts',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1A1A2E)),
         ),
         TextButton.icon(
@@ -657,7 +657,7 @@ class _SafetyScreenState extends State<SafetyScreen> {
             ),
             title: Text(c.name, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E))),
             subtitle: Text(
-              c.relationship.isNotEmpty ? '${c.relationship} • ${c.phoneNumber}' : c.phoneNumber,
+              c.relationship.isNotEmpty ? '${c.relationship}  ${c.phoneNumber}' : c.phoneNumber,
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             trailing: Row(

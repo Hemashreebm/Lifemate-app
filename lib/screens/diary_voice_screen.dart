@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'diary_editor_screen.dart';
 
-/// "Speak to Diary 🎤" screen.
+/// "Speak to Diary " screen.
 ///
 /// Uses the app's existing `speech_to_text` dependency to record speech,
 /// convert it to text, and pass it into the editor screen for review and saving.
@@ -20,7 +20,7 @@ class _DiaryVoiceScreenState extends State<DiaryVoiceScreen>
 
   bool _isListening = false;
   bool _speechAvailable = false;
-  String _statusMessage = 'Tap the microphone and start speaking…';
+  String _statusMessage = 'Tap the microphone and start speaking';
 
   late AnimationController _animCtrl;
   late Animation<double> _pulseAnim;
@@ -63,7 +63,7 @@ class _DiaryVoiceScreenState extends State<DiaryVoiceScreen>
             setState(() {
               _isListening = false;
               if (_textCtrl.text.isEmpty) {
-                _statusMessage = 'Tap mic to speak your memory…';
+                _statusMessage = 'Tap mic to speak your memory';
               }
             });
             _animCtrl.stop();
@@ -92,7 +92,7 @@ class _DiaryVoiceScreenState extends State<DiaryVoiceScreen>
     } else {
       setState(() {
         _isListening = true;
-        _statusMessage = '🎤 Listening… Speak your memory clearly.';
+        _statusMessage = ' Listening Speak your memory clearly.';
       });
       _animCtrl.repeat(reverse: true);
 

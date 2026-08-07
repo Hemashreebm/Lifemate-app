@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/task_item.dart';
 import '../services/task_service.dart';
 import '../services/notification_service.dart';
@@ -91,7 +91,7 @@ class _TasksScreenState extends State<TasksScreen>
     }
   }
 
-  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build UI 
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class _TasksScreenState extends State<TasksScreen>
                 ),
               ),
 
-            // â”€â”€ Top Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Top Header 
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
               child: Row(
@@ -186,7 +186,7 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ),
 
-            // â”€â”€ Filter Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Filter Tabs 
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
               decoration: BoxDecoration(
@@ -211,7 +211,7 @@ class _TasksScreenState extends State<TasksScreen>
               ),
             ),
 
-            // â”€â”€ Tab Bar Views â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Tab Bar Views 
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
@@ -311,7 +311,7 @@ class _TasksScreenState extends State<TasksScreen>
   }
 }
 
-// â”€â”€ Reusable Task Card Item â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  Reusable Task Card Item 
 
 class _TaskTile extends StatelessWidget {
   final TaskItem task;

@@ -55,7 +55,7 @@ class LocationService {
 
   List<SavedPlace> get savedPlaces => List.unmodifiable(_savedPlaces);
 
-  // ── Permission & Status Check ─────────────────────────────────────────────
+  //  Permission & Status Check 
 
   /// Verify location permissions and device GPS enablement.
   Future<LocationStatus> checkStatus() async {
@@ -100,7 +100,7 @@ class LocationService {
     await Geolocator.openLocationSettings();
   }
 
-  // ── Single-Shot Location Retrieval ────────────────────────────────────────
+  //  Single-Shot Location Retrieval 
 
   /// Get current GPS position on-demand. Returns null if service/permission disabled.
   Future<Position?> getCurrentPosition() async {
@@ -203,7 +203,7 @@ class LocationService {
     }
   }
 
-  // ── Open in Maps ──────────────────────────────────────────────────────────
+  //  Open in Maps 
 
   /// Open coordinates in native Google Maps app or installed maps application.
   Future<bool> openInMaps(double lat, double lng, {String? label}) async {
@@ -254,7 +254,7 @@ class LocationService {
     return false;
   }
 
-  // ── Saved Places Storage ──────────────────────────────────────────────────
+  //  Saved Places Storage 
 
   /// Load all saved places from SharedPreferences.
   Future<void> loadSavedPlaces() async {

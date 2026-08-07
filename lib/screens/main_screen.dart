@@ -60,8 +60,8 @@ class _MainScreenState extends State<MainScreen> {
           ],
         ),
         content: const Text(
-          'To make sure your task reminders arrive on time — even when '
-          'Lifemate is in the background — please tap "Allow" on the next '
+          'To make sure your task reminders arrive on time  even when '
+          'Lifemate is in the background  please tap "Allow" on the next '
           'screen to exempt Lifemate from battery optimization.\n\n'
           'Without this, your phone\'s battery saver may delay or block notifications.',
         ),

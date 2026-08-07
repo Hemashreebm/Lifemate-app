@@ -17,38 +17,38 @@ class CategoryInfo {
 /// Central registry of all Lifemate expense and income categories.
 ///
 /// To add a new category: append a [CategoryInfo] to the relevant list.
-/// No other code changes are needed — all screens read from these lists.
+/// No other code changes are needed  all screens read from these lists.
 class TransactionCategories {
   TransactionCategories._(); // Static use only
 
-  // ── Expense categories ────────────────────────────────────────────────────
+  //  Expense categories 
 
   static const List<CategoryInfo> expense = [
-    CategoryInfo(name: 'Food',          emoji: '🍔', color: Color(0xFFFF6B6B)),
-    CategoryInfo(name: 'Transport',     emoji: '🚕', color: Color(0xFF4ECDC4)),
-    CategoryInfo(name: 'Shopping',      emoji: '🛍️', color: Color(0xFFFFBE0B)),
-    CategoryInfo(name: 'Bills',         emoji: '📱', color: Color(0xFF3B82F6)),
-    CategoryInfo(name: 'Education',     emoji: '🎓', color: Color(0xFF8B5CF6)),
-    CategoryInfo(name: 'Health',        emoji: '🏥', color: Color(0xFF10B981)),
-    CategoryInfo(name: 'Entertainment', emoji: '🎬', color: Color(0xFFF97316)),
-    CategoryInfo(name: 'Home',          emoji: '🏠', color: Color(0xFF6B7280)),
-    CategoryInfo(name: 'Other',         emoji: '💸', color: Color(0xFF9E9E9E)),
+    CategoryInfo(name: 'Food',          emoji: '', color: Color(0xFFFF6B6B)),
+    CategoryInfo(name: 'Transport',     emoji: '', color: Color(0xFF4ECDC4)),
+    CategoryInfo(name: 'Shopping',      emoji: '', color: Color(0xFFFFBE0B)),
+    CategoryInfo(name: 'Bills',         emoji: '', color: Color(0xFF3B82F6)),
+    CategoryInfo(name: 'Education',     emoji: '', color: Color(0xFF8B5CF6)),
+    CategoryInfo(name: 'Health',        emoji: '', color: Color(0xFF10B981)),
+    CategoryInfo(name: 'Entertainment', emoji: '', color: Color(0xFFF97316)),
+    CategoryInfo(name: 'Home',          emoji: '', color: Color(0xFF6B7280)),
+    CategoryInfo(name: 'Other',         emoji: '', color: Color(0xFF9E9E9E)),
   ];
 
-  // ── Income categories ─────────────────────────────────────────────────────
+  //  Income categories 
 
   static const List<CategoryInfo> income = [
-    CategoryInfo(name: 'Salary',      emoji: '💼', color: Color(0xFF10B981)),
-    CategoryInfo(name: 'Freelance',   emoji: '💻', color: Color(0xFF3B82F6)),
-    CategoryInfo(name: 'Scholarship', emoji: '🎓', color: Color(0xFF8B5CF6)),
-    CategoryInfo(name: 'Gift',        emoji: '🎁', color: Color(0xFFFF6B6B)),
-    CategoryInfo(name: 'Allowance',   emoji: '💰', color: Color(0xFFFFBE0B)),
-    CategoryInfo(name: 'Refund',      emoji: '↩️', color: Color(0xFF4ECDC4)),
-    CategoryInfo(name: 'Investment',  emoji: '📈', color: Color(0xFF6B7FD7)),
-    CategoryInfo(name: 'Other',       emoji: '💵', color: Color(0xFF9E9E9E)),
+    CategoryInfo(name: 'Salary',      emoji: '', color: Color(0xFF10B981)),
+    CategoryInfo(name: 'Freelance',   emoji: '', color: Color(0xFF3B82F6)),
+    CategoryInfo(name: 'Scholarship', emoji: '', color: Color(0xFF8B5CF6)),
+    CategoryInfo(name: 'Gift',        emoji: '', color: Color(0xFFFF6B6B)),
+    CategoryInfo(name: 'Allowance',   emoji: '', color: Color(0xFFFFBE0B)),
+    CategoryInfo(name: 'Refund',      emoji: '¸', color: Color(0xFF4ECDC4)),
+    CategoryInfo(name: 'Investment',  emoji: '', color: Color(0xFF6B7FD7)),
+    CategoryInfo(name: 'Other',       emoji: '', color: Color(0xFF9E9E9E)),
   ];
 
-  // ── Helpers ───────────────────────────────────────────────────────────────
+  //  Helpers 
 
   /// Return the category list for the given transaction type.
   static List<CategoryInfo> forType(TransactionType type) =>

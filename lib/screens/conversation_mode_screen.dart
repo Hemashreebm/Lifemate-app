@@ -5,7 +5,7 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import '../services/translation_service.dart';
 import '../services/tts_service.dart';
 
-// â”€â”€â”€ Data Models â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  Data Models 
 
 /// Which person is currently the active speaker.
 enum _Speaker { personA, personB }
@@ -29,9 +29,9 @@ class _ConvMessage {
   });
 }
 
-// ——— Screen —————————————————————————————————————————————————————————————————
+//  Screen 
 
-/// Phase 2 — Conversation Mode (Optimized STT/TTS & Zero-Delay Flow).
+/// Phase 2  Conversation Mode (Optimized STT/TTS & Zero-Delay Flow).
 class ConversationModeScreen extends StatefulWidget {
   const ConversationModeScreen({super.key});
 
@@ -40,18 +40,18 @@ class ConversationModeScreen extends StatefulWidget {
 }
 
 class _ConversationModeScreenState extends State<ConversationModeScreen> {
-  // ——— Services —————————————————————————————————————————————————————————————
+  //  Services 
   final _transSvc = TranslationService.instance;
   final _speech = stt.SpeechToText();
 
-  // ——— Language pair ————————————————————————————————————————————————————————
+  //  Language pair 
   AppLanguage _langA = AppLanguage.telugu;  // Person A default
   AppLanguage _langB = AppLanguage.english; // Person B default
 
-  // ——— Conversation history (in-memory) ——————————————————————————————————————
+  //  Conversation history (in-memory) 
   final List<_ConvMessage> _messages = [];
 
-  // ——— Lifecycle & Busy state ———————————————————————————————————————————————
+  //  Lifecycle & Busy state 
   _Speaker? _activeSpk;           // who is currently speaking (null = idle)
   bool _isSpeaking   = false;     // TTS is currently playing
   bool _isListening  = false;     // STT is active
@@ -60,7 +60,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
   String _statusText = '';        // banner text while busy
   String _dlText = '';            // download status text
 
-  // ——— Cached STT / TTS Capabilities (Loaded ONCE at init) ——————————————————
+  //  Cached STT / TTS Capabilities (Loaded ONCE at init) 
   bool _speechInitialized = false;
   int _sttInitDurationMs = 0;
   final Map<AppLanguage, stt.LocaleName> _cachedSttLocales = {};
@@ -69,16 +69,16 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
   // Track which message is currently being replayed (index or -1)
   int _replayingIndex = -1;
 
-  // â”€â”€ Scroll â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Scroll 
   final _scrollCtrl = ScrollController();
 
-  // â”€â”€ Colours â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Colours 
   static const _purpleA   = Color(0xFF8B5CF6); // Person A accent
   static const _tealB     = Color(0xFF0D9488); // Person B accent
   static const _bgPage    = Color(0xFFF0F4FF);
   static const _bgCard    = Colors.white;
 
-  // â”€â”€â”€ Init / Dispose â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Init / Dispose 
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     }
   }
 
-  // â”€â”€â”€ Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Helpers 
 
   bool get _isBusy =>
       _isListening || _isTranslating || _isDownloading || _isSpeaking;
@@ -190,7 +190,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       spk == _Speaker.personA ? _langA : _langB;
 
   String _personLabel(_Speaker spk) =>
-      spk == _Speaker.personA ? 'YOU — ${_langA.label}' : 'OTHER PERSON — ${_langB.label}';
+      spk == _Speaker.personA ? 'YOU  ${_langA.label}' : 'OTHER PERSON  ${_langB.label}';
 
   Color _accentFor(_Speaker spk) =>
       spk == _Speaker.personA ? _purpleA : _tealB;
@@ -207,7 +207,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     });
   }
 
-  // â”€â”€â”€ Stop TTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Stop TTS 
 
   Future<void> _stopTts() async {
     await TtsService.instance.stop();
@@ -220,7 +220,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     }
   }
 
-  // â”€â”€â”€ TTS Speak â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  TTS Speak 
 
   Future<void> _speakText(String text, AppLanguage lang, {int replayIndex = -1}) async {
     if (text.trim().isEmpty) return;
@@ -254,7 +254,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     }
   }
 
-  // â”€â”€â”€ Model Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Model Management 
 
   Future<bool> _ensureModels(AppLanguage src, AppLanguage tgt) async {
     if (src != AppLanguage.english) {
@@ -352,7 +352,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€â”€ Core Speak Flow (Optimized, Timed, Zero-Delay Text Display) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Core Speak Flow (Optimized, Timed, Zero-Delay Text Display) 
 
   Future<void> _onSpeakTapped(_Speaker spk) async {
     final tButton = DateTime.now().millisecondsSinceEpoch;
@@ -433,7 +433,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     setState(() {
       _activeSpk  = spk;
       _isListening = true;
-      _statusText  = '🎙️ Listening in ${srcLang.label}...';
+      _statusText  = ' Listening in ${srcLang.label}...';
     });
 
     await _speech.listen(
@@ -444,7 +444,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
         debugPrint('[CONVERSATION STT] RESULT = "${result.recognizedWords}" (final: ${result.finalResult})');
         if (mounted) {
           recognizedText = result.recognizedWords;
-          setState(() => _statusText = '🎙️ "${result.recognizedWords}"');
+          setState(() => _statusText = ' "${result.recognizedWords}"');
         }
       },
     );
@@ -475,11 +475,11 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       return;
     }
 
-    // â”€â”€ Model Guard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    //  Model Guard 
     if (mounted) {
       setState(() {
         _isTranslating = true;
-        _statusText    = 'â³ Translating...';
+        _statusText    = 'Â³ Translating...';
       });
     }
 
@@ -495,7 +495,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       return;
     }
 
-    // â”€â”€ Perform Translation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    //  Perform Translation 
     final tTrxStart = DateTime.now().millisecondsSinceEpoch;
     debugPrint('[PERF DIAGNOSTIC] TRANSLATION START at $tTrxStart');
 
@@ -527,7 +527,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     final tTrxEnd = DateTime.now().millisecondsSinceEpoch;
     debugPrint('[PERF DIAGNOSTIC] TRANSLATION END at $tTrxEnd (trx duration: ${tTrxEnd - tTrxStart}ms)');
 
-    // â”€â”€ IMPORTANT OPTIMIZATION: DISPLAY TRANSLATED TEXT IMMEDIATELY! â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    //  IMPORTANT OPTIMIZATION: DISPLAY TRANSLATED TEXT IMMEDIATELY! 
     // Do NOT wait for TTS preparation or completion before rendering the bubble!
     final msg = _ConvMessage(
       speaker:    spk,
@@ -547,7 +547,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       _scrollToBottom();
     }
 
-    // â”€â”€ Auto-speak translation (Asynchronous audio overlay) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    //  Auto-speak translation (Asynchronous audio overlay) 
     await _speakText(translated, tgtLang, replayIndex: _messages.length - 1);
 
     if (mounted) {
@@ -558,7 +558,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     }
   }
 
-  // â”€â”€â”€ Clear Conversation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Clear Conversation 
 
   Future<void> _clearConversation() async {
     final confirm = await showDialog<bool>(
@@ -588,7 +588,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     }
   }
 
-  // â”€â”€â”€ Build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build 
 
   @override
   Widget build(BuildContext context) {
@@ -619,12 +619,12 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ AppBar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  AppBar 
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       title: const Text(
-        '🗣️ Conversation Mode',
+        ' Conversation Mode',
         style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
       ),
       backgroundColor: Colors.white,
@@ -641,7 +641,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ Language Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Language Bar 
 
   Widget _buildLanguageBar() {
     return Container(
@@ -728,7 +728,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ Status Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Status Banner 
 
   Widget _buildStatusBanner() {
     return Container(
@@ -796,7 +796,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ Conversation History â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Conversation History 
 
   Widget _buildHistory() {
     if (_messages.isEmpty) {
@@ -991,7 +991,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              isReplaying ? 'â¹ Stop' : '🔊 Replay',
+                              isReplaying ? 'Â¹ Stop' : ' Replay',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -1014,7 +1014,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ Privacy Note â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Privacy Note 
 
   Widget _buildPrivacyNote() {
     return Container(
@@ -1044,7 +1044,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     );
   }
 
-  // â”€â”€ Microphone Row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Microphone Row 
 
   Widget _buildMicRow() {
     return Container(
@@ -1090,16 +1090,16 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     String label;
     IconData icon;
     if (isActive) {
-      label = '🎙️ Listening...';
+      label = ' Listening...';
       icon  = Icons.mic_rounded;
     } else if (isThisSpeaker && _isTranslating) {
-      label = 'â³ Translating...';
+      label = 'Â³ Translating...';
       icon  = Icons.translate_rounded;
     } else if (isThisSpeaker && _isSpeaking) {
-      label = '🔊 Speaking...';
+      label = ' Speaking...';
       icon  = Icons.volume_up_rounded;
     } else {
-      label = '🎤 Speak ${lang.label}';
+      label = ' Speak ${lang.label}';
       icon  = Icons.mic_none_rounded;
     }
 

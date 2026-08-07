@@ -17,7 +17,7 @@ class TransactionService {
   List<Transaction> _transactions = [];
   StreamSubscription<QuerySnapshot>? _expensesSubscription;
 
-  // ── Read ──────────────────────────────────────────────────────────────────
+  //  Read 
 
   /// All saved transactions, newest date first.
   List<Transaction> get all => List.unmodifiable(_transactions);
@@ -30,7 +30,7 @@ class TransactionService {
         .toList();
   }
 
-  // ── Persistence & Cloud Sync ───────────────────────────────────────────────
+  //  Persistence & Cloud Sync 
 
   /// Load all transactions from device storage and initialize real-time Firestore stream listener.
   Future<void> load() async {
@@ -110,7 +110,7 @@ class TransactionService {
     await prefs.setString(_storageKey, jsonStr);
   }
 
-  // ── CRUD ──────────────────────────────────────────────────────────────────
+  //  CRUD 
 
   /// Persist a new [transaction] locally and sync to Cloud Firestore.
   Future<void> add(Transaction transaction) async {
@@ -144,7 +144,7 @@ class TransactionService {
     await _deleteExpenseFromCloud(id);
   }
 
-  // ── Cloud Firestore Operations ───────────────────────────────────────────
+  //  Cloud Firestore Operations 
 
   Future<void> _uploadExpenseToCloud(Transaction transaction) async {
     try {
@@ -190,7 +190,7 @@ class TransactionService {
     }
   }
 
-  // ── Calculations (all pure — no side effects) ────────────────────────────
+  //  Calculations (all pure  no side effects) 
 
   /// Sum of all income amounts in [txs].
   double totalIncome(List<Transaction> txs) => txs
@@ -202,7 +202,7 @@ class TransactionService {
       .where((t) => t.type == TransactionType.expense)
       .fold(0.0, (sum, t) => sum + t.amount);
 
-  /// Category → total expense amount, sorted descending.
+  /// Category  total expense amount, sorted descending.
   Map<String, double> expenseByCategory(List<Transaction> txs) {
     final Map<String, double> map = {};
     for (final t in txs.where((t) => t.type == TransactionType.expense)) {
@@ -213,9 +213,9 @@ class TransactionService {
     return Map.fromEntries(entries);
   }
 
-  // ── Formatting helpers ────────────────────────────────────────────────────
+  //  Formatting helpers 
 
-  /// Format a double as a ₹ currency string with thousands separators.
+  /// Format a double as a  currency string with thousands separators.
   static String formatCurrency(double amount) {
     final whole = amount.abs().toInt().toString();
     final buf = StringBuffer();
@@ -224,7 +224,7 @@ class TransactionService {
       if (i > 0 && (len - i) % 3 == 0) buf.write(',');
       buf.write(whole[i]);
     }
-    return '₹${buf.toString()}';
+    return '${buf.toString()}';
   }
 
   static final List<String> _shortMonths = [
@@ -244,7 +244,7 @@ class TransactionService {
   static String formatMonthYear(DateTime d) =>
       '${_fullMonths[d.month - 1]} ${d.year}';
 
-  // ── Private ───────────────────────────────────────────────────────────────
+  //  Private 
 
   void _sort() {
     _transactions.sort((a, b) {
@@ -253,12 +253,12 @@ class TransactionService {
     });
   }
 
-  // ── Budget ────────────────────────────────────────────────────────────────
+  //  Budget 
 
   static String _budgetKey(DateTime month) =>
       'lifemate_budget_${month.year}_${month.month}';
 
-  /// Persist a monthly budget. Pass [amount] ≤ 0 to clear it.
+  /// Persist a monthly budget. Pass [amount]  0 to clear it.
   Future<void> setBudget(double amount, DateTime month) async {
     final prefs = await SharedPreferences.getInstance();
     if (amount <= 0) {
@@ -274,7 +274,7 @@ class TransactionService {
     return prefs.getDouble(_budgetKey(month));
   }
 
-  // ── Month history ─────────────────────────────────────────────────────────
+  //  Month history 
 
   /// Returns every distinct year-month that contains at least one transaction,
   /// sorted newest-first.

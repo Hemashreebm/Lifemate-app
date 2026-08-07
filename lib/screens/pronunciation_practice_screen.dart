@@ -7,8 +7,8 @@ import '../services/tts_service.dart';
 ///
 /// Features:
 /// 1. Built-in practice sentences with Previous / Next navigation.
-/// 2. 🔊 Listen button to hear native/correct English TTS pronunciation.
-/// 3. 🎤 Repeat Sentence button (speech_to_text with direct localeId: 'en_US').
+/// 2.  Listen button to hear native/correct English TTS pronunciation.
+/// 3.  Repeat Sentence button (speech_to_text with direct localeId: 'en_US').
 /// 4. Normalized word-by-word text comparison & match percentage feedback.
 /// 5. Visual word difference breakdown and simple, encouraging guidance.
 class PronunciationPracticeScreen extends StatefulWidget {
@@ -187,7 +187,7 @@ class _PronunciationPracticeScreenState
     );
   }
 
-  // â”€â”€ Word Match Calculation & Comparison Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Word Match Calculation & Comparison Logic 
 
   List<String> _normalizeToWords(String text) {
     return text
@@ -243,22 +243,22 @@ class _PronunciationPracticeScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // â”€â”€ Top Header Instructions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Top Header Instructions 
             _buildInstructionHeader(),
 
             const SizedBox(height: 20),
 
-            // â”€â”€ Target Sentence Card & Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Target Sentence Card & Nav 
             _buildSentenceCard(),
 
             const SizedBox(height: 20),
 
-            // â”€â”€ 🔊 Listen to Pronunciation Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Listen to Pronunciation Button 
             _buildListenButton(),
 
             const SizedBox(height: 16),
 
-            // â”€â”€ 🎤 Repeat Sentence Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //   Repeat Sentence Button 
             _buildRepeatButton(),
 
             if (_statusMessage.isNotEmpty) ...[
@@ -276,7 +276,7 @@ class _PronunciationPracticeScreenState
 
             const SizedBox(height: 28),
 
-            // â”€â”€ Recognized Speech & Feedback Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Recognized Speech & Feedback Card 
             if (hasRecognized) _buildFeedbackCard(matchPercentage),
 
             const SizedBox(height: 32),
@@ -537,7 +537,7 @@ class _PronunciationPracticeScreenState
             spacing: 10,
             runSpacing: 10,
             children: [
-              // 🔊 Listen Again
+              //  Listen Again
               ElevatedButton.icon(
                 onPressed: _listenToCorrectPronunciation,
                 icon: const Icon(Icons.volume_up_rounded, size: 16),
@@ -569,12 +569,12 @@ class _PronunciationPracticeScreenState
                 ),
               ),
 
-              // âž¡ Next Sentence
+              // Â¡ Next Sentence
               if (_currentIndex < _sentences.length - 1)
                 ElevatedButton.icon(
                   onPressed: _nextSentence,
                   icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                  label: const Text('âž¡ Next Sentence'),
+                  label: const Text('Â¡ Next Sentence'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF10B981),
                     foregroundColor: Colors.white,

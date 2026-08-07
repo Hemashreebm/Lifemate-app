@@ -16,7 +16,7 @@ class SafetyService {
 
   List<TrustedContact> get contacts => List.unmodifiable(_contacts);
 
-  // ── Contact Storage ───────────────────────────────────────────────────────
+  //  Contact Storage 
 
   /// Load saved trusted contacts from SharedPreferences.
   Future<void> loadContacts() async {
@@ -61,7 +61,7 @@ class SafetyService {
     await _saveContacts();
   }
 
-  // ── Quick Phone Call (Dialer) ─────────────────────────────────────────────
+  //  Quick Phone Call (Dialer) 
 
   /// Opens the native Android Phone Dialer with the contact's number filled in.
   Future<bool> openDialer(String phoneNumber) async {
@@ -81,7 +81,7 @@ class SafetyService {
     }
   }
 
-  // ── Emergency Message Formatting ─────────────────────────────────────────
+  //  Emergency Message Formatting 
 
   /// Generates editable emergency text containing current location and Google Maps link.
   String generateEmergencyMessage({

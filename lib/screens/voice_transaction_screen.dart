@@ -44,14 +44,14 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     super.dispose();
   }
 
-  // â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Colors 
 
   Color get _accent =>
       _type == TransactionType.expense
           ? const Color(0xFFFF6B6B)
           : const Color(0xFF10B981);
 
-  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Actions 
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -71,7 +71,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     }
     final amount = double.tryParse(_amountCtrl.text.trim()) ?? 0;
     if (amount <= 0) {
-      _showSnack('Amount must be greater than â‚¹0.');
+      _showSnack('Amount must be greater than 0.');
       return;
     }
 
@@ -100,7 +100,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     ));
   }
 
-  // â”€â”€ Build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build 
 
   @override
   Widget build(BuildContext context) {
@@ -139,41 +139,41 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // â”€â”€ Recognized speech â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Recognized speech 
               _buildRecognizedCard(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Type toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Type toggle 
               _buildLabel('Transaction Type'),
               const SizedBox(height: 8),
               _buildTypeToggle(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Amount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Amount 
               _buildLabel('Amount'),
               const SizedBox(height: 8),
               _buildAmountField(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Category 
               _buildLabel('Category'),
               const SizedBox(height: 10),
               _buildCategoryGrid(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Date â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Date 
               _buildLabel('Date'),
               const SizedBox(height: 8),
               _buildDatePicker(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Note â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Note 
               _buildLabel('Note (optional)'),
               const SizedBox(height: 8),
               _buildNoteField(),
               const SizedBox(height: 32),
 
-              // â”€â”€ Save button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Save button 
               SizedBox(
                 width: double.infinity,
                 child: FilledButton.icon(
@@ -212,7 +212,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
     );
   }
 
-  // â”€â”€ Widgets â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Widgets 
 
   Widget _buildRecognizedCard() {
     return Container(
@@ -364,7 +364,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
           color: _accent,
         ),
         decoration: InputDecoration(
-          prefixText: 'â‚¹ ',
+          prefixText: ' ',
           prefixStyle: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w800,
@@ -382,7 +382,7 @@ class _VoiceTransactionScreenState extends State<VoiceTransactionScreen> {
         validator: (val) {
           if (val == null || val.trim().isEmpty) return 'Enter an amount';
           final n = double.tryParse(val.trim());
-          if (n == null || n <= 0) return 'Enter a valid amount > â‚¹0';
+          if (n == null || n <= 0) return 'Enter a valid amount > 0';
           return null;
         },
       ),

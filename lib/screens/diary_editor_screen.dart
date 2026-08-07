@@ -81,7 +81,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     super.dispose();
   }
 
-  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Actions 
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -137,7 +137,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     }
   }
 
-  // â”€â”€ Voice Recording (Preserved) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Voice Recording (Preserved) 
 
   Future<void> _toggleAudioRecording() async {
     if (_isRecordingAudio) {
@@ -227,7 +227,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     });
   }
 
-  // â”€â”€ Save Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Save Logic 
 
   Future<void> _saveEntry() async {
     final title = _titleController.text.trim();
@@ -290,7 +290,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
   }
 
-  // â”€â”€ Build UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build UI 
 
   @override
   Widget build(BuildContext context) {
@@ -335,15 +335,15 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // â”€â”€ Date Selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Date Selector 
             _buildDatePickerCard(),
             const SizedBox(height: 16),
 
-            // â”€â”€ Mood Selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Mood Selector 
             _buildMoodSelector(),
             const SizedBox(height: 16),
 
-            // â”€â”€ Title Input â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Title Input 
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -373,7 +373,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             ),
             const SizedBox(height: 16),
 
-            // â”€â”€ Main Content Area â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Main Content Area 
             Container(
               constraints: const BoxConstraints(minHeight: 180),
               decoration: BoxDecoration(
@@ -402,15 +402,15 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
             ),
             const SizedBox(height: 20),
 
-            // â”€â”€ Photos Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Photos Section 
             _buildPhotosSection(),
             const SizedBox(height: 20),
 
-            // â”€â”€ Tags Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Tags Section 
             _buildTagsSection(),
             const SizedBox(height: 20),
 
-            // â”€â”€ Audio Recording Section (Preserved) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Audio Recording Section (Preserved) 
             _buildAudioRecordingSection(),
             const SizedBox(height: 32),
           ],
@@ -419,7 +419,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
     );
   }
 
-  // â”€â”€ Helper Component Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Helper Component Builders 
 
   Widget _buildDatePickerCard() {
     return GestureDetector(
@@ -659,7 +659,7 @@ class _DiaryEditorScreenState extends State<DiaryEditorScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          '🎙️ Voice Recording Attachment (Preserved)',
+          ' Voice Recording Attachment (Preserved)',
           style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13,

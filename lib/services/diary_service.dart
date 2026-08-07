@@ -189,7 +189,7 @@ class DiaryService {
     } catch (_) {}
   }
 
-  // ── Cloud Firestore Operations ───────────────────────────────────────────
+  //  Cloud Firestore Operations 
 
   Future<void> _uploadEntryToCloud(DiaryEntry entry) async {
     try {
@@ -235,7 +235,7 @@ class DiaryService {
     }
   }
 
-  // ── Search & Filter ───────────────────────────────────────────────────────
+  //  Search & Filter 
 
   List<DiaryEntry> search(String query) {
     if (query.trim().isEmpty) return all;

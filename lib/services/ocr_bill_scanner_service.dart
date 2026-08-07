@@ -66,8 +66,8 @@ class OcrBillScannerService {
       // 2. Parse Total Amount using RegEx
       double totalAmount = 0.0;
       final amountRegexes = [
-        RegExp(r'(?:TOTAL|GRAND TOTAL|NET AMOUNT|AMOUNT PAID|DUE|BALANCE)\s*[:=]?\s*(?:₹|Rs\.?|USD|\$)?\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false),
-        RegExp(r'(?:₹|Rs\.?)\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false),
+        RegExp(r'(?:TOTAL|GRAND TOTAL|NET AMOUNT|AMOUNT PAID|DUE|BALANCE)\s*[:=]?\s*(?:|Rs\.?|USD|\$)?\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false),
+        RegExp(r'(?:|Rs\.?)\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false),
         RegExp(r'\b(\d+\.\d{2})\b'),
       ];
 

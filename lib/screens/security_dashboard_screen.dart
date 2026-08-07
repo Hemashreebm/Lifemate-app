@@ -178,60 +178,60 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // â”€â”€ SECTION 1: ACCOUNT SECURITY & SCORE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 1: ACCOUNT SECURITY & SCORE 
                   _buildSection1AccountSecurity(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 2: LOGIN ACTIVITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 2: LOGIN ACTIVITY 
                   _buildSectionHeader('LOGIN ACTIVITY & DEVICES'),
                   _buildSection2LoginActivity(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 3: PASSWORD MANAGEMENT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 3: PASSWORD MANAGEMENT 
                   _buildSectionHeader('PASSWORD & AUTHENTICATION'),
                   _buildSection3Password(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 4: TWO-FACTOR AUTHENTICATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 4: TWO-FACTOR AUTHENTICATION 
                   _buildSectionHeader('TWO-FACTOR AUTHENTICATION'),
                   _buildSection4TwoFactor(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 5: BIOMETRIC SECURITY â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 5: BIOMETRIC SECURITY 
                   _buildSectionHeader('BIOMETRIC & DEVICE UNLOCK'),
                   _buildSection5Biometrics(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 6: PRIVACY & PERMISSIONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 6: PRIVACY & PERMISSIONS 
                   _buildSectionHeader('PRIVACY & APP PERMISSIONS'),
                   _buildSection6Privacy(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 7: APP LOCK â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 7: APP LOCK 
                   _buildSectionHeader('APP LOCK & AUTO-LOCK TIMER'),
                   _buildSection7AppLock(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 8: DATA SECURITY & ENCRYPTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 8: DATA SECURITY & ENCRYPTION 
                   _buildSectionHeader('DATA SECURITY & ENCRYPTION'),
                   _buildSection8DataSecurity(),
 
                   const SizedBox(height: 24),
 
-                  // â”€â”€ SECTION 9: SECURITY ALERTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 9: SECURITY ALERTS 
                   _buildSectionHeader('SECURITY ALERTS & NOTIFICATIONS'),
                   _buildSection9SecurityAlerts(),
 
                   const SizedBox(height: 28),
 
-                  // â”€â”€ SECTION 10: DANGER ZONE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  SECTION 10: DANGER ZONE 
                   _buildSectionHeader('DANGER ZONE', color: _dangerRed),
                   _buildSection10DangerZone(),
 
@@ -252,7 +252,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 1: Account Security â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 1: Account Security 
 
   Widget _buildSection1AccountSecurity() {
     return Container(
@@ -314,7 +314,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
                 children: [
                   Text('Security Health Score', style: TextStyle(fontSize: 12, color: Color(0xFFDDD6FE))),
                   SizedBox(height: 4),
-                  Text('95% • Excellent', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
+                  Text('95%  Excellent', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Colors.white)),
                 ],
               ),
               Container(
@@ -338,7 +338,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 2: Login Activity â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 2: Login Activity 
 
   Widget _buildSection2LoginActivity() {
     return Container(
@@ -369,7 +369,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 3: Password Management â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 3: Password Management 
 
   Widget _buildSection3Password() {
     return Container(
@@ -399,7 +399,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 4: Two-Factor Authentication â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 4: Two-Factor Authentication 
 
   Widget _buildSection4TwoFactor() {
     return Container(
@@ -417,7 +417,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 5: Biometric Security â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 5: Biometric Security 
 
   Widget _buildSection5Biometrics() {
     return Container(
@@ -435,7 +435,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 6: Privacy & Permissions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 6: Privacy & Permissions 
 
   Widget _buildSection6Privacy() {
     return Container(
@@ -465,7 +465,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 7: App Lock â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 7: App Lock 
 
   Widget _buildSection7AppLock() {
     return Container(
@@ -508,7 +508,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 8: Data Security & Encryption â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 8: Data Security & Encryption 
 
   Widget _buildSection8DataSecurity() {
     return Container(
@@ -540,7 +540,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 9: Security Alerts â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 9: Security Alerts 
 
   Widget _buildSection9SecurityAlerts() {
     return Container(
@@ -567,7 +567,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
     );
   }
 
-  // â”€â”€ Section 10: Danger Zone â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section 10: Danger Zone 
 
   Widget _buildSection10DangerZone() {
     return Container(

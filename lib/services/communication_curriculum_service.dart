@@ -82,7 +82,7 @@ class CommunicationCurriculumService {
 
   /// Default predefined structured curriculum (Level 1 -> Level 3).
   static final List<CoachLesson> _defaultCurriculum = [
-    // ── Beginner (Level 1) ───────────────────────────────────────────────────
+    //  Beginner (Level 1) 
     const CoachLesson(
       id: 'beg_l1_1',
       level: 'Beginner',
@@ -123,7 +123,7 @@ class CommunicationCurriculumService {
       highestScore: 0,
     ),
 
-    // ── Intermediate (Level 2) ───────────────────────────────────────────────
+    //  Intermediate (Level 2) 
     const CoachLesson(
       id: 'int_l2_1',
       level: 'Intermediate',
@@ -164,7 +164,7 @@ class CommunicationCurriculumService {
       highestScore: 0,
     ),
 
-    // ── Advanced (Level 3) ───────────────────────────────────────────────────
+    //  Advanced (Level 3) 
     const CoachLesson(
       id: 'adv_l3_1',
       level: 'Advanced',

@@ -97,7 +97,7 @@ class SettingsService {
           await prefs.setBool(_keyBiometricEnabled, biometricEnabled);
           await prefs.setBool(_keyDarkMode, darkMode);
         } else {
-          // Document does not exist yet — upload current settings
+          // Document does not exist yet  upload current settings
           await syncToCloud();
         }
       },

@@ -28,7 +28,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
   final List<Map<String, String>> _messages = [
     {
       'sender': 'assistant',
-      'text': 'Hello! I am your Lifemate AI Assistant 💖 How can I help you organize your day, review expenses, or reflect on your memories?'
+      'text': 'Hello! I am your Lifemate AI Assistant  How can I help you organize your day, review expenses, or reflect on your memories?'
     }
   ];
 
@@ -202,10 +202,10 @@ class _AssistantScreenState extends State<AssistantScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                _buildQuickChip('📊 Expense Summary'),
-                _buildQuickChip('✅ Pending Tasks'),
-                _buildQuickChip('📖 Diary Insights'),
-                _buildQuickChip('✨ Positive Affirmation'),
+                _buildQuickChip(' Expense Summary'),
+                _buildQuickChip(' Pending Tasks'),
+                _buildQuickChip(' Diary Insights'),
+                _buildQuickChip(' Positive Affirmation'),
               ],
             ),
           ),

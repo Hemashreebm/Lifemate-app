@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 /// Central theme configuration for Lifemate.
 ///
-/// Design philosophy: warm, calm, modern, friendly — like a personal companion.
+/// Design philosophy: warm, calm, modern, friendly  like a personal companion.
 /// Uses Material 3 with the original soft off-white/light lavender page background (#F7F8FF).
 class AppTheme {
-  AppTheme._(); // Prevent instantiation — static use only
+  AppTheme._(); // Prevent instantiation  static use only
 
-  // ── Brand Colors ──────────────────────────────────────────────────────────
+  //  Brand Colors 
 
-  /// Primary brand color — soft violet, warm and inviting
+  /// Primary brand color  soft violet, warm and inviting
   static const Color brandSeed = Color(0xFF6C5CE7);
 
   /// Accent used for feature icon: diary
@@ -27,7 +27,7 @@ class AppTheme {
   /// Accent used for the Expense Tracker feature
   static const Color accentExpense = Color(0xFF0EA5E9);
 
-  // ── Light Theme ───────────────────────────────────────────────────────────
+  //  Light Theme 
 
   static ThemeData get lightTheme {
     final colorScheme = ColorScheme.fromSeed(
@@ -101,7 +101,7 @@ class AppTheme {
     );
   }
 
-  // ── Dark Theme (Soft Light Lavender Fallback) ──────────────────────────────
+  //  Dark Theme (Soft Light Lavender Fallback) 
 
   static ThemeData get darkTheme => lightTheme;
 }

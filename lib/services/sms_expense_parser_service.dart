@@ -76,7 +76,7 @@ class SmsExpenseParserService {
 
     // 2. Extract Amount
     double amount = 0.0;
-    final amountRegex = RegExp(r'(?:rs\.?|inr|₹)\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false);
+    final amountRegex = RegExp(r'(?:rs\.?|inr|)\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false);
     final match = amountRegex.firstMatch(text);
     if (match != null) {
       amount = double.tryParse(match.group(1)!) ?? 0.0;
@@ -104,7 +104,7 @@ class SmsExpenseParserService {
 
     // 4. Extract Remaining Balance
     double remainingBalance = 0.0;
-    final balRegex = RegExp(r'(?:bal|balance)\s*(?:is|:)?\s*(?:rs\.?|inr|₹)?\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false);
+    final balRegex = RegExp(r'(?:bal|balance)\s*(?:is|:)?\s*(?:rs\.?|inr|)?\s*(\d+(?:\.\d{1,2})?)', caseSensitive: false);
     final balMatch = balRegex.firstMatch(text);
     if (balMatch != null) {
       remainingBalance = double.tryParse(balMatch.group(1)!) ?? 0.0;
@@ -164,7 +164,7 @@ class SmsExpenseParserService {
       );
 
       await TransactionService.instance.add(newTx);
-      debugPrint('SMS transaction successfully imported: ${smsTx.merchant} - ₹${smsTx.amount}');
+      debugPrint('SMS transaction successfully imported: ${smsTx.merchant} - ${smsTx.amount}');
       return true;
     } catch (e) {
       debugPrint('Error importing SMS transaction: $e');

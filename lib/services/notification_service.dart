@@ -179,13 +179,13 @@ class NotificationService {
         actions: const <AndroidNotificationAction>[
           AndroidNotificationAction(
             'stop_reminder',
-            '⏹️ Stop',
+            '¸ Stop',
             cancelNotification: true,
             showsUserInterface: false,
           ),
           AndroidNotificationAction(
             'snooze_reminder',
-            '⏰ Snooze (10m)',
+            ' Snooze (10m)',
             cancelNotification: true,
             showsUserInterface: false,
           ),
@@ -196,7 +196,7 @@ class NotificationService {
 
       String bodyText = 'Due: ${_formatShortTime(task.dueDate, task.hasTime)}';
       if (task.notes.isNotEmpty) {
-        bodyText += ' • ${task.notes}';
+        bodyText += '  ${task.notes}';
       }
 
       // Schedule notification using alarmClock mode for normal chime

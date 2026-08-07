@@ -18,31 +18,31 @@ class DiaryLanguage {
     DiaryLanguage(
       name: 'English',
       nativeName: 'English',
-      flag: '🌐',
+      flag: '',
       localeId: 'en_IN',
     ),
     DiaryLanguage(
       name: 'Telugu',
-      nativeName: 'తెలుగు',
-      flag: '🇮🇳',
+      nativeName: 'à°¤à±à°²à±à°à±',
+      flag: '',
       localeId: 'te_IN',
     ),
     DiaryLanguage(
       name: 'Kannada',
-      nativeName: 'ಕನ್ನಡ',
-      flag: '🇮🇳',
+      nativeName: 'à²à²¨à³à²¨à²¡',
+      flag: '',
       localeId: 'kn_IN',
     ),
     DiaryLanguage(
       name: 'Hindi',
-      nativeName: 'హిందీ / हिन्दी',
-      flag: '🇮🇳',
+      nativeName: 'à°¹à°¿à°à°¦à± / à¤¹à¤¿à¤¨à¥à¤¦à¥',
+      flag: '',
       localeId: 'hi_IN',
     ),
     DiaryLanguage(
       name: 'Tamil',
-      nativeName: 'தமிழ்',
-      flag: '🇮🇳',
+      nativeName: 'à®¤à®®à®¿à®´à¯',
+      flag: '',
       localeId: 'ta_IN',
     ),
   ];
@@ -70,16 +70,16 @@ class DiaryMood {
   });
 
   static const List<DiaryMood> supportedMoods = [
-    DiaryMood(label: 'Very Happy', emoji: '😄', color: Color(0xFF10B981)),
-    DiaryMood(label: 'Happy',      emoji: '😊', color: Color(0xFF3B82F6)),
-    DiaryMood(label: 'Excited',    emoji: '🤩', color: Color(0xFFF59E0B)),
-    DiaryMood(label: 'Loved',      emoji: '🥰', color: Color(0xFFEC4899)),
-    DiaryMood(label: 'Calm',       emoji: '😌', color: Color(0xFF06B6D4)),
-    DiaryMood(label: 'Normal',     emoji: '😐', color: Color(0xFF8B5CF6)),
-    DiaryMood(label: 'Sad',        emoji: '😔', color: Color(0xFF64748B)),
-    DiaryMood(label: 'Very Sad',   emoji: '😢', color: Color(0xFF475569)),
-    DiaryMood(label: 'Stressed',   emoji: '😰', color: Color(0xFFF97316)),
-    DiaryMood(label: 'Angry',      emoji: '😡', color: Color(0xFFEF4444)),
+    DiaryMood(label: 'Very Happy', emoji: '', color: Color(0xFF10B981)),
+    DiaryMood(label: 'Happy',      emoji: '', color: Color(0xFF3B82F6)),
+    DiaryMood(label: 'Excited',    emoji: '', color: Color(0xFFF59E0B)),
+    DiaryMood(label: 'Loved',      emoji: '', color: Color(0xFFEC4899)),
+    DiaryMood(label: 'Calm',       emoji: '', color: Color(0xFF06B6D4)),
+    DiaryMood(label: 'Normal',     emoji: '', color: Color(0xFF8B5CF6)),
+    DiaryMood(label: 'Sad',        emoji: '', color: Color(0xFF64748B)),
+    DiaryMood(label: 'Very Sad',   emoji: '', color: Color(0xFF475569)),
+    DiaryMood(label: 'Stressed',   emoji: '', color: Color(0xFFF97316)),
+    DiaryMood(label: 'Angry',      emoji: '', color: Color(0xFFEF4444)),
   ];
 
   static DiaryMood defaultMood = supportedMoods[3]; // Normal (fallback)
@@ -87,7 +87,7 @@ class DiaryMood {
   static DiaryMood findByLabel(String label) {
     return supportedMoods.firstWhere(
       (m) => m.label.toLowerCase() == label.toLowerCase(),
-      orElse: () => DiaryMood(label: label, emoji: '📝', color: const Color(0xFF8B5CF6)),
+      orElse: () => DiaryMood(label: label, emoji: '', color: const Color(0xFF8B5CF6)),
     );
   }
 }

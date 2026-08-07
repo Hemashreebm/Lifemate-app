@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 
 /// The prominent AI entry card shown at the top of the home screen.
@@ -39,7 +39,7 @@ class AskLifemateCard extends StatelessWidget {
                     Icon(Icons.auto_awesome, color: Colors.white, size: 18),
                     SizedBox(width: 10),
                     Text(
-                      'AI Assistant coming soon! ðŸ¤–',
+                      'AI Assistant coming soon! ',
                       style: TextStyle(color: Colors.white),
                     ),
                   ],

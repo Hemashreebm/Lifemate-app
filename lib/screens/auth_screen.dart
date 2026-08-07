@@ -143,7 +143,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
             ),
             const SizedBox(height: 8),
             const Text(
-              'Cloud Backup Enabled • All your local tasks, diary, and expenses will sync securely.',
+              'Cloud Backup Enabled  All your local tasks, diary, and expenses will sync securely.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
             ),
@@ -211,7 +211,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // ── Welcome Banner ────────────────────────────────────────────────
+            //  Welcome Banner 
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -224,7 +224,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
               ),
               child: const Row(
                 children: [
-                  Text('🌟', style: TextStyle(fontSize: 36)),
+                  Text('', style: TextStyle(fontSize: 36)),
                   SizedBox(width: 14),
                   Expanded(
                     child: Column(
@@ -242,7 +242,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
 
             const SizedBox(height: 20),
 
-            // ── Auth Mode Tabs ────────────────────────────────────────────────
+            //  Auth Mode Tabs 
             TabBar(
               controller: _tabController,
               labelColor: _purpleAccent,
@@ -289,7 +289,7 @@ class _AuthScreenState extends State<AuthScreen> with SingleTickerProviderStateM
 
             const SizedBox(height: 20),
 
-            // ── Guest Mode Option ─────────────────────────────────────────────
+            //  Guest Mode Option 
             OutlinedButton.icon(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Icons.person_outline_rounded, size: 18),

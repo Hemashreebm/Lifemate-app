@@ -55,7 +55,7 @@ class _AddEditTransactionScreenState
     super.dispose();
   }
 
-  // â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Actions 
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
@@ -76,7 +76,7 @@ class _AddEditTransactionScreenState
 
     final amount = double.tryParse(_amountCtrl.text.trim()) ?? 0;
     if (amount <= 0) {
-      _showError('Amount must be greater than â‚¹0.');
+      _showError('Amount must be greater than 0.');
       return;
     }
 
@@ -118,7 +118,7 @@ class _AddEditTransactionScreenState
     );
   }
 
-  // â”€â”€ Build â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Build 
 
   @override
   Widget build(BuildContext context) {
@@ -163,35 +163,35 @@ class _AddEditTransactionScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // â”€â”€ Type Toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Type Toggle 
               _buildTypeToggle(theme),
               const SizedBox(height: 24),
 
-              // â”€â”€ Amount â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Amount 
               _buildSectionLabel('Amount'),
               const SizedBox(height: 8),
               _buildAmountField(accent),
               const SizedBox(height: 24),
 
-              // â”€â”€ Category â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Category 
               _buildSectionLabel('Category'),
               const SizedBox(height: 10),
               _buildCategoryGrid(),
               const SizedBox(height: 24),
 
-              // â”€â”€ Date â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Date 
               _buildSectionLabel('Date'),
               const SizedBox(height: 8),
               _buildDatePicker(theme),
               const SizedBox(height: 24),
 
-              // â”€â”€ Note â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Note 
               _buildSectionLabel('Note (optional)'),
               const SizedBox(height: 8),
               _buildNoteField(),
               const SizedBox(height: 40),
 
-              // â”€â”€ Save Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  Save Button 
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
@@ -220,7 +220,7 @@ class _AddEditTransactionScreenState
     );
   }
 
-  // â”€â”€ Section builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section builders 
 
   Widget _buildSectionLabel(String label) {
     return Text(
@@ -250,7 +250,7 @@ class _AddEditTransactionScreenState
           final isExp    = t == TransactionType.expense;
           final color    = isExp ? const Color(0xFFFF6B6B) : const Color(0xFF10B981);
           final label    = isExp ? 'Expense' : 'Income';
-          final emoji    = isExp ? '📤' : '📥';
+          final emoji    = isExp ? '' : '';
           return Expanded(
             child: GestureDetector(
               onTap: () => setState(() {
@@ -302,7 +302,7 @@ class _AddEditTransactionScreenState
           color: accent,
         ),
         decoration: InputDecoration(
-          prefixText: 'â‚¹ ',
+          prefixText: ' ',
           prefixStyle: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.w800,
@@ -320,7 +320,7 @@ class _AddEditTransactionScreenState
         validator: (val) {
           if (val == null || val.trim().isEmpty) return 'Enter an amount';
           final n = double.tryParse(val.trim());
-          if (n == null || n <= 0) return 'Enter a valid amount greater than â‚¹0';
+          if (n == null || n <= 0) return 'Enter a valid amount greater than 0';
           return null;
         },
       ),

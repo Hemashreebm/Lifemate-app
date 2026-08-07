@@ -78,37 +78,37 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
           children: [
             const SizedBox(height: 28),
 
-            // â”€â”€ App Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  App Header 
             _buildHeader(theme),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ Greeting Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Greeting Card 
             _buildGreetingCard(theme),
 
             const SizedBox(height: 22),
 
-            // â”€â”€ Ask Lifemate AI Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Ask Lifemate AI Card 
             const AskLifemateCard(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ Expense Tracker quick-access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Expense Tracker quick-access 
             _buildExpenseTrackerCard(theme),
 
             const SizedBox(height: 28),
 
-            // â”€â”€ Features Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Features Section 
             _buildSectionHeader(theme),
 
             const SizedBox(height: 14),
 
-            // â”€â”€ Feature Cards Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Feature Cards Grid 
             _buildFeatureGrid(context),
 
             const SizedBox(height: 16),
 
-            // â”€â”€ Temporary Build Diagnostic Marker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Temporary Build Diagnostic Marker 
             const Center(
               child: Text(
                 'Build check: Coach Card v1',
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     );
   }
 
-  // â”€â”€ Private builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Private builders 
 
   Widget _buildHeader(ThemeData theme) {
     return Column(
@@ -406,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
     return GridView.builder(
       shrinkWrap: true,
-      // Disable grid's own scrolling — parent SingleChildScrollView handles it
+      // Disable grid's own scrolling  parent SingleChildScrollView handles it
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -451,7 +451,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${f.title} — coming soon.'),
+                  content: Text('${f.title}  coming soon.'),
                   margin: const EdgeInsets.all(16),
                   duration: const Duration(seconds: 2),
                 ),

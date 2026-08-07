@@ -43,7 +43,7 @@ class VoiceTransactionParser {
     );
   }
 
-  // ── Transaction type detection ─────────────────────────────────────────────
+  //  Transaction type detection 
 
   static const _incomeKeywords = [
     'received', 'receive', 'got', 'get', 'earned', 'earn',
@@ -59,7 +59,7 @@ class VoiceTransactionParser {
   ];
 
   static TransactionType _detectType(String lower) {
-    // Income keywords take priority so "received refund" → income
+    // Income keywords take priority so "received refund"  income
     for (final kw in _incomeKeywords) {
       if (lower.contains(kw)) return TransactionType.income;
     }
@@ -71,11 +71,11 @@ class VoiceTransactionParser {
     return TransactionType.expense;
   }
 
-  // ── Amount extraction ──────────────────────────────────────────────────────
+  //  Amount extraction 
 
-  // Matches patterns like: 250, ₹250, Rs 250, 5,000, 5000.50
+  // Matches patterns like: 250, 250, Rs 250, 5,000, 5000.50
   static final _amountRe = RegExp(
-    r'(?:₹|rs\.?\s*|rupees?\s*|inr\s*)?(\d[\d,]*(?:\.\d{1,2})?)\s*(?:rupees?|rs\.?|inr|₹)?',
+    r'(?:|rs\.?\s*|rupees?\s*|inr\s*)?(\d[\d,]*(?:\.\d{1,2})?)\s*(?:rupees?|rs\.?|inr|)?',
     caseSensitive: false,
   );
 
@@ -86,7 +86,7 @@ class VoiceTransactionParser {
     return double.tryParse(raw);
   }
 
-  // ── Date extraction ────────────────────────────────────────────────────────
+  //  Date extraction 
 
   static DateTime _extractDate(String lower) {
     final now   = DateTime.now();
@@ -101,7 +101,7 @@ class VoiceTransactionParser {
     return today; // default: today
   }
 
-  // ── Category detection ─────────────────────────────────────────────────────
+  //  Category detection 
 
   // Maps exact category names (from TransactionCategories) to trigger keywords.
   static const Map<String, List<String>> _expenseCatKeywords = {
@@ -181,6 +181,6 @@ class VoiceTransactionParser {
         if (lower.contains(kw)) return entry.key;
       }
     }
-    return null; // unknown — user will select in confirmation screen
+    return null; // unknown  user will select in confirmation screen
   }
 }

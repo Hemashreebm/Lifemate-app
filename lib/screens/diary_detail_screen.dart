@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import '../models/diary_entry.dart';
 import '../models/diary_meta.dart';

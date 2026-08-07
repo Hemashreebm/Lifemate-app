@@ -231,7 +231,7 @@ class TaskService {
     add(nextTask);
   }
 
-  // ── Cloud Firestore Operations ───────────────────────────────────────────
+  //  Cloud Firestore Operations 
 
   Future<void> _uploadTaskToCloud(TaskItem task) async {
     try {
@@ -277,7 +277,7 @@ class TaskService {
     }
   }
 
-  // ── Filters ───────────────────────────────────────────────────────────────
+  //  Filters 
 
   List<TaskItem> get todayTasks =>
       _tasks.where((t) => !t.isCompleted && t.isToday).toList();

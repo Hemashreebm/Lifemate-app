@@ -87,7 +87,7 @@ class _LocationScreenState extends State<LocationScreen> {
     Clipboard.setData(ClipboardData(text: text));
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Location coordinates copied to clipboard! ðŸ“‹'),
+        content: Text('Location coordinates copied to clipboard! '),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -226,34 +226,34 @@ class _LocationScreenState extends State<LocationScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // â”€â”€ Header Subtitle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Header Subtitle 
             const Text(
               'Your location, when you need it.',
               style: TextStyle(fontSize: 13, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 16),
 
-            // â”€â”€ Permission / GPS Status Banner (If disabled) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Permission / GPS Status Banner (If disabled) 
             if (_status != LocationStatus.ready) _buildStatusWarningCard(),
 
-            // â”€â”€ Current Location Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Current Location Card 
             _buildCurrentLocationCard(),
 
             const SizedBox(height: 20),
 
-            // â”€â”€ Saved Places Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Saved Places Section 
             _buildSavedPlacesHeader(),
             const SizedBox(height: 12),
             _buildSavedPlacesList(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ Privacy Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Privacy Card 
             _buildPrivacyCard(),
 
             const SizedBox(height: 20),
 
-            // â”€â”€ Safety — Coming Later Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Safety  Coming Later Section 
             _buildSafetyComingLaterCard(),
 
             const SizedBox(height: 32),
@@ -263,7 +263,7 @@ class _LocationScreenState extends State<LocationScreen> {
     );
   }
 
-  // â”€â”€ Card Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Card Builders 
 
   Widget _buildStatusWarningCard() {
     String msg = '';
@@ -485,7 +485,7 @@ class _LocationScreenState extends State<LocationScreen> {
           Row(
             children: [
               Text(
-                'Accuracy: ${_currentPosition != null ? "Â±${_currentPosition!.accuracy.round()} m" : "---"}',
+                'Accuracy: ${_currentPosition != null ? "${_currentPosition!.accuracy.round()} m" : "---"}',
                 style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
               ),
               const Spacer(),
@@ -545,7 +545,7 @@ class _LocationScreenState extends State<LocationScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
-          'â­ Saved Places',
+          'Â Saved Places',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1A1A2E)),
         ),
         TextButton.icon(
@@ -609,7 +609,7 @@ class _LocationScreenState extends State<LocationScreen> {
             ),
             title: Text(p.name, style: const TextStyle(fontWeight: FontWeight.w700, color: Color(0xFF1A1A2E))),
             subtitle: Text(
-              distanceStr.isNotEmpty ? '$distanceStr • ${p.address}' : p.address,
+              distanceStr.isNotEmpty ? '$distanceStr  ${p.address}' : p.address,
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             trailing: Row(
@@ -699,7 +699,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'ðŸ†˜ Safety & SOS',
+                    ' Safety & SOS',
                     style: TextStyle(fontWeight: FontWeight.w800, color: Color(0xFF991B1B), fontSize: 16),
                   ),
                   SizedBox(height: 2),

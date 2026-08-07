@@ -10,7 +10,7 @@ import 'diary_detail_screen.dart';
 ///
 /// Features:
 ///  1. Header: "My Life Book" & subtitle
-///  2. Quick action buttons: ✍️ï¸ Write Memory & 🎤 Speak to Diary
+///  2. Quick action buttons: ÂÂ Write Memory &  Speak to Diary
 ///  3. Search & Filter Bar (title, content, tags)
 ///  4. Calendar Date Selector Filter
 ///  5. Mood Overview (monthly statistics)
@@ -130,19 +130,19 @@ class _DiaryScreenState extends State<DiaryScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // â”€â”€ 1. Top Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  1. Top Header 
               _buildHeader(),
 
               const SizedBox(height: 16),
 
-              // â”€â”€ 2. Quick Action Buttons (Write & Speak to Diary) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  2. Quick Action Buttons (Write & Speak to Diary) 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
                     Expanded(
                       child: _ActionButton(
-                        label: '✍️ï¸ Write Memory',
+                        label: 'ÂÂ Write Memory',
                         color: const Color(0xFF8B5CF6),
                         onTap: _openWriteMemory,
                       ),
@@ -150,7 +150,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     const SizedBox(width: 12),
                     Expanded(
                       child: _ActionButton(
-                        label: '🎤 Speak to Diary',
+                        label: ' Speak to Diary',
                         color: const Color(0xFFEC4899),
                         onTap: _openSpeakToDiary,
                       ),
@@ -161,31 +161,31 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
               const SizedBox(height: 20),
 
-              // â”€â”€ 3. Search & Filter Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  3. Search & Filter Bar 
               _buildSearchBar(),
 
               const SizedBox(height: 12),
 
-              // â”€â”€ 4. Filter Chips (Favorites & Calendar Date) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  4. Filter Chips (Favorites & Calendar Date) 
               _buildFilterChips(),
 
               const SizedBox(height: 24),
 
-              // â”€â”€ 5. Mood Overview Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  5. Mood Overview Section 
               _buildMoodOverview(),
 
               const SizedBox(height: 24),
 
-              // â”€â”€ 6. Memories List Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  6. Memories List Header 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
                     Text(
                       _showFavoritesOnly
-                          ? 'â¤ï¸ Favorite Memories'
+                          ? 'Â¤Â Favorite Memories'
                           : _selectedDateFilter != null
-                              ? '📅 Memories on ${DiaryService.formatShortDate(_selectedDateFilter!)}'
+                              ? ' Memories on ${DiaryService.formatShortDate(_selectedDateFilter!)}'
                               : 'Recent Memories',
                       style: const TextStyle(
                         fontSize: 18,
@@ -204,7 +204,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
               const SizedBox(height: 12),
 
-              // â”€â”€ 7. Entries List or Empty State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+              //  7. Entries List or Empty State 
               _isLoading
                   ? const Padding(
                       padding: EdgeInsets.all(40),
@@ -220,7 +220,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     );
   }
 
-  // â”€â”€ Section Builders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Section Builders 
 
   Widget _buildHeader() {
     return Padding(
@@ -416,7 +416,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '😊 Mood Overview — This Month',
+              ' Mood Overview  This Month',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -498,7 +498,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             Text(
               isSearching
                   ? 'Try clearing the search or date filter to see all entries.'
-                  : 'Tap ✍️ï¸ Write Memory or 🎤 Speak to Diary to record your thoughts.',
+                  : 'Tap ÂÂ Write Memory or  Speak to Diary to record your thoughts.',
               style: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8), height: 1.4),
               textAlign: TextAlign.center,
             ),
@@ -638,7 +638,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
   }
 }
 
-// â”€â”€ Action Button Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+//  Action Button Component 
 
 class _ActionButton extends StatelessWidget {
   final String label;

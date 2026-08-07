@@ -133,7 +133,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
     );
   }
 
-  // â”€â”€ Tab 1: Active Devices â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Tab 1: Active Devices 
 
   Widget _buildDevicesTab() {
     return SingleChildScrollView(
@@ -141,12 +141,12 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // â”€â”€ Account Security Overview Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          //  Account Security Overview Card 
           _buildSecurityOverviewCard(),
 
           const SizedBox(height: 24),
 
-          // â”€â”€ Current Device Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          //  Current Device Section 
           const Text(
             'CURRENT DEVICE',
             style: TextStyle(
@@ -163,7 +163,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
 
           const SizedBox(height: 24),
 
-          // â”€â”€ Security Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+          //  Security Actions 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -280,7 +280,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${info.platform} • ${info.androidVersion}',
+                      '${info.platform}  ${info.androidVersion}',
                       style: const TextStyle(fontSize: 13, color: Color(0xFFDDD6FE)),
                     ),
                   ],
@@ -363,7 +363,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
             ),
             subtitle: Text(
-              '${session.platform} • Version ${session.appVersion}\nLast Active: Today',
+              '${session.platform}  Version ${session.appVersion}\nLast Active: Today',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             isThreeLine: true,
@@ -378,7 +378,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
     );
   }
 
-  // â”€â”€ Tab 2: Login History Audit Log â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Tab 2: Login History Audit Log 
 
   Widget _buildHistoryTab() {
     if (_history.isEmpty) {
@@ -417,7 +417,7 @@ class _LoginActivityScreenState extends State<LoginActivityScreen> {
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
             ),
             subtitle: Text(
-              '${item.deviceName} • ${item.platform}\n${item.timestamp.toString().substring(0, 16)}',
+              '${item.deviceName}  ${item.platform}\n${item.timestamp.toString().substring(0, 16)}',
               style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
             ),
             isThreeLine: true,

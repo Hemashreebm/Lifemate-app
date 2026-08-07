@@ -72,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  // â”€â”€ Data Backup & Restore â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  //  Data Backup & Restore 
 
   Future<void> _exportBackup() async {
     try {
@@ -126,17 +126,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ðŸŸ¢ Notifications: Allowed'),
+            Text(' Notifications: Allowed'),
             SizedBox(height: 6),
-            Text('ðŸŸ¢ Exact Alarm Clock: Active'),
+            Text(' Exact Alarm Clock: Active'),
             SizedBox(height: 6),
-            Text('ðŸŸ¢ Microphones & Voice: Active'),
+            Text(' Microphones & Voice: Active'),
             SizedBox(height: 6),
-            Text('ðŸŸ¢ Camera & OCR Scanner: Active'),
+            Text(' Camera & OCR Scanner: Active'),
             SizedBox(height: 6),
-            Text('ðŸŸ¢ Location Services: Active'),
+            Text(' Location Services: Active'),
             SizedBox(height: 6),
-            Text('ðŸŸ¢ SMS Bank Reader: Active'),
+            Text(' SMS Bank Reader: Active'),
           ],
         ),
         actions: [
@@ -169,17 +169,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // â”€â”€ Hero User Profile Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Hero User Profile Card 
                   _buildProfileHeroCard(),
 
                   const SizedBox(height: 20),
 
-                  // â”€â”€ Live App Statistics Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Live App Statistics Card 
                   _buildLiveStatsCard(),
 
                   const SizedBox(height: 20),
 
-                  // â”€â”€ Settings & App Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Settings & App Section 
                   const Text(
                     'Settings & Preferences',
                     style: TextStyle(
@@ -259,7 +259,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 4),
                     Text(
                       _profileService.isCompleted
-                          ? '${_profileService.occupation} • ${_profileService.preferredLanguage}'
+                          ? '${_profileService.occupation}  ${_profileService.preferredLanguage}'
                           : 'Personalize Lifemate for you',
                       style: const TextStyle(
                         fontSize: 13,
@@ -291,7 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active â˜ï¸' : 'Local Only ðŸ’¾',
+                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active ÂÂ' : 'Local Only ',
                             style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
                           ),
                         ),
@@ -469,7 +469,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icons.info_outline_rounded,
             iconColor: const Color(0xFF06B6D4),
             title: 'About Lifemate',
-            subtitle: 'Version 1.0.0 — Open-source edition',
+            subtitle: 'Version 1.0.0  Open-source edition',
             onTap: _showAboutDialog,
           ),
         ],
@@ -540,7 +540,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
         ),
         content: const Text(
-          'All your data — including diary logs, tasks, profile info, and transactions — is stored 100% locally on your device.\n\nLifemate does not upload your personal data to remote tracking servers.',
+          'All your data  including diary logs, tasks, profile info, and transactions  is stored 100% locally on your device.\n\nLifemate does not upload your personal data to remote tracking servers.',
         ),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),

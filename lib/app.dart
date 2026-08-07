@@ -34,7 +34,7 @@ class LifemateApp extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('💖', style: TextStyle(fontSize: 48)),
+                    Text('', style: TextStyle(fontSize: 48)),
                     SizedBox(height: 16),
                     CircularProgressIndicator(color: Color(0xFF7C3AED)),
                   ],

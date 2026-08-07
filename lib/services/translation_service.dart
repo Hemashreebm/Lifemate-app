@@ -54,9 +54,9 @@ class TranslationService {
 
   /// Check if an ML Kit language model is already downloaded on the device.
   Future<bool> isModelDownloaded(AppLanguage lang) async {
-    // English is the built-in base language in ML Kit — never needs a download.
+    // English is the built-in base language in ML Kit  never needs a download.
     if (lang == AppLanguage.english) {
-      debugPrint('[ENGLISH DIAGNOSTIC] English is built-in base language. isModelDownloaded → true');
+      debugPrint('[ENGLISH DIAGNOSTIC] English is built-in base language. isModelDownloaded  true');
       return true;
     }
 
@@ -64,7 +64,7 @@ class TranslationService {
     final bcp = lang.mlKitLanguage.bcpCode;
 
     try {
-      debugPrint('[$tag] MODEL CHECK — language: ${lang.label}, bcpCode: "$bcp"');
+      debugPrint('[$tag] MODEL CHECK  language: ${lang.label}, bcpCode: "$bcp"');
       final isDownloaded = await _modelManager.isModelDownloaded(bcp);
       debugPrint('[$tag] MODEL INSTALLED: $isDownloaded');
       return isDownloaded;
@@ -88,14 +88,14 @@ class TranslationService {
     // If already downloaded, return immediately.
     final alreadyPresent = await _modelManager.isModelDownloaded(bcp).catchError((_) => false);
     if (alreadyPresent) {
-      debugPrint('[$tag] MODEL already installed — skipping download.');
+      debugPrint('[$tag] MODEL already installed  skipping download.');
       return true;
     }
 
     try {
-      debugPrint('[$tag] DOWNLOAD START — language: ${lang.label}, bcpCode: "$bcp", isWifiRequired: false');
+      debugPrint('[$tag] DOWNLOAD START  language: ${lang.label}, bcpCode: "$bcp", isWifiRequired: false');
 
-      // Use 120s timeout — Hindi/Tamil models are ~30-40MB and take >45s on mobile data.
+      // Use 120s timeout  Hindi/Tamil models are ~30-40MB and take >45s on mobile data.
       bool success = false;
       try {
         success = await _modelManager
@@ -104,20 +104,20 @@ class TranslationService {
               const Duration(seconds: 120),
               onTimeout: () {
                 // Native download continues in background even after Dart timeout.
-                debugPrint('[$tag] DOWNLOAD Dart-future TIMEOUT after 120s — '
+                debugPrint('[$tag] DOWNLOAD Dart-future TIMEOUT after 120s  '
                     'native download may still be in progress.');
                 return false;
               },
             );
       } catch (e) {
-        debugPrint('[$tag] DOWNLOAD future ERROR: $e — will poll for native completion.');
+        debugPrint('[$tag] DOWNLOAD future ERROR: $e  will poll for native completion.');
         success = false;
       }
 
       if (success) {
         debugPrint('[$tag] DOWNLOAD SUCCESS (returned true immediately)');
         final verified = await _modelManager.isModelDownloaded(bcp).catchError((_) => false);
-        debugPrint('[$tag] POST-DOWNLOAD VERIFICATION: isModelDownloaded → $verified');
+        debugPrint('[$tag] POST-DOWNLOAD VERIFICATION: isModelDownloaded  $verified');
         return verified;
       }
 
@@ -128,14 +128,14 @@ class TranslationService {
       for (int i = 1; i <= 18; i++) {
         await Future.delayed(const Duration(seconds: 5));
         final ready = await _modelManager.isModelDownloaded(bcp).catchError((_) => false);
-        debugPrint('[$tag] POLL #$i: isModelDownloaded → $ready');
+        debugPrint('[$tag] POLL #$i: isModelDownloaded  $ready');
         if (ready) {
           debugPrint('[$tag] DOWNLOAD COMPLETE (detected via polling at attempt $i)');
           return true;
         }
       }
 
-      debugPrint('[$tag] DOWNLOAD FAILED — model not available after polling.');
+      debugPrint('[$tag] DOWNLOAD FAILED  model not available after polling.');
       return false;
     } catch (e, st) {
       debugPrint('[$tag] DOWNLOAD ERROR: $e\n$st');
@@ -155,7 +155,7 @@ class TranslationService {
     final tag = '${target.label.toUpperCase()} DIAGNOSTIC';
 
     debugPrint(
-      '[$tag] TRANSLATE START — '
+      '[$tag] TRANSLATE START  '
       'source: ${source.label} (bcpCode: "${source.mlKitLanguage.bcpCode}"), '
       'target: ${target.label} (bcpCode: "${target.mlKitLanguage.bcpCode}"), '
       'text: "$text"',
@@ -194,7 +194,7 @@ class TranslationService {
         sourceLanguage: source.mlKitLanguage,
         targetLanguage: target.mlKitLanguage,
       );
-      debugPrint('[$tag] OnDeviceTranslator CREATED — calling translateText()...');
+      debugPrint('[$tag] OnDeviceTranslator CREATED  calling translateText()...');
 
       final result = await translator.translateText(text);
       debugPrint('[$tag] TRANSLATE SUCCESS: "$result"');

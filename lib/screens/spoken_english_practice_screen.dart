@@ -9,7 +9,7 @@ import '../services/tts_service.dart';
 /// 1. Simple, beginner-friendly instructions.
 /// 2. Large Start Speaking / Stop microphone button.
 /// 3. Direct speech.listen(localeId: 'en_US') without speech.locales() blocking check.
-/// 4. Recognized speech display card with 🔊 Listen, 🔄 Try Again, and ðŸ—‘ Clear buttons.
+/// 4. Recognized speech display card with  Listen,  Try Again, and  Clear buttons.
 class SpokenEnglishPracticeScreen extends StatefulWidget {
   const SpokenEnglishPracticeScreen({super.key});
 
@@ -168,12 +168,12 @@ class _SpokenEnglishPracticeScreenState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // â”€â”€ Instruction Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Instruction Banner 
             _buildInstructionCard(),
 
             const SizedBox(height: 24),
 
-            // â”€â”€ Large Mic Button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Large Mic Button 
             _buildMicButton(),
 
             const SizedBox(height: 12),
@@ -192,7 +192,7 @@ class _SpokenEnglishPracticeScreenState
 
             const SizedBox(height: 28),
 
-            // â”€â”€ Recognized Speech Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+            //  Recognized Speech Card 
             _buildResultCard(),
 
             const SizedBox(height: 32),
@@ -396,7 +396,7 @@ class _SpokenEnglishPracticeScreenState
                   ),
                 ),
 
-                // ðŸ—‘ Clear Button
+                //  Clear Button
                 IconButton(
                   onPressed: _clearText,
                   icon: const Icon(Icons.delete_outline_rounded),

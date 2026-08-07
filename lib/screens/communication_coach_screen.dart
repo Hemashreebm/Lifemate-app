@@ -7,7 +7,7 @@ import 'daily_conversation_screen.dart';
 /// Gamified Communication Coach Screen
 ///
 /// Features:
-/// 1. Total XP ⚡¡, Daily Streak 🔥, and Badges ðŸ† header banner.
+/// 1. Total XP ¡, Daily Streak , and Badges Â header banner.
 /// 2. Structured Gamified Curriculum (Beginner Level 1 -> Intermediate Level 2 -> Advanced Level 3).
 /// 3. Gated Unlock Progression (Lesson N+1 unlocks after Lesson N is completed).
 /// 4. Interactive practice launchers: Spoken Practice, Pronunciation Scoring, Real-life Dialogue, Interview & Group Discussion.
@@ -45,7 +45,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
     if (!lesson.isUnlocked) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('🔒 Complete previous lessons to unlock "${lesson.title}"!'),
+          content: Text(' Complete previous lessons to unlock "${lesson.title}"!'),
           backgroundColor: const Color(0xFFEF4444),
         ),
       );
@@ -95,17 +95,17 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // â”€â”€ Gamified Stats Banner â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Gamified Stats Banner 
                   _buildGamifiedStatsHeader(),
 
                   const SizedBox(height: 20),
 
-                  // â”€â”€ Level Selector Tabs â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Level Selector Tabs 
                   _buildLevelSelector(),
 
                   const SizedBox(height: 20),
 
-                  // â”€â”€ Lesson List â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Lesson List 
                   Text(
                     '$_selectedLevel Lessons',
                     style: const TextStyle(
@@ -121,7 +121,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
 
                   const SizedBox(height: 28),
 
-                  // â”€â”€ Practice Modes Quick Access â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                  //  Practice Modes Quick Access 
                   const Text(
                     'Practice Modes',
                     style: TextStyle(
@@ -206,7 +206,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
             children: [
               Row(
                 children: [
-                  const Text('🔥 ', style: TextStyle(fontSize: 22)),
+                  const Text(' ', style: TextStyle(fontSize: 22)),
                   Text(
                     '${_curriculumSvc.streakDays} Day Streak!',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
@@ -221,7 +221,7 @@ class _CommunicationCoachScreenState extends State<CommunicationCoachScreen> {
                 ),
                 child: Row(
                   children: [
-                    const Text('⚡¡ ', style: TextStyle(fontSize: 14)),
+                    const Text('¡ ', style: TextStyle(fontSize: 14)),
                     Text(
                       '${_curriculumSvc.totalXp} XP',
                       style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Colors.white),
