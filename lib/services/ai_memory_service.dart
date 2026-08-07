@@ -112,6 +112,12 @@ class AiMemoryService {
     return _memoryStore[key]?.value;
   }
 
+  /// Get formatted memory context string for AI prompts.
+  String getMemoryContextPrompt() {
+    if (_memoryStore.isEmpty) return 'No prior user memory facts.';
+    return _memoryStore.values.map((f) => '${f.key}: ${f.value}').join('; ');
+  }
+
   /// Forget / delete a memory fact.
   Future<void> forget(String key) async {
     if (_memoryStore.containsKey(key)) {
