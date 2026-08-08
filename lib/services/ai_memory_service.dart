@@ -89,6 +89,12 @@ class AiMemoryService {
   }) async {
     if (key.trim().isEmpty || value.trim().isEmpty) return;
 
+    // Filter out sensitive data (passwords, OTPs, PINs, CVVs, banking credentials)
+    if (_isSensitiveData(key, value)) {
+      debugPrint('[AI MEMORY SECURITY] Rejected storing sensitive memory key/value.');
+      return;
+    }
+
     final now = DateTime.now();
     final existing = _memoryStore[key];
 
@@ -105,6 +111,21 @@ class AiMemoryService {
     await _saveLocal();
     await _syncToCloud(fact);
     debugPrint('[AI MEMORY] Remembered: ${fact.key} = "${fact.value}"');
+  }
+
+  /// Check if memory key or value contains sensitive security/banking credentials
+  bool _isSensitiveData(String k, String v) {
+    final combined = '${k.toLowerCase()} ${v.toLowerCase()}';
+    if (combined.contains('password') ||
+        combined.contains('pin') ||
+        combined.contains('otp') ||
+        combined.contains('cvv') ||
+        combined.contains('card number') ||
+        combined.contains('account number') ||
+        combined.contains('banking credential')) {
+      return true;
+    }
+    return false;
   }
 
   /// Retrieve a specific memory value by key.
