@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'device_info_service.dart';
 import 'secure_storage_service.dart';
+import 'supabase_auth_service.dart';
 
 /// Result wrapper for authentication operations carrying detailed error messages.
 class AuthResult {
@@ -323,6 +324,44 @@ class AuthService {
       _failedLoginAttempts++;
       debugPrint('[AUTH SERVICE] Unexpected error signing in: $e');
       return AuthResult(success: false, errorMessage: e.toString());
+    }
+  }
+
+  /// Sign in with Google using Supabase Auth OAuth flow.
+  Future<AuthResult> signInWithGoogle() async {
+    try {
+      final supabaseAuth = SupabaseAuthService.instance;
+      final success = await supabaseAuth.signInWithGoogle();
+
+      final supabaseUser = supabaseAuth.currentUser;
+      if (supabaseUser != null) {
+        _isLoggedIn = true;
+        _isGuestMode = false;
+        _currentUserUid = supabaseUser.id;
+        _currentUserEmail = supabaseUser.email ?? 'google_user@lifemate.app';
+        _currentUserName = (supabaseUser.userMetadata?['full_name'] as String?) ?? 'Google User';
+
+        final prefs = await SharedPreferences.getInstance();
+        final userMap = {
+          'uid': _currentUserUid,
+          'email': _currentUserEmail,
+          'name': _currentUserName,
+        };
+        await prefs.setString(_prefUserKey, jsonEncode(userMap));
+        await prefs.setBool(_prefRememberMeKey, true);
+        await prefs.setBool(_prefGuestModeKey, false);
+
+        await _refreshCurrentSession();
+        return const AuthResult(success: true);
+      }
+
+      if (success) {
+        return const AuthResult(success: true, errorMessage: 'Redirecting to Google Sign-In...');
+      }
+      return const AuthResult(success: false, errorMessage: 'Could not initiate Google Sign-In.');
+    } catch (e) {
+      debugPrint('[AUTH SERVICE] Google Sign-In exception: $e');
+      return AuthResult(success: false, errorMessage: 'Google Sign-In failed: $e');
     }
   }
 

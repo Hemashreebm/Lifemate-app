@@ -421,12 +421,27 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
         const SizedBox(height: 14),
         OutlinedButton.icon(
           onPressed: () async {
-            setState(() => _isLoading = true);
-            await _authSvc.signInWithEmail('google_user@lifemate.app', 'GoogleUser123!', rememberMe: true);
+            setState(() {
+              _isLoading = true;
+              _errorMessage = null;
+            });
+            final res = await _authSvc.signInWithGoogle();
             await _backupSvc.setCloudBackupEnabled(true);
             if (mounted) {
               setState(() => _isLoading = false);
-              await _proceedToMainScreen();
+              if (res.success) {
+                if (res.errorMessage != null && res.errorMessage!.contains('Redirecting')) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(res.errorMessage!), backgroundColor: const Color(0xFF7C3AED)),
+                  );
+                } else {
+                  await _proceedToMainScreen();
+                }
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(res.errorMessage ?? 'Google Sign-In failed.'), backgroundColor: const Color(0xFFEF4444)),
+                );
+              }
             }
           },
           icon: const Icon(Icons.g_mobiledata_rounded, size: 28, color: Color(0xFFEA4335)),
