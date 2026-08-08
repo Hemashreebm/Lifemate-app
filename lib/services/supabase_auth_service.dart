@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'supabase_service.dart';
 
 /// Managed Supabase Authentication Service for Lifemate v2.0.
 ///
 /// Features:
-/// 1. Google OAuth & Email/Password login/signup/reset abstraction.
-/// 2. Session state restoration & user identity mapping.
-/// 3. Identity bridge handling coexistence between Firebase Auth and Supabase Auth.
-/// 4. Zero hardcoded client secrets.
+/// 1. Native Google ID Token Sign-In (0 Browser Redirects / 0 localhost errors).
+/// 2. Email/Password login/signup/reset abstraction.
+/// 3. Session state restoration & user identity mapping.
+/// 4. Identity bridge handling coexistence between Firebase Auth and Supabase Auth.
+/// 5. Zero hardcoded client secrets.
 class SupabaseAuthService {
   static final SupabaseAuthService instance = SupabaseAuthService._internal();
   SupabaseAuthService._internal();
@@ -77,7 +80,7 @@ class SupabaseAuthService {
     }
   }
 
-  /// Trigger Google OAuth Sign-In via Supabase Auth
+  /// Trigger Google Sign-In (Uses Native ID Token on Mobile to avoid browser localhost redirects).
   Future<bool> signInWithGoogle() async {
     final supabase = SupabaseService.instance;
     if (!supabase.isInitialized || supabase.client == null) {
@@ -85,9 +88,44 @@ class SupabaseAuthService {
       return false;
     }
 
+    // 1. Try Native Google Sign-In ID Token Exchange (Native Mobile Flow)
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      try {
+        debugPrint('[SUPABASE AUTH] Triggering Native Google Sign-In Picker...');
+        final GoogleSignIn googleSignIn = GoogleSignIn();
+        final googleUser = await googleSignIn.signIn();
+
+        if (googleUser == null) {
+          debugPrint('[SUPABASE AUTH] Google Sign-In canceled by user.');
+          return false;
+        }
+
+        final googleAuth = await googleUser.authentication;
+        final idToken = googleAuth.idToken;
+        final accessToken = googleAuth.accessToken;
+
+        if (idToken != null) {
+          debugPrint('[SUPABASE AUTH] Exchanging Native Google ID Token with Supabase Auth...');
+          final response = await supabase.client!.auth.signInWithIdToken(
+            provider: OAuthProvider.google,
+            idToken: idToken,
+            accessToken: accessToken,
+          );
+
+          if (response.user != null) {
+            debugPrint('[SUPABASE AUTH SUCCESS] Signed in with Native Google ID Token: ${response.user?.id}');
+            return true;
+          }
+        }
+      } catch (e) {
+        debugPrint('[SUPABASE AUTH WARNING] Native Google Sign-In failed or unconfigured: $e. Trying web OAuth fallback...');
+      }
+    }
+
+    // 2. Web / Browser OAuth Fallback
     try {
       final redirectUrl = kIsWeb ? null : 'com.example.lifemate://login-callback/';
-      debugPrint('[SUPABASE AUTH] Triggering Google OAuth with redirect: $redirectUrl');
+      debugPrint('[SUPABASE AUTH] Triggering Web OAuth with redirect: $redirectUrl');
 
       return await supabase.client!.auth.signInWithOAuth(
         OAuthProvider.google,
@@ -95,7 +133,7 @@ class SupabaseAuthService {
         authScreenLaunchMode: kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
       );
     } catch (e) {
-      debugPrint('[SUPABASE AUTH ERROR] Google OAuth sign in error: $e');
+      debugPrint('[SUPABASE AUTH ERROR] Google OAuth fallback error: $e');
       rethrow;
     }
   }
