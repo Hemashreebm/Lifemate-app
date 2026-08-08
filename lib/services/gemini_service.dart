@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'supabase_service.dart';
 import 'ai_memory_service.dart';
 
@@ -58,8 +59,14 @@ class GeminiService {
     if (supabase.isInitialized && supabase.client != null) {
       try {
         debugPrint('[GEMINI SERVICE] Sending request to Supabase Edge Function gemini-chat...');
+        final firebaseUser = FirebaseAuth.instance.currentUser;
+        final idToken = await firebaseUser?.getIdToken() ?? 'dummy_dev_token';
+
         final res = await supabase.client!.functions.invoke(
           'gemini-chat',
+          headers: {
+            'Authorization': 'Bearer $idToken',
+          },
           body: {
             'prompt': sanitizedPrompt,
             'context': context,

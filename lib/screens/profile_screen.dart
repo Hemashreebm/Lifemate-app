@@ -493,7 +493,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             title: 'Reliable Reminders & Battery',
             subtitle: 'Exempt Lifemate from battery optimization',
             onTap: () {
-              BatteryOptimizationService.instance.requestExemptionWithDialog(context);
+              BatteryOptimizationService.requestIgnoreBatteryOptimizations();
             },
           ),
           const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
