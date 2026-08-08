@@ -86,9 +86,13 @@ class SupabaseAuthService {
     }
 
     try {
+      final redirectUrl = kIsWeb ? null : 'com.example.lifemate://login-callback/';
+      debugPrint('[SUPABASE AUTH] Triggering Google OAuth with redirect: $redirectUrl');
+
       return await supabase.client!.auth.signInWithOAuth(
         OAuthProvider.google,
-        redirectTo: kIsWeb ? null : 'io.supabase.lifemate://login-callback/',
+        redirectTo: redirectUrl,
+        authScreenLaunchMode: kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication,
       );
     } catch (e) {
       debugPrint('[SUPABASE AUTH ERROR] Google OAuth sign in error: $e');
