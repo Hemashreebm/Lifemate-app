@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'auth_service.dart';
+import '../repositories/supabase_profile_repository.dart';
 
 /// User Profile Service with Extensible Personalization Attributes,
 /// Local Persistence (SharedPreferences), and Authenticated Cloud Firestore Sync.
@@ -253,8 +254,13 @@ class ProfileService {
       await prefs.setString(_keyAvatar, avatar);
       await prefs.setBool(_keyCompleted, isCompleted);
 
-      // Cloud Firestore Sync (scoped to authenticated UID)
+      // Sync to Cloud Firestore (Firebase)
       await syncToCloud();
+
+      // Sync to Supabase Cloud Database
+      await SupabaseProfileRepository.instance.saveProfileToCloud(this);
+
+      debugPrint('[PROFILE SERVICE] Saved profile successfully (Local + Firebase + Supabase Cloud).');
     } catch (e) {
       debugPrint('[PROFILE SERVICE] Error saving profile: $e');
     }
