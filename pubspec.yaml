@@ -75,6 +75,8 @@ dependencies:
   flutter_secure_storage: ^9.2.2
   # Read the installed app version / build number at runtime (no hardcoding)
   package_info_plus: ^8.3.0
+  # Supabase Flutter client for development integration & remote sync
+  supabase_flutter: ^2.8.0
 
 dependency_overrides:
   record_linux: 2.1.1

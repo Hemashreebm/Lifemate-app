@@ -7,6 +7,7 @@ import 'services/ai_memory_service.dart';
 import 'services/budget_service.dart';
 import 'services/habit_service.dart';
 import 'services/communication_platform_service.dart';
+import 'services/supabase_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,13 @@ void main() async {
     debugPrint('[FIREBASE] Successfully initialized Firebase Core & Cloud Firestore!');
   } catch (e) {
     debugPrint('[FIREBASE] Error initializing Firebase Core: $e');
+  }
+
+  // Initialize Supabase for Development Environment (Non-blocking fallback)
+  try {
+    await SupabaseService.instance.initialize();
+  } catch (e) {
+    debugPrint('[SUPABASE] Initialization skipped: $e');
   }
 
   // Initialize Core Services

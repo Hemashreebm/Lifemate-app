@@ -45,3 +45,11 @@ app.*.map.json
 /android/app/release
 /apk/
 *.apk
+
+# Environment & Secrets (Supabase / Gemini / Private Keys)
+.env
+.env.*
+*.env
+secrets.json
+supabase_keys.json
+
