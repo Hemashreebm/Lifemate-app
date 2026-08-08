@@ -73,6 +73,8 @@ dependencies:
   device_info_plus: ^11.1.0
   # Encrypted secure Key-Value storage (Android KeyStore / iOS Keychain)
   flutter_secure_storage: ^9.2.2
+  # Read the installed app version / build number at runtime (no hardcoding)
+  package_info_plus: ^8.3.0
 
 dependency_overrides:
   record_linux: 2.1.1

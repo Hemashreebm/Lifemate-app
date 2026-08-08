@@ -484,39 +484,22 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
           icon: f.icon,
           color: f.color,
           onTap: () {
-            if (f.title == 'Communication Coach') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const CommunicationCoachScreen()),
-              );
-            } else if (f.title == 'Friendly Diary') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const DiaryScreen()),
-              );
-            } else if (f.title == 'Tasks & Reminders') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const TasksScreen()),
-              );
-            } else if (f.title == 'Smart Location') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const LocationScreen()),
-              );
-            } else if (f.title == 'Real-Time Translation') {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const TranslationScreen()),
-              );
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('${f.title}  coming soon.'),
-                  margin: const EdgeInsets.all(16),
-                  duration: const Duration(seconds: 2),
-                ),
-              );
+            switch (f.title) {
+              case 'Communication Coach':
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const CommunicationCoachScreen()));
+              case 'Friendly Diary':
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const DiaryScreen()));
+              case 'Tasks & Reminders':
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const TasksScreen()));
+              case 'Smart Location':
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const LocationScreen()));
+              case 'Real-Time Translation':
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const TranslationScreen()));
             }
           },
         );

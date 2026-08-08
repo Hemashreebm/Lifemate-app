@@ -506,30 +506,6 @@ class _TranslationScreenState extends State<TranslationScreen> {
             tooltip: 'Translation History & Favorites',
             onPressed: _showHistoryAndFavorites,
           ),
-          IconButton(
-            icon: const Icon(Icons.volume_up_outlined),
-            tooltip: 'Run Direct TTS Diagnostic Test',
-            onPressed: () async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Testing direct TTS for all languages... Check logcat / debug console.'),
-                  duration: Duration(seconds: 3),
-                ),
-              );
-              final results = await TtsService.instance.runDirectDiagnosticTest();
-              if (mounted) {
-                final summary = results.entries
-                    .map((e) => '${e.key.label}: ${e.value ? "PASS" : "FAIL"}')
-                    .join(', ');
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Direct TTS Test Results: $summary'),
-                    duration: const Duration(seconds: 5),
-                  ),
-                );
-              }
-            },
-          ),
         ],
       ),
       body: SingleChildScrollView(

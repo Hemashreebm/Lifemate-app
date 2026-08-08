@@ -346,28 +346,8 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                 icon: const Icon(Icons.history_rounded, size: 18),
                 label: const Text('View SMS Import History'),
               ),
-              const SizedBox(height: 8),
-              OutlinedButton.icon(
-                onPressed: () async {
-                  final sample = SmsExpenseParserService.instance.parseSmsText(
-                    'HDFCBK',
-                    'Rs.450.00 debited from a/c **1234 at Swiggy on 30-07-26. Avail Bal: Rs.15200.00',
-                  );
-                  if (sample != null) {
-                    await SmsExpenseParserService.instance.importParsedSms(sample);
-                    _refresh();
-                    if (mounted) {
-                      Navigator.pop(ctx);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Sample HDFC SMS transaction imported!')),
-                      );
-                    }
-                  }
-                },
-                icon: const Icon(Icons.download_rounded, size: 18),
-                label: const Text('Import Sample Bank SMS'),
-              ),
             ],
+
           ),
           actions: [
             TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Done')),

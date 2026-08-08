@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../services/profile_service.dart';
 import '../services/task_service.dart';
 import '../services/diary_service.dart';
@@ -9,6 +10,8 @@ import '../services/transaction_service.dart';
 import '../services/auth_service.dart';
 import '../services/backup_manager_service.dart';
 import '../services/battery_optimization_service.dart';
+import '../widgets/user_avatar_widget.dart';
+import '../widgets/complete_profile_card.dart';
 import 'edit_profile_screen.dart';
 import 'login_activity_screen.dart';
 import 'security_dashboard_screen.dart';
@@ -19,10 +22,11 @@ import 'auth_screen.dart';
 ///
 /// Features:
 /// 1. Profile Hero Card & User Info display.
-/// 2. Live Usage Statistics (Tasks, Diary, Expenses).
-/// 3. Data Backup & Restore (JSON Export / Import).
-/// 4. Settings Section: Notifications, Voice, Permissions, Battery, Privacy, About.
-/// 5. 100% Local device storage guarantee.
+/// 2. Live Profile Completeness Progress indicator & Personalization attributes.
+/// 3. Live Usage Statistics (Tasks, Diary, Expenses).
+/// 4. Data Backup & Restore (JSON Export / Import).
+/// 5. Settings Section: Notifications, Voice, Permissions, Battery, Privacy, About.
+/// 6. Authenticated UID-isolated cloud sync.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -41,10 +45,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   static const _purpleAccent = Color(0xFF7C3AED);
   static const _bgLight = Color(0xFFF8FAFC);
 
+  String _appVersion = '';
+
   @override
   void initState() {
     super.initState();
     _loadProfile();
+    _loadAppVersion();
+  }
+
+  Future<void> _loadAppVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    if (mounted) {
+      setState(() => _appVersion = '${info.version}+${info.buildNumber}');
+    }
   }
 
   Future<void> _loadProfile() async {
@@ -79,12 +93,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _exportBackup() async {
     try {
       final backupData = {
-        'version': '1.0.3',
+        'version': _appVersion,
         'exportDate': DateTime.now().toIso8601String(),
         'profile': {
           'name': _profileService.name,
           'nickname': _profileService.nickname,
           'age': _profileService.age,
+          'gender': _profileService.gender,
+          'state': _profileService.state,
+          'district': _profileService.district,
           'occupation': _profileService.occupation,
           'preferredLanguage': _profileService.preferredLanguage,
         },
@@ -171,17 +188,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //  Hero User Profile Card 
+                  // Hero User Profile Card
                   _buildProfileHeroCard(),
 
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 14),
 
-                  //  Live App Statistics Card 
+                  // Profile Completion Prompt if incomplete
+                  CompleteProfileCard(
+                    onCompleted: _loadProfile,
+                  ),
+
+                  const SizedBox(height: 14),
+
+                  // Live App Statistics Card
                   _buildLiveStatsCard(),
 
                   const SizedBox(height: 20),
 
-                  //  Settings & App Section 
+                  // Settings & App Section
                   const Text(
                     'Settings & Preferences',
                     style: TextStyle(
@@ -211,6 +235,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ? '("${_profileService.nickname}")'
         : '';
 
+    final completeness = _profileService.completenessPercentage;
+    final stateDist = [
+      if (_profileService.district.isNotEmpty) _profileService.district,
+      if (_profileService.state.isNotEmpty) _profileService.state,
+    ].join(', ');
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(22),
@@ -229,16 +259,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Row(
             children: [
-              Container(
-                width: 68,
-                height: 68,
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(51),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withAlpha(102), width: 2),
-                ),
-                alignment: Alignment.center,
-                child: _buildAvatarWidget(),
+              const UserAvatarWidget(
+                radius: 34,
+                backgroundColor: Color(0x33FFFFFF),
+                textColor: Colors.white,
+                iconColor: Colors.white,
               ),
 
               const SizedBox(width: 16),
@@ -250,12 +275,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(
                       '$displayName $displayNickname',
                       style: const TextStyle(
-                        fontSize: 20,
+                        fontSize: 19,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 3),
                     Text(
                       _profileService.isCompleted
                           ? '${_profileService.occupation}  ${_profileService.preferredLanguage}'
@@ -266,6 +291,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 1.3,
                       ),
                     ),
+                    if (stateDist.isNotEmpty) ...[
+                      const SizedBox(height: 2),
+                      Row(
+                        children: [
+                          const Icon(Icons.location_on_outlined, size: 12, color: Color(0xFFC4B5FD)),
+                          const SizedBox(width: 3),
+                          Expanded(
+                            child: Text(
+                              stateDist,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(fontSize: 11, color: Color(0xFFC4B5FD)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                     const SizedBox(height: 6),
                     Row(
                       children: [
@@ -290,7 +332,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            BackupManagerService.instance.isCloudBackupEnabled ? 'Backup: Active' : 'Local Only',
+                            'Profile $completeness%',
                             style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: Colors.white),
                           ),
                         ),
@@ -324,63 +366,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildAvatarWidget() {
-    final photoUrl = FirebaseAuth.instance.currentUser?.photoURL;
-    if (photoUrl != null && photoUrl.isNotEmpty) {
-      return CircleAvatar(
-        radius: 34,
-        backgroundImage: NetworkImage(photoUrl),
-        backgroundColor: Colors.white.withAlpha(51),
-      );
-    }
-
-    final avatarStr = _profileService.avatar.trim();
-    // If custom single emoji/icon string (not 'Profile', 'Student', 'Professional' labels)
-    if (avatarStr.isNotEmpty &&
-        avatarStr != 'Profile' &&
-        avatarStr != 'Student' &&
-        avatarStr != 'Professional' &&
-        avatarStr != 'Default' &&
-        avatarStr.length <= 2) {
-      return FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Text(
-          avatarStr,
-          style: const TextStyle(fontSize: 32),
-        ),
-      );
-    }
-
-    // Extract user initials from name (e.g. "Hemashree B M" -> "HB")
-    final name = _profileService.name.trim();
-    String initials = '';
-    if (name.isNotEmpty) {
-      final parts = name.split(RegExp(r'\s+'));
-      if (parts.length >= 2) {
-        initials = '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-      } else if (parts.isNotEmpty && parts[0].isNotEmpty) {
-        initials = parts[0].substring(0, parts[0].length >= 2 ? 2 : 1).toUpperCase();
-      }
-    }
-
-    if (initials.isNotEmpty && initials != 'PR' && initials != 'PRO') {
-      return Text(
-        initials,
-        style: const TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      );
-    }
-
-    return const Icon(
-      Icons.person_rounded,
-      size: 38,
-      color: Colors.white,
     );
   }
 
@@ -442,37 +427,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       child: Column(
         children: [
-          _buildSettingTile(
-            icon: Icons.sms_outlined,
-            iconColor: const Color(0xFF10B981),
-            title: 'Smart SMS Expense Tracker',
-            subtitle: 'Auto-detect bank SMS, view import history & settings',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SmsImportHistoryScreen()),
-              );
-            },
-          ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.cloud_sync_rounded,
-            iconColor: const Color(0xFF3B82F6),
-            title: 'Account & Cloud Backup',
-            subtitle: 'Sign in, register, or manage cloud synchronization',
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const AuthScreen()),
-              );
-            },
-          ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.shield_rounded,
-            iconColor: const Color(0xFF10B981),
+          _buildSettingsTile(
+            icon: Icons.shield_outlined,
+            iconColor: const Color(0xFF7C3AED),
             title: 'Security & Privacy Dashboard',
-            subtitle: 'Central hub for biometrics, 2FA, devices & encryption',
+            subtitle: 'Security score, password & active sessions',
             onTap: () {
               Navigator.push(
                 context,
@@ -480,12 +439,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.devices_rounded,
-            iconColor: const Color(0xFF7C3AED),
-            title: 'Login Activity & Devices',
-            subtitle: 'View logged-in devices & active sessions',
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.history_rounded,
+            iconColor: const Color(0xFF3B82F6),
+            title: 'Login Activity History',
+            subtitle: 'Recent logins and active device sessions',
             onTap: () {
               Navigator.push(
                 context,
@@ -493,60 +453,73 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.battery_charging_full_rounded,
-            iconColor: const Color(0xFFF59E0B),
-            title: 'Battery Optimization',
-            subtitle: 'Ensure background alarms run without delay',
-            onTap: () => BatteryOptimizationService.requestIgnoreBatteryOptimizations(),
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.sms_outlined,
+            iconColor: const Color(0xFF10B981),
+            title: 'SMS Expense Tracker History',
+            subtitle: 'Imported bank transactions & parsing logs',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SmsImportHistoryScreen()),
+              );
+            },
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.backup_rounded,
-            iconColor: const Color(0xFF7C3AED),
-            title: 'Backup & Export Data',
-            subtitle: 'Copy JSON backup of profile and settings',
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.cloud_upload_outlined,
+            iconColor: const Color(0xFF0EA5E9),
+            title: 'Export JSON Data Backup',
+            subtitle: 'Copy complete encrypted backup to clipboard',
             onTap: _exportBackup,
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.security_rounded,
-            iconColor: const Color(0xFF10B981),
-            title: 'Permissions Status',
-            subtitle: 'View active Android runtime permissions',
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.checklist_rounded,
+            iconColor: const Color(0xFFF59E0B),
+            title: 'App Permissions Status',
+            subtitle: 'View active Android system permissions',
             onTap: _showPermissionsStatus,
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.notifications_active_rounded,
-            iconColor: const Color(0xFF3B82F6),
-            title: 'Notifications',
-            subtitle: 'Task reminders & alert settings',
-            onTap: _showNotificationsInfo,
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.battery_saver_rounded,
+            iconColor: const Color(0xFF8B5CF6),
+            title: 'Reliable Reminders & Battery',
+            subtitle: 'Exempt Lifemate from battery optimization',
+            onTap: () {
+              BatteryOptimizationService.instance.requestExemptionWithDialog(context);
+            },
           ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
-            icon: Icons.lock_outline_rounded,
-            iconColor: const Color(0xFFF59E0B),
-            title: 'Privacy & Security',
-            subtitle: '100% local device storage guarantee',
-            onTap: _showPrivacyDialog,
-          ),
-          const Divider(height: 1, color: Color(0xFFF1F5F9)),
-          _buildSettingTile(
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
             icon: Icons.info_outline_rounded,
             iconColor: const Color(0xFF06B6D4),
             title: 'About Lifemate',
-            subtitle: 'Version 1.0.3  Open-source edition',
+            subtitle: 'Version and developer credits',
             onTap: _showAboutDialog,
+          ),
+          const Divider(height: 1, indent: 60, color: Color(0xFFF1F5F9)),
+
+          _buildSettingsTile(
+            icon: Icons.logout_rounded,
+            iconColor: const Color(0xFFEF4444),
+            title: 'Sign Out Account',
+            subtitle: 'Log out safely from Lifemate',
+            onTap: _confirmLogout,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildSettingTile({
+  Widget _buildSettingsTile({
     required IconData icon,
     required Color iconColor,
     required String title,
@@ -558,64 +531,50 @@ class _ProfileScreenState extends State<ProfileScreen> {
       leading: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: iconColor.withAlpha(26),
+          color: iconColor.withAlpha(25),
           borderRadius: BorderRadius.circular(14),
         ),
         child: Icon(icon, color: iconColor, size: 22),
       ),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
+        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14, color: Color(0xFF1E293B)),
       ),
       subtitle: Text(
         subtitle,
         style: const TextStyle(fontSize: 12, color: Color(0xFF64748B)),
       ),
-      trailing: const Icon(Icons.chevron_right_rounded, color: Color(0xFF94A3B8), size: 22),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Color(0xFFCBD5E1)),
     );
   }
 
-  void _showNotificationsInfo() {
-    showDialog(
+  Future<void> _confirmLogout() async {
+    final result = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.notifications_active_rounded, color: Color(0xFF3B82F6)),
-            SizedBox(width: 10),
-            Text('Notifications'),
-          ],
-        ),
-        content: const Text(
-          'Task and daily reminders run locally on your phone using Android local notification & AlarmManager services.\n\nNo internet connection is required to receive scheduled reminders.',
-        ),
+        title: const Text('Sign Out'),
+        content: const Text('Are you sure you want to sign out of Lifemate?'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
+          TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: const Text('Sign Out'),
+          ),
         ],
       ),
     );
-  }
 
-  void _showPrivacyDialog() {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Row(
-          children: [
-            Icon(Icons.lock_rounded, color: Color(0xFFF59E0B)),
-            SizedBox(width: 10),
-            Text('Privacy Policy'),
-          ],
-        ),
-        content: const Text(
-          'All your data  including diary logs, tasks, profile info, and transactions  is stored 100% locally on your device.\n\nLifemate does not upload your personal data to remote tracking servers.',
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK')),
-        ],
-      ),
-    );
+    if (result == true) {
+      await AuthService.instance.signOut();
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const AuthScreen()),
+          (route) => false,
+        );
+      }
+    }
   }
 
   void _showAboutDialog() {
@@ -629,15 +588,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text('About Lifemate'),
           ],
         ),
-        content: const Column(
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Lifemate', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
-            SizedBox(height: 4),
-            Text('Your personal everyday companion.', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
-            SizedBox(height: 14),
-            Text('Version: 1.0.3\nAuthor: Hemashree B M', style: TextStyle(fontSize: 13, color: Color(0xFF334155))),
+            const Text('Lifemate', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800)),
+            const SizedBox(height: 4),
+            const Text('Your personal everyday companion.', style: TextStyle(fontSize: 14, color: Color(0xFF64748B))),
+            const SizedBox(height: 14),
+            Text('Version: $_appVersion\nDeveloped by Hemashree B M', style: const TextStyle(fontSize: 13, color: Color(0xFF334155))),
           ],
         ),
         actions: [
@@ -647,4 +606,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 }
-

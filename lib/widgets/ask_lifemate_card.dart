@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../screens/assistant_screen.dart';
 
 /// The prominent AI entry card shown at the top of the home screen.
 ///
-/// Invites the user to interact with the Lifemate AI assistant.
-/// Tapping shows a "coming soon" message until the AI is integrated.
+/// Taps navigate directly to the fully integrated AI Assistant.
 class AskLifemateCard extends StatelessWidget {
   const AskLifemateCard({super.key});
 
@@ -32,22 +32,9 @@ class AskLifemateCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: InkWell(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(Icons.auto_awesome, color: Colors.white, size: 18),
-                    SizedBox(width: 10),
-                    Text(
-                      'AI Assistant coming soon! ',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-                backgroundColor: AppTheme.brandSeed,
-                margin: const EdgeInsets.all(16),
-                duration: const Duration(seconds: 2),
-              ),
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const AssistantScreen()),
             );
           },
           borderRadius: BorderRadius.circular(20),
@@ -112,4 +99,3 @@ class AskLifemateCard extends StatelessWidget {
     );
   }
 }
-

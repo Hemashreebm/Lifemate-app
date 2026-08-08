@@ -77,39 +77,7 @@ class _SmsImportHistoryScreenState extends State<SmsImportHistoryScreen> {
     }
   }
 
-  Future<void> _runSampleSmsImport(Map<String, String> sms) async {
-    final parsed = SmsExpenseParserService.instance.parseSmsText(
-      sms['sender']!,
-      sms['body']!,
-    );
 
-    if (parsed != null) {
-      final success = await SmsExpenseParserService.instance.importParsedSms(parsed);
-      await _loadSmsTransactions();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              success
-                  ? 'Imported: ${parsed.merchant} - Rs. ${parsed.amount}'
-                  : 'Duplicate transaction ignored.',
-            ),
-            backgroundColor: success ? const Color(0xFF10B981) : const Color(0xFFF59E0B),
-          ),
-        );
-      }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Could not parse SMS format or non-financial message.'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,85 +142,6 @@ class _SmsImportHistoryScreenState extends State<SmsImportHistoryScreen> {
 
                   const SizedBox(height: 20),
 
-                  // Demo Sample SMS Simulator
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Simulate Bank SMS Import',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF1E293B)),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: _purpleAccent.withAlpha(25),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text(
-                          'Test Tool',
-                          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: _purpleAccent),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-
-                  SizedBox(
-                    height: 110,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: SmsExpenseParserService.instance.getSampleBankSmsTemplates().length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 10),
-                      itemBuilder: (context, idx) {
-                        final sms = SmsExpenseParserService.instance.getSampleBankSmsTemplates()[idx];
-                        return GestureDetector(
-                          onTap: () => _runSampleSmsImport(sms),
-                          child: Container(
-                            width: 220,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(color: const Color(0xFFE2E8F0)),
-                              boxShadow: const [
-                                BoxShadow(color: Color(0x08000000), blurRadius: 6, offset: Offset(0, 2)),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const Icon(Icons.sms_outlined, size: 16, color: _purpleAccent),
-                                    const SizedBox(width: 6),
-                                    Text(
-                                      sms['sender']!,
-                                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 6),
-                                Expanded(
-                                  child: Text(
-                                    sms['body']!,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                const Text(
-                                  'Tap to parse & import →',
-                                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: _purpleAccent),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-
                   const SizedBox(height: 24),
 
                   // History Section
@@ -287,7 +176,7 @@ class _SmsImportHistoryScreenState extends State<SmsImportHistoryScreen> {
                               ),
                               SizedBox(height: 4),
                               Text(
-                                'Enable Automatic SMS Tracking in Settings or tap sample cards above to test.',
+                                'Enable Automatic SMS Tracking in Settings to import bank transactions automatically.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
                               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 import '../services/profile_service.dart';
 import '../services/device_info_service.dart';
+import '../widgets/user_avatar_widget.dart';
 import 'login_activity_screen.dart';
 import 'welcome_auth_screen.dart';
 
@@ -273,16 +274,11 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
         children: [
           Row(
             children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(51),
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white.withAlpha(102), width: 2),
-                ),
-                alignment: Alignment.center,
-                child: Text(_profileSvc.avatar, style: const TextStyle(fontSize: 30)),
+              const UserAvatarWidget(
+                radius: 28,
+                backgroundColor: Color(0x33FFFFFF),
+                textColor: Colors.white,
+                iconColor: Colors.white,
               ),
               const SizedBox(width: 14),
               Expanded(
