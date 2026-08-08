@@ -24,39 +24,42 @@ class SupabaseService {
   /// Access the Supabase client instance (or null if not initialized)
   SupabaseClient? get client => _isInitialized ? Supabase.instance.client : null;
 
-  /// Initialize Supabase for Development Environment
+  /// Initialize Supabase with Cloud Database Project URL & Client Publishable Key
   Future<bool> initialize({String? customUrl, String? customAnonKey}) async {
     try {
       final url = customUrl ??
           const String.fromEnvironment(
             'SUPABASE_URL',
-            defaultValue: 'https://dev-project.supabase.co',
+            defaultValue: 'https://zfbpnexnruupipvrzsmf.supabase.co',
           );
 
-      final anonKey = customAnonKey ??
+      final publishableKey = customAnonKey ??
           const String.fromEnvironment(
-            'SUPABASE_ANON_KEY',
-            defaultValue: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dev_anon_placeholder',
+            'SUPABASE_PUBLISHABLE_KEY',
+            defaultValue: const String.fromEnvironment(
+              'SUPABASE_ANON_KEY',
+              defaultValue: 'sb_publishable_ZwUPzfZWk12Cp7l9HgAN3g_bjLGrxff',
+            ),
           );
 
-      if (url.isEmpty || url.contains('placeholder') || url.contains('dev-project')) {
-        debugPrint('[SUPABASE DEV] Running with placeholder configuration. Firebase remains active production backend.');
+      if (url.isEmpty || publishableKey.isEmpty || url.contains('dev-project-placeholder')) {
+        debugPrint('[SUPABASE DEV] Running with offline fallback mode. Firebase remains active production backend.');
         _isInitialized = false;
         return false;
       }
 
       await Supabase.initialize(
         url: url,
-        anonKey: anonKey,
+        anonKey: publishableKey,
         debug: kDebugMode,
       );
 
       _isInitialized = true;
       _activeUrl = url;
-      debugPrint('[SUPABASE DEV SUCCESS] Initialized Supabase Development Client ($url)');
+      debugPrint('[SUPABASE SUCCESS] Initialized Supabase Cloud Client ($url)');
       return true;
     } catch (e) {
-      debugPrint('[SUPABASE DEV WARNING] Supabase initialization skipped or unavailable: $e');
+      debugPrint('[SUPABASE WARNING] Supabase initialization skipped or offline: $e');
       _isInitialized = false;
       return false;
     }

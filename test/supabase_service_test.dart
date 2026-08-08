@@ -17,7 +17,7 @@ void main() {
     });
 
     test('SupabaseService handles placeholder/offline configuration gracefully', () async {
-      final initialized = await supabaseService.initialize();
+      final initialized = await supabaseService.initialize(customUrl: 'dev-project-placeholder', customAnonKey: '');
       // Should return false for placeholder credentials without crashing
       expect(initialized, isFalse);
       expect(supabaseService.isInitialized, isFalse);
