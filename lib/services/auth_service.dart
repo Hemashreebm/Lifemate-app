@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'device_info_service.dart';
 import 'secure_storage_service.dart';
 import 'supabase_auth_service.dart';
+import 'profile_service.dart';
 
 /// Result wrapper for authentication operations carrying detailed error messages.
 class AuthResult {
@@ -327,7 +328,7 @@ class AuthService {
     }
   }
 
-  /// Sign in with Google using Supabase Auth OAuth flow.
+  /// Sign in with Google using Supabase Auth OAuth / Native ID Token flow.
   Future<AuthResult> signInWithGoogle() async {
     try {
       final supabaseAuth = SupabaseAuthService.instance;
@@ -339,17 +340,48 @@ class AuthService {
         _isGuestMode = false;
         _currentUserUid = supabaseUser.id;
         _currentUserEmail = supabaseUser.email ?? 'google_user@lifemate.app';
-        _currentUserName = (supabaseUser.userMetadata?['full_name'] as String?) ?? 'Google User';
+
+        final meta = supabaseUser.userMetadata ?? {};
+        _currentUserName = (meta['full_name'] as String?) ??
+            (meta['name'] as String?) ??
+            'Google User';
+
+        final avatarUrl = (meta['avatar_url'] as String?) ??
+            (meta['picture'] as String?) ??
+            '';
+
+        final givenName = (meta['given_name'] as String?) ?? '';
 
         final prefs = await SharedPreferences.getInstance();
         final userMap = {
           'uid': _currentUserUid,
           'email': _currentUserEmail,
           'name': _currentUserName,
+          'photoURL': avatarUrl,
         };
         await prefs.setString(_prefUserKey, jsonEncode(userMap));
         await prefs.setBool(_prefRememberMeKey, true);
         await prefs.setBool(_prefGuestModeKey, false);
+
+        // Automatically populate ProfileService with Google account data
+        final prof = ProfileService.instance;
+        await prof.saveProfile(
+          newName: _currentUserName!,
+          newNickname: givenName.isNotEmpty ? givenName : prof.nickname,
+          newAge: prof.age,
+          newGender: prof.gender,
+          newState: prof.state,
+          newDistrict: prof.district,
+          newOccupation: prof.occupation,
+          newEducationLevel: prof.educationLevel,
+          newEmploymentStatus: prof.employmentStatus,
+          newIncomeRange: prof.incomeRange,
+          newIsFarmer: prof.isFarmer,
+          newIsBusiness: prof.isBusiness,
+          newIsStudent: prof.isStudentFlag,
+          newLanguage: prof.preferredLanguage,
+          newAvatar: avatarUrl.isNotEmpty ? avatarUrl : prof.avatar,
+        );
 
         await _refreshCurrentSession();
         return const AuthResult(success: true);

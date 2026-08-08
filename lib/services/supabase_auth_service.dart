@@ -92,7 +92,9 @@ class SupabaseAuthService {
     if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
       try {
         debugPrint('[SUPABASE AUTH] Triggering Native Google Sign-In Picker...');
-        final GoogleSignIn googleSignIn = GoogleSignIn();
+        final GoogleSignIn googleSignIn = GoogleSignIn(
+          scopes: ['email', 'profile'],
+        );
         final googleUser = await googleSignIn.signIn();
 
         if (googleUser == null) {
@@ -103,6 +105,8 @@ class SupabaseAuthService {
         final googleAuth = await googleUser.authentication;
         final idToken = googleAuth.idToken;
         final accessToken = googleAuth.accessToken;
+
+        debugPrint('[SUPABASE AUTH] Obtained Google Auth ID Token: ${idToken != null ? "YES" : "NO"}');
 
         if (idToken != null) {
           debugPrint('[SUPABASE AUTH] Exchanging Native Google ID Token with Supabase Auth...');
@@ -117,8 +121,8 @@ class SupabaseAuthService {
             return true;
           }
         }
-      } catch (e) {
-        debugPrint('[SUPABASE AUTH WARNING] Native Google Sign-In failed or unconfigured: $e. Trying web OAuth fallback...');
+      } catch (e, stack) {
+        debugPrint('[SUPABASE AUTH NATIVE EXCEPTION] Native Google Sign-In Error: $e\n$stack');
       }
     }
 
