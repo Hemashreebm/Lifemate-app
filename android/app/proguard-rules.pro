@@ -31,6 +31,9 @@
 # Suppress obsolete Java 8 option warnings from third-party plugin code
 -dontwarn java.lang.invoke.**
 
+# Suppress Play Store deferred component warnings from Flutter engine
+-dontwarn com.google.android.play.core.**
+
 # General Android / Jetpack
 -keep class androidx.** { *; }
 -keepattributes *Annotation*
