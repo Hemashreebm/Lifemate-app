@@ -1,0 +1,17 @@
+# Next.js build output
+.next/
+out/
+build/
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env*.local
+
+# IDE & system files
+.DS_Store
+*.pem
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
