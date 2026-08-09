@@ -12,13 +12,13 @@ export interface ReleaseConfig {
 
 export const RELEASE_CONFIG: ReleaseConfig = {
   version: '2.0.1',
-  versionCode: 13,
-  releaseDate: 'August 8, 2026',
+  versionCode: 14,
+  releaseDate: 'August 9, 2026',
   apkUrl: 'https://github.com/Hemashreebm/Lifemate-app/releases/download/v2.0.1-release/app-release.apk',
-  apkSize: '258.6 MB',
+  apkSize: '137.4 MB',
   minAndroid: 'Android 7.0 (API level 24)',
   targetAndroid: 'Android 14 / 15 (API level 36)',
-  sha256Checksum: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+  sha256Checksum: '3a9a10858efcb8eb38eacd5194bf045534eb74eacda31132d72a56089e53eeca',
   changelog: [
     'Real Supabase Cloud Database & Authentication (Google OAuth + Email/Password + Session Persistence)',
     'Native Google Sign-In with instant profile metadata auto-fill (0 browser redirects)',
