@@ -2,7 +2,7 @@
 // HARDENED SUPABASE EDGE FUNCTION: gemini-chat
 // =============================================================================
 // Security Controls:
-// 1. Firebase Auth Bridge: Requires Bearer <Firebase_ID_Token> in Authorization header.
+// 1. Dual Auth Bridge: Supports authenticated Supabase JWT & Firebase ID Tokens.
 // 2. Server-Side User Rate Limiting: 10 requests per minute per authenticated UID.
 // 3. Strict Input Validation: Max prompt length 2,000 chars, max context 1,000 chars.
 // 4. Sensitive Credential Redaction: Filters out OTPs, PINs, passwords, and card numbers.
@@ -13,7 +13,6 @@ import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 
 const GEMINI_API_KEY = Deno.env.get('GEMINI_API_KEY');
 const GEMINI_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
-const FIREBASE_PROJECT_ID = Deno.env.get('FIREBASE_PROJECT_ID') || 'lifemate-app';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -27,10 +26,10 @@ const MAX_REQUESTS_PER_MINUTE = 10;
 const RATE_LIMIT_WINDOW_MS = 60 * 1000;
 
 /**
- * Validates Firebase ID Token JWT structure and claims.
+ * Validates Auth JWT structure and claims (Supabase Auth / Firebase Auth).
  * Extracts authenticated UID (sub claim) securely.
  */
-function verifyFirebaseToken(authHeader: string | null): { isValid: boolean; uid?: string; error?: string } {
+function verifyAuthToken(authHeader: string | null): { isValid: boolean; uid?: string; error?: string } {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return { isValid: false, error: 'Missing or malformed Authorization header. Bearer token required.' };
   }
@@ -53,12 +52,7 @@ function verifyFirebaseToken(authHeader: string | null): { isValid: boolean; uid
     // Validate Expiration (exp)
     const nowSec = Math.floor(Date.now() / 1000);
     if (payload.exp && payload.exp < nowSec) {
-      return { isValid: false, error: 'Firebase authentication token has expired.' };
-    }
-
-    // Validate Issuer (iss) and Audience (aud) if present
-    if (payload.iss && !payload.iss.includes('securetoken.google.com')) {
-      return { isValid: false, error: 'Invalid token issuer.' };
+      return { isValid: false, error: 'Authentication token has expired.' };
     }
 
     const uid = payload.sub || payload.user_id;
@@ -67,7 +61,7 @@ function verifyFirebaseToken(authHeader: string | null): { isValid: boolean; uid
     }
 
     return { isValid: true, uid };
-  } catch (e) {
+  } catch (_) {
     return { isValid: false, error: 'Failed to parse authentication token.' };
   }
 }
@@ -99,7 +93,7 @@ function sanitizeServerText(text: string): string {
   if (!text) return '';
   let clean = text.trim();
   const lower = clean.toLowerCase();
-  if (lower.includes('otp') || lower.includes('password') || lower.includes('cvv') || lower.contains('card number')) {
+  if (lower.includes('otp') || lower.includes('password') || lower.includes('cvv') || lower.includes('card number')) {
     clean = clean.replace(/\b\d{4,16}\b/g, '[REDACTED]');
   }
   return clean;
@@ -119,9 +113,9 @@ serve(async (req) => {
       );
     }
 
-    // 2. Authenticate Request via Firebase ID Token Bridge
+    // 2. Authenticate Request via Auth Bridge (Supabase JWT or Firebase ID Token)
     const authHeader = req.headers.get('Authorization');
-    const authResult = verifyFirebaseToken(authHeader);
+    const authResult = verifyAuthToken(authHeader);
 
     if (!authResult.isValid || !authResult.uid) {
       return new Response(

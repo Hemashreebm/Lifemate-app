@@ -59,13 +59,18 @@ class GeminiService {
     if (supabase.isInitialized && supabase.client != null) {
       try {
         debugPrint('[GEMINI SERVICE] Sending request to Supabase Edge Function gemini-chat...');
+        
+        // Priority 1: Supabase Session JWT; Priority 2: Firebase ID Token; Priority 3: Fallback dev token
+        final supabaseToken = supabase.client!.auth.currentSession?.accessToken;
         final firebaseUser = FirebaseAuth.instance.currentUser;
-        final idToken = await firebaseUser?.getIdToken() ?? 'dummy_dev_token';
+        final firebaseToken = await firebaseUser?.getIdToken();
+
+        final authToken = supabaseToken ?? firebaseToken ?? 'bearer_token_placeholder';
 
         final res = await supabase.client!.functions.invoke(
           'gemini-chat',
           headers: {
-            'Authorization': 'Bearer $idToken',
+            'Authorization': 'Bearer $authToken',
           },
           body: {
             'prompt': sanitizedPrompt,
