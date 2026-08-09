@@ -150,17 +150,21 @@ Respond to the user's question naturally and helpfully.
               child: Text('🇮🇳', style: TextStyle(fontSize: 16)),
             ),
             SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Citizen AI Assistant',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700, fontSize: 15)),
-                Text('Government schemes & services',
-                    style: TextStyle(
-                        fontSize: 10, color: Color(0xFF888899))),
-              ],
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Citizen AI Assistant',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700, fontSize: 15)),
+                  Text('Government schemes & services',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontSize: 10, color: Color(0xFF888899))),
+                ],
+              ),
             ),
           ],
         ),

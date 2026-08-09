@@ -479,7 +479,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
     if (mounted) {
       setState(() {
         _isTranslating = true;
-        _statusText    = 'Â³ Translating...';
+        _statusText    = '⏳ Translating...';
       });
     }
 
@@ -991,7 +991,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              isReplaying ? 'Â¹ Stop' : ' Replay',
+                              isReplaying ? '⏹ Stop' : ' Replay',
                               style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
@@ -1093,7 +1093,7 @@ class _ConversationModeScreenState extends State<ConversationModeScreen> {
       label = ' Listening...';
       icon  = Icons.mic_rounded;
     } else if (isThisSpeaker && _isTranslating) {
-      label = 'Â³ Translating...';
+      label = '⏳ Translating...';
       icon  = Icons.translate_rounded;
     } else if (isThisSpeaker && _isSpeaking) {
       label = ' Speaking...';

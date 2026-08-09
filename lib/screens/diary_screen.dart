@@ -10,7 +10,7 @@ import 'diary_detail_screen.dart';
 ///
 /// Features:
 ///  1. Header: "My Life Book" & subtitle
-///  2. Quick action buttons: ÂÂ Write Memory &  Speak to Diary
+///  2. Quick action buttons: ✍ Write Memory & 🎤 Speak to Diary
 ///  3. Search & Filter Bar (title, content, tags)
 ///  4. Calendar Date Selector Filter
 ///  5. Mood Overview (monthly statistics)
@@ -142,7 +142,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   children: [
                     Expanded(
                       child: _ActionButton(
-                        label: 'ÂÂ Write Memory',
+                        label: '✍ Write Memory',
                         color: const Color(0xFF8B5CF6),
                         onTap: _openWriteMemory,
                       ),
@@ -183,7 +183,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                   children: [
                     Text(
                       _showFavoritesOnly
-                          ? 'Â¤Â Favorite Memories'
+                          ? '♥ Favorite Memories'
                           : _selectedDateFilter != null
                               ? ' Memories on ${DiaryService.formatShortDate(_selectedDateFilter!)}'
                               : 'Recent Memories',
@@ -498,7 +498,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
             Text(
               isSearching
                   ? 'Try clearing the search or date filter to see all entries.'
-                  : 'Tap ÂÂ Write Memory or  Speak to Diary to record your thoughts.',
+                  : 'Tap ✍ Write Memory or 🎤 Speak to Diary to record your thoughts.',
               style: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8), height: 1.4),
               textAlign: TextAlign.center,
             ),

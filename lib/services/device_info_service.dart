@@ -50,7 +50,7 @@ class DeviceInfoService {
     String manufacturer = 'Generic';
     String androidVersion = 'Android';
     String platform = 'Mobile';
-    const String appVersion = '1.0.3+4';
+    const String appVersion = '2.0.1+14';
 
     try {
       if (kIsWeb) {

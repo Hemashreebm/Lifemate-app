@@ -528,7 +528,7 @@ class _AddEditTaskScreenState extends State<AddEditTaskScreen> {
                           const Icon(Icons.alarm_on_rounded, size: 22, color: Color(0xFFEF4444)),
                           const SizedBox(height: 4),
                           Text(
-                            'Â° Ringing Alarm',
+                            '\ud83d\udd14 Ringing Alarm',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: _reminderStyle == ReminderStyle.ringing

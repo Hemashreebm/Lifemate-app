@@ -569,12 +569,12 @@ class _PronunciationPracticeScreenState
                 ),
               ),
 
-              // Â¡ Next Sentence
+              // ▶ Next Sentence
               if (_currentIndex < _sentences.length - 1)
                 ElevatedButton.icon(
                   onPressed: _nextSentence,
                   icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                  label: const Text('Â¡ Next Sentence'),
+                  label: const Text('▶ Next Sentence'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF10B981),
                     foregroundColor: Colors.white,

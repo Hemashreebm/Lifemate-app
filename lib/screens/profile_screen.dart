@@ -138,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Icon(Icons.security_rounded, color: Color(0xFF10B981)),
             SizedBox(width: 10),
-            Text('Permissions Status'),
+            Flexible(child: Text('Permissions Status', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: const Column(
@@ -585,7 +585,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Icon(Icons.info_rounded, color: Color(0xFF06B6D4)),
             SizedBox(width: 10),
-            Text('About Lifemate'),
+            Flexible(child: Text('About Lifemate', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: Column(

@@ -545,7 +545,7 @@ class _LocationScreenState extends State<LocationScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Text(
-          'Â Saved Places',
+          '📍 Saved Places',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1A1A2E)),
         ),
         TextButton.icon(

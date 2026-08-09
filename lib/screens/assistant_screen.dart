@@ -211,7 +211,7 @@ class _AssistantScreenState extends State<AssistantScreen> {
           children: [
             Icon(Icons.auto_awesome_rounded, color: AppTheme.brandSeed),
             SizedBox(width: 10),
-            Text('Lifemate AI Assistant', style: TextStyle(fontWeight: FontWeight.w700)),
+            Flexible(child: Text('Lifemate AI Assistant', style: TextStyle(fontWeight: FontWeight.w700))),
           ],
         ),
 

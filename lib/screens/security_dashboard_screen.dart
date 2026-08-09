@@ -82,7 +82,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
             children: [
               Icon(Icons.lock_reset_rounded, color: _purpleAccent),
               SizedBox(width: 8),
-              Text('Change Password'),
+              Flexible(child: Text('Change Password', overflow: TextOverflow.ellipsis)),
             ],
           ),
           content: Column(
@@ -138,7 +138,7 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
           children: [
             Icon(Icons.warning_amber_rounded, color: _dangerRed),
             SizedBox(width: 8),
-            Text('Delete Account?'),
+            Flexible(child: Text('Delete Account?', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: const Text(
@@ -148,11 +148,10 @@ class _SecurityDashboardScreenState extends State<SecurityDashboardScreen> {
           TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
           FilledButton(
             onPressed: () async {
+              final nav = Navigator.of(context);
               await _authSvc.signOut();
-              if (mounted) {
-                Navigator.pop(ctx);
-                Navigator.pop(context);
-              }
+              nav.pop();
+              nav.pop();
             },
             style: FilledButton.styleFrom(backgroundColor: _dangerRed),
             child: const Text('Permanently Delete'),

@@ -273,7 +273,7 @@ class _DailyEnglishChallengeScreenState extends State<DailyEnglishChallengeScree
           children: [
             Icon(Icons.emoji_events_rounded, color: Color(0xFFF59E0B)),
             SizedBox(width: 8),
-            Text('Challenge Complete! 🎉'),
+            Flexible(child: Text('Challenge Complete! 🎉', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: Text('Awesome job! You mastered 5 new vocabulary words today and earned +100 XP!\n\nDaily Streak: 7 Days 🔥'),

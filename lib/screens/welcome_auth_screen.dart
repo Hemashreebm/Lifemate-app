@@ -128,6 +128,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
       setState(() => _isLoading = false);
       if (result.success) {
         await _backupSvc.setCloudBackupEnabled(true);
+        if (!mounted) return;
         // Display Email Verification Dialog
         await showDialog(
           context: context,
@@ -136,7 +137,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
               children: [
                 Icon(Icons.mark_email_read_rounded, color: Color(0xFF10B981)),
                 SizedBox(width: 8),
-                Text('Verify Your Email'),
+                Flexible(child: Text('Verify Your Email', overflow: TextOverflow.ellipsis)),
               ],
             ),
             content: Text(
@@ -180,7 +181,7 @@ class _WelcomeAuthScreenState extends State<WelcomeAuthScreen> with SingleTicker
           children: [
             Icon(Icons.lock_reset_rounded, color: _purpleAccent),
             SizedBox(width: 8),
-            Text('Reset Password'),
+            Flexible(child: Text('Reset Password', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: Column(

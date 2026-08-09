@@ -12,7 +12,7 @@ import '../services/tts_service.dart';
 /// 3.  Listen to Lifemate line &  Listen to suggestion.
 /// 4.  Suggested reply & Need Help? simple meaning toggle.
 /// 5.  Speak Reply (speech_to_text with direct localeId: 'en_US').
-/// 6. Â¡ Continue button to advance to next turn.
+/// 6. ▶ Continue button to advance to next turn.
 /// 7.  Practice Complete screen with Practice Again & Choose Another Situation.
 class DailyConversationPracticeScreen extends StatefulWidget {
   final ConversationScenario scenario;
@@ -280,13 +280,13 @@ class _DailyConversationPracticeScreenState
             const SizedBox(height: 14),
           ],
 
-          // Â¡ Continue Button
+          // ▶ Continue Button
           ElevatedButton.icon(
             onPressed: _nextTurn,
             icon: const Icon(Icons.arrow_forward_rounded, size: 20),
             label: Text(
               _currentTurnIndex < widget.scenario.turns.length - 1
-                  ? 'Â¡ Continue to Next Turn'
+                  ? '▶ Continue to Next Turn'
                   : ' Finish Conversation',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
             ),
@@ -591,7 +591,7 @@ class _DailyConversationPracticeScreenState
         size: 26,
       ),
       label: Text(
-        _isListening ? 'Â¹ Stop' : ' Speak Reply',
+        _isListening ? '⏹ Stop' : '🎤 Speak Reply',
         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
       ),
       style: ElevatedButton.styleFrom(
@@ -660,11 +660,11 @@ class _DailyConversationPracticeScreenState
 
           const SizedBox(height: 14),
 
-          // ÂÂ  Choose Another Situation
+          // 🏠 Choose Another Situation
           OutlinedButton.icon(
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.home_rounded, size: 20),
-            label: const Text('ÂÂ  Choose Another Situation'),
+            label: const Text('🏠 Choose Another Situation'),
             style: OutlinedButton.styleFrom(
               foregroundColor: _purpleAccent,
               side: const BorderSide(color: _purpleAccent, width: 1.5),

@@ -173,7 +173,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           children: [
             Icon(Icons.mic_off, color: Color(0xFF6C5CE7)),
             SizedBox(width: 8),
-            Text('Voice Entry'),
+            Flexible(child: Text('Voice Entry', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: Text(msg),
@@ -249,7 +249,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
           children: [
             Icon(Icons.receipt_long_rounded, color: Color(0xFF8B5CF6)),
             SizedBox(width: 8),
-            Text('OCR Bill Scanned'),
+            Flexible(child: Text('OCR Bill Scanned', overflow: TextOverflow.ellipsis)),
           ],
         ),
         content: SingleChildScrollView(
@@ -290,7 +290,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
                 await _svc.add(newTx);
                 _refresh();
               }
-              if (mounted) Navigator.pop(ctx);
+              Navigator.pop(ctx);
             },
             child: const Text('Save Expense'),
           ),
@@ -303,6 +303,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
 
   Future<void> _showSmsTrackingDialog() async {
     await SmsExpenseParserService.instance.init();
+    if (!mounted) return;
     bool enabled = SmsExpenseParserService.instance.isSmsTrackingEnabled;
 
     await showDialog(
@@ -313,7 +314,7 @@ class _ExpenseTrackerScreenState extends State<ExpenseTrackerScreen> {
             children: [
               Icon(Icons.sms_rounded, color: Color(0xFF00B894)),
               SizedBox(width: 8),
-              Text('SMS Expense Tracking'),
+              Flexible(child: Text('SMS Expense Tracking', overflow: TextOverflow.ellipsis)),
             ],
           ),
           content: Column(
