@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'notification_service.dart';
 import 'app_language_service.dart';
 import 'supabase_service.dart';
@@ -49,7 +51,7 @@ class InterestedSchemeService {
   static const String _storageKeyPrefix = 'interested_schemes_user_';
 
   String _getUserKey() {
-    final user = AuthService.instance.currentUser;
+    final user = FirebaseAuth.instance.currentUser;
     final uid = user?.uid ?? 'guest';
     return '$_storageKeyPrefix$uid';
   }
@@ -83,15 +85,18 @@ class InterestedSchemeService {
 
     // Cloud sync to Supabase if authenticated
     try {
-      final user = AuthService.instance.currentUser;
-      if (user != null && !user.isAnonymous) {
-        await SupabaseService.instance.saveUserData('interested_schemes', {
+      final user = FirebaseAuth.instance.currentUser;
+      final supabase = SupabaseService.instance;
+      if (user != null && !user.isAnonymous && supabase.client != null) {
+        await supabase.client!.from('interested_schemes').upsert({
           'user_id': user.uid,
           'schemes_json': jsonEncode(list.map((e) => e.toJson()).toList()),
           'updated_at': DateTime.now().toIso8601String(),
         });
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('[INTERESTED SCHEMES CLOUD] Cloud sync skipped: $e');
+    }
   }
 
   /// Removes an interested scheme for current user.
@@ -136,7 +141,7 @@ class InterestedSchemeService {
         'According to available scheme information, the application deadline for $schemeName is approaching ($deadlineText). Please verify details at official government source.';
 
     final notificationId = schemeId.hashCode.abs() % 100000;
-    await NotificationService.instance.scheduleNotification(
+    await NotificationService.instance.scheduleGeneralNotification(
       id: notificationId,
       title: title,
       body: body,

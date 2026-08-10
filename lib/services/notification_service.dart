@@ -225,6 +225,47 @@ class NotificationService {
     }
   }
 
+  /// Schedule a general notification for scheme deadlines or reminders.
+  Future<bool> scheduleGeneralNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime scheduledDate,
+  }) async {
+    await init();
+    if (scheduledDate.isBefore(DateTime.now())) return false;
+
+    try {
+      final tzScheduledTime = tz.TZDateTime.from(scheduledDate, tz.local);
+      const androidDetails = AndroidNotificationDetails(
+        _normalChannelId,
+        'Task Reminders (Normal)',
+        channelDescription: 'Lifemate notification',
+        importance: Importance.max,
+        priority: Priority.max,
+        playSound: true,
+        enableVibration: true,
+        icon: '@mipmap/ic_launcher',
+      );
+      const notificationDetails = NotificationDetails(android: androidDetails);
+
+      await _notifications.zonedSchedule(
+        id,
+        title,
+        body,
+        tzScheduledTime,
+        notificationDetails,
+        androidScheduleMode: AndroidScheduleMode.alarmClock,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+      );
+      return true;
+    } catch (e) {
+      debugPrint('Error scheduling general notification: $e');
+      return false;
+    }
+  }
+
   /// Start playing ringing audio for the exact requested duration (3s, 5s, 10s, 15s, 30s).
   Future<void> startRinging(int durationSeconds) async {
     stopRinging(); // Stop any active playback & reset single timer
