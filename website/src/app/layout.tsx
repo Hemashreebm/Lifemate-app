@@ -7,9 +7,10 @@ import { RELEASE_CONFIG } from '@/config/release';
 export const metadata: Metadata = {
   title: 'Lifemate — Your Everyday Life Companion',
   description:
-    'Lifemate is your all-in-one personal companion app for task management, spoken English coaching, SMS expense tracking, real government scheme matching, AI assistant, and safety tools.',
+    'Lifemate is an all-in-one personal companion app created by Hemashree B M for task management, spoken English coaching, SMS expense tracking, real government scheme matching, AI assistant, and safety tools.',
   keywords: [
     'Lifemate',
+    'Hemashree B M',
     'Life Companion App',
     'Flutter App',
     'Task Manager',
@@ -19,11 +20,11 @@ export const metadata: Metadata = {
     'AI Assistant',
     'Supabase Cloud',
   ],
-  authors: [{ name: 'Lifemate Team' }],
+  authors: [{ name: 'Hemashree B M' }],
   openGraph: {
     title: 'Lifemate — Your Everyday Life Companion',
     description:
-      'Manage tasks, track money from SMS, practice spoken English, match verified government schemes, and stay secure with AI.',
+      'Created by Hemashree B M. Manage tasks, track money from SMS, practice spoken English, match verified government schemes, and stay secure with AI.',
     url: 'https://lifemate.app',
     siteName: 'Lifemate',
     images: [
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Lifemate — Your Everyday Life Companion',
     description:
-      'All-in-one personal companion app for productivity, money tracking, English learning, and government schemes.',
+      'All-in-one personal companion app created by Hemashree B M for productivity, money tracking, English learning, and government schemes.',
   },
   robots: {
     index: true,

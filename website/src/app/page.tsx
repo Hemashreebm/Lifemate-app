@@ -6,6 +6,7 @@ import HowItWorks from '@/components/HowItWorks';
 import InterfaceShowcase from '@/components/InterfaceShowcase';
 import FeatureGrid from '@/components/FeatureGrid';
 import SecuritySection from '@/components/SecuritySection';
+import CreatorSection from '@/components/CreatorSection';
 import ContactSection from '@/components/ContactSection';
 
 export default function HomePage() {
@@ -29,7 +30,10 @@ export default function HomePage() {
       {/* 6. SECURITY & CLOUD ARCHITECTURE */}
       <SecuritySection />
 
-      {/* 7. CONTACT & FEEDBACK FORM */}
+      {/* 7. ABOUT THE CREATOR */}
+      <CreatorSection />
+
+      {/* 8. CONTACT & FEEDBACK FORM */}
       <ContactSection />
     </div>
   );

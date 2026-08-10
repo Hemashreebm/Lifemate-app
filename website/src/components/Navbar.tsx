@@ -51,7 +51,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
           <a href="#features" className="hover:text-brand-400 transition-colors">
             Features
           </a>
@@ -69,6 +69,9 @@ export default function Navbar() {
           </a>
           <a href="#how-it-works" className="hover:text-brand-400 transition-colors">
             How It Works
+          </a>
+          <a href="#creator" className="hover:text-brand-400 transition-colors">
+            Creator
           </a>
           <a href="#download" className="hover:text-brand-400 transition-colors">
             Download Center
@@ -151,6 +154,9 @@ export default function Navbar() {
           </a>
           <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             How It Works
+          </a>
+          <a href="#creator" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
+            About the Creator
           </a>
           <a href="#download" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Download Center

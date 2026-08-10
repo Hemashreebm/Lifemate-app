@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { RELEASE_CONFIG } from '@/config/release';
 import PrivacyModal from './PrivacyModal';
 import ReleaseNotesModal from './ReleaseNotesModal';
-import { ShieldCheck, Download, Github, FileText, Lock } from 'lucide-react';
+import { ShieldCheck, Download, Github, FileText, Lock, User } from 'lucide-react';
 
 export default function Footer() {
   const [privacyOpen, setPrivacyOpen] = useState(false);
@@ -24,19 +24,26 @@ export default function Footer() {
           <p className="max-w-md text-slate-400 text-xs leading-relaxed">
             Lifemate is an all-in-one personal companion application designed to simplify tasks, track expenses from SMS, coach spoken English, match verified government schemes, and keep users safe.
           </p>
-          <div className="pt-2 flex items-center gap-4 text-xs font-medium">
+          <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-medium">
+            <a
+              href="#creator"
+              className="text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1 font-semibold"
+            >
+              <User className="w-3.5 h-3.5" />
+              <span>Created by Hemashree B M</span>
+            </a>
             <button
               onClick={() => setPrivacyOpen(true)}
-              className="text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1"
+              className="text-slate-400 hover:text-white transition-colors flex items-center gap-1"
             >
-              <Lock className="w-3.5 h-3.5" />
+              <Lock className="w-3.5 h-3.5 text-brand-400" />
               <span>Privacy Policy</span>
             </button>
             <button
               onClick={() => setNotesOpen(true)}
-              className="text-brand-400 hover:text-brand-300 transition-colors flex items-center gap-1"
+              className="text-slate-400 hover:text-white transition-colors flex items-center gap-1"
             >
-              <FileText className="w-3.5 h-3.5" />
+              <FileText className="w-3.5 h-3.5 text-brand-400" />
               <span>Release Notes</span>
             </button>
             <a
@@ -60,6 +67,7 @@ export default function Footer() {
             <li><a href="#finance" className="hover:text-brand-400 transition-colors">SMS Expense Tracker</a></li>
             <li><a href="#coach" className="hover:text-brand-400 transition-colors">Spoken English Coach</a></li>
             <li><a href="#security" className="hover:text-brand-400 transition-colors">Security Architecture</a></li>
+            <li><a href="#creator" className="hover:text-brand-400 transition-colors">About the Creator</a></li>
             <li><a href="#download" className="hover:text-brand-400 transition-colors">Download Center</a></li>
           </ul>
         </div>
@@ -82,7 +90,7 @@ export default function Footer() {
       {/* Copyright Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 mt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
         <div>
-          © {new Date().getFullYear()} Lifemate App. All rights reserved. Built with Flutter, Supabase & Next.js.
+          © {new Date().getFullYear()} Lifemate App. Designed & Developed by <a href="#creator" className="text-slate-300 underline hover:text-white">Hemashree B M</a>.
         </div>
         <div className="flex items-center gap-2 text-slate-400 font-mono">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
