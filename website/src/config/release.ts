@@ -15,7 +15,7 @@ export const RELEASE_CONFIG: ReleaseConfig = {
   versionCode: 14,
   releaseDate: 'August 9, 2026',
   apkUrl: 'https://github.com/Hemashreebm/Lifemate-app/releases/download/v2.0.1-release/app-release.apk',
-  apkSize: '137.4 MB',
+  apkSize: '257 MB',
   minAndroid: 'Android 7.0 (API level 24)',
   targetAndroid: 'Android 14 / 15 (API level 36)',
   sha256Checksum: '3a9a10858efcb8eb38eacd5194bf045534eb74eacda31132d72a56089e53eeca',
