@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 import '../services/profile_service.dart';
 import '../services/task_service.dart';
 import '../services/diary_service.dart';
@@ -7,10 +10,10 @@ import '../services/transaction_service.dart';
 import '../services/tts_service.dart';
 import '../services/translation_service.dart';
 import '../services/ai_memory_service.dart';
+import '../services/gemini_service.dart';
+import '../services/app_language_service.dart';
 import '../theme/app_theme.dart';
 
-/// Intelligent Lifemate AI Assistant screen.
-/// Provides smart voice & text queries across tasks, diary memories, expenses, and daily recommendations.
 class AssistantScreen extends StatefulWidget {
   const AssistantScreen({super.key});
 
@@ -25,11 +28,12 @@ class _AssistantScreenState extends State<AssistantScreen> {
 
   bool _isListening = false;
   bool _isSpeaking = false;
+  bool _isGenerating = false;
   
   final List<Map<String, String>> _messages = [
     {
       'sender': 'assistant',
-      'text': 'Hello! I am your Lifemate AI Assistant  How can I help you organize your day, review expenses, or reflect on your memories?'
+      'text': 'Hello! I am your Lifemate AI Assistant. How can I help you organize your day, review expenses, or reflect on your memories?'
     }
   ];
 
@@ -48,13 +52,14 @@ class _AssistantScreenState extends State<AssistantScreen> {
   }
 
   void _sendMessage(String query) {
-    if (query.trim().isEmpty) return;
+    if (query.trim().isEmpty || _isGenerating) return;
 
     final userMessage = query.trim();
     _inputController.clear();
 
     setState(() {
       _messages.add({'sender': 'user', 'text': userMessage});
+      _isGenerating = true;
     });
 
     _scrollToBottom();
@@ -62,107 +67,98 @@ class _AssistantScreenState extends State<AssistantScreen> {
   }
 
   Future<void> _generateAiResponse(String query) async {
-    final lower = query.toLowerCase();
-    String response = '';
-
-    final userName = ProfileService.instance.name.isNotEmpty
-        ? ProfileService.instance.name
-        : 'Friend';
-
-    // 1. Explicit Memory Ingestion ("remember that ...")
-    if (lower.startsWith('remember ') || lower.contains('remember that ') || lower.contains('my favorite ') || lower.contains('my nickname is ')) {
-      String key = 'Preference';
-      String val = query;
-
-      if (lower.contains('favorite food is ')) {
-        key = 'Favorite Food';
-        val = query.substring(query.toLowerCase().indexOf('favorite food is ') + 17).trim();
-      } else if (lower.contains('nickname is ')) {
-        key = 'Nickname';
-        val = query.substring(query.toLowerCase().indexOf('nickname is ') + 12).trim();
-      } else if (lower.startsWith('remember ')) {
-        key = 'Fact';
-        val = query.substring(9).trim();
-      }
-
-      await AiMemoryService.instance.remember(key: key, value: val);
-      response = 'Got it, $userName! I have stored "$val" in my AI Memory.';
-    } else if (lower.contains('what do you remember') || lower.contains('show memory') || lower.contains('my preferences')) {
-      final facts = AiMemoryService.instance.allFacts;
-      if (facts.isEmpty) {
-        response = 'I don\'t have any specific facts stored in my AI Memory yet, $userName. Tell me things like "Remember my favorite food is Biryani" or "My nickname is Hema"!';
-      } else {
-        final list = facts.values.map((f) => '${f.key}: ${f.value}').join(', ');
-        response = 'Here is what I remember about you, $userName: $list.';
-      }
-    } else if (lower.contains('task') || lower.contains('todo') || lower.contains('do')) {
-      final tasks = TaskService.instance.all;
-      final pending = tasks.where((t) => !t.isCompleted).length;
-      if (tasks.isEmpty) {
-        response = 'You have no tasks created yet, $userName. Tap the Tasks tab to add your first goal!';
-      } else {
-        response = 'You currently have $pending pending tasks out of ${tasks.length} total. Keep up the great work!';
-      }
-    } else if (lower.contains('expense') || lower.contains('spent') || lower.contains('money') || lower.contains('budget')) {
-      final now = DateTime.now();
-      final monthTx = TransactionService.instance.getForMonth(DateTime(now.year, now.month));
-      final totalSpent = TransactionService.instance.totalExpense(monthTx);
-      final formatted = TransactionService.formatCurrency(totalSpent);
-      response = 'This month you have recorded $formatted in total expenses across ${monthTx.length} transactions.';
-    } else if (lower.contains('memory') || lower.contains('diary') || lower.contains('journal')) {
-      final entries = DiaryService.instance.all;
-      if (entries.isEmpty) {
-        response = 'You haven\'t written any diary entries yet, $userName. Recording your thoughts daily boosts mindfulness!';
-      } else {
-        response = 'You have recorded ${entries.length} beautiful memories in your Lifemate Diary so far.';
-      }
-    } else if (lower.contains('affirmation') || lower.contains('inspire') || lower.contains('quote')) {
-      final affirmations = [
-        'You are capable of achieving incredible things today, $userName!',
-        'Small progress every day adds up to big results.',
-        'Take a deep breath. You are doing much better than you think.',
-        'Focus on being productive, not just busy.'
-      ];
-      affirmations.shuffle();
-      response = affirmations.first;
-    } else {
-      final memoryContext = AiMemoryService.instance.buildSystemContextPrompt();
-      response = 'That\'s a great question, $userName! Lifemate is actively syncing your tasks, diary entries, expenses, and AI memory facts in real-time to keep your life balanced.';
-      if (memoryContext.isNotEmpty) {
-        final fav = AiMemoryService.instance.getFact('Favorite Food');
-        if (fav != null) {
-          response += ' By the way, hope you get to enjoy some $fav today!';
-        }
-      }
-    }
-
-    await Future.delayed(const Duration(milliseconds: 600));
+    String response = await GeminiService.instance.generateResponse(query);
 
     if (mounted) {
       setState(() {
+        _isGenerating = false;
         _messages.add({'sender': 'assistant', 'text': response});
       });
       _scrollToBottom();
       
-      // Auto read response using TTS if enabled
       _speakResponse(response);
     }
   }
 
+  void _showAlternativeAiModal(String userQuery) {
+    final readyMadePrompt = GeminiService.instance.buildReadyMadePrompt(userQuery);
+    final lang = AppLanguageService();
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.auto_awesome_mosaic_rounded, color: AppTheme.brandSeed),
+                const SizedBox(width: 8),
+                Text(
+                  lang.getString('ai_fallback_title'),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              lang.getString('ai_fallback_desc'),
+              style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.copy_rounded, color: Colors.blue),
+              title: Text(lang.getString('copy_prompt')),
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: readyMadePrompt));
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Contextual prompt copied to clipboard!')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.share_rounded, color: Colors.green),
+              title: Text(lang.getString('share_prompt')),
+              onTap: () {
+                Navigator.pop(ctx);
+                Share.share(readyMadePrompt, subject: 'Lifemate AI Query');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.open_in_browser_rounded, color: Colors.purple),
+              title: Text(lang.getString('open_chatgpt')),
+              onTap: () async {
+                Navigator.pop(ctx);
+                final uri = Uri.parse('https://chatgpt.com');
+                if (await canLaunchUrl(uri)) launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.open_in_new_rounded, color: Colors.orange),
+              title: Text(lang.getString('open_gemini')),
+              onTap: () async {
+                Navigator.pop(ctx);
+                final uri = Uri.parse('https://gemini.google.com');
+                if (await canLaunchUrl(uri)) launchUrl(uri, mode: LaunchMode.externalApplication);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Future<void> _speakResponse(String text) async {
     setState(() => _isSpeaking = true);
-    final ok = await TtsService.instance.speak(text: text, targetLang: AppLanguage.english);
+    await TtsService.instance.speak(text: text, targetLang: AppLanguage.english);
     if (mounted) {
       setState(() => _isSpeaking = false);
-      if (!ok) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('English voice playback is unavailable on this device.'),
-            backgroundColor: Color(0xFFE11D48),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
     }
   }
 
@@ -214,39 +210,37 @@ class _AssistantScreenState extends State<AssistantScreen> {
             Flexible(child: Text('Lifemate AI Assistant', style: TextStyle(fontWeight: FontWeight.w700))),
           ],
         ),
-
         actions: [
           IconButton(
-            icon: Icon(_isSpeaking ? Icons.volume_up : Icons.volume_mute_outlined),
+            icon: const Icon(Icons.share_outlined),
             onPressed: () {
-              if (_isSpeaking) {
-                TtsService.instance.stop();
-                setState(() => _isSpeaking = false);
-              }
+              final lastUserMsg = _messages.lastWhere(
+                (m) => m['sender'] == 'user',
+                orElse: () => {'text': 'Help me organize my day'},
+              )['text']!;
+              _showAlternativeAiModal(lastUserMsg);
             },
-            tooltip: 'Toggle Voice Output',
+            tooltip: 'Alternative AI Options',
           ),
         ],
       ),
       body: Column(
         children: [
-          // Quick Chip Recommendations
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Row(
               children: [
-                _buildQuickChip(' Expense Summary'),
-                _buildQuickChip(' Pending Tasks'),
-                _buildQuickChip(' Diary Insights'),
-                _buildQuickChip(' Positive Affirmation'),
+                _buildQuickChip('Expense Summary'),
+                _buildQuickChip('Pending Tasks'),
+                _buildQuickChip('Diary Insights'),
+                _buildQuickChip('Positive Affirmation'),
               ],
             ),
           ),
 
           const Divider(height: 1),
 
-          // Message Feed
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
@@ -260,7 +254,12 @@ class _AssistantScreenState extends State<AssistantScreen> {
             ),
           ),
 
-          // Input Bar
+          if (_isGenerating)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
+              child: CircularProgressIndicator(color: AppTheme.brandSeed),
+            ),
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(

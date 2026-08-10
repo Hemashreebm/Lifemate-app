@@ -5,9 +5,12 @@ import '../repositories/government_scheme_repository.dart';
 import '../repositories/local_verified_scheme_repository.dart';
 import '../services/profile_service.dart';
 import '../services/scheme_personalization_engine.dart';
+import '../services/interested_scheme_service.dart';
+import '../services/app_language_service.dart';
 import 'edit_profile_screen.dart';
 
-/// Screen for displaying, searching, and personalizing verified Indian Government Schemes.
+/// Screen for displaying, searching, and personalizing verified Indian Government Schemes,
+/// with Interest tracking and Deadline Reminder notifications.
 class GovtSchemesScreen extends StatefulWidget {
   final GovernmentSchemeRepository? repository;
 
@@ -20,6 +23,7 @@ class GovtSchemesScreen extends StatefulWidget {
 class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTickerProviderStateMixin {
   late final GovernmentSchemeRepository _repository;
   final ProfileService _profileService = ProfileService.instance;
+  final InterestedSchemeService _interestedService = InterestedSchemeService();
   final TextEditingController _searchCtrl = TextEditingController();
 
   late TabController _tabController;
@@ -31,6 +35,7 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
 
   List<GovernmentScheme> _allSchemes = [];
   List<GovernmentScheme> _recommendedSchemes = [];
+  Set<String> _interestedSchemeIds = {};
 
   static const List<String> _categories = [
     'All',
@@ -61,7 +66,7 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
   void initState() {
     super.initState();
     _repository = widget.repository ?? LocalVerifiedSchemeRepository.instance;
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     _loadData();
   }
 
@@ -77,26 +82,134 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
     await _profileService.load();
     final all = await _repository.getAllSchemes();
     final recommended = await _repository.getRecommendedSchemes(_profileService);
+    final interestedItems = await _interestedService.getInterestedSchemes();
+    final interestedIds = interestedItems.map((e) => e.schemeId).toSet();
 
     if (mounted) {
       setState(() {
         _allSchemes = all;
         _recommendedSchemes = recommended;
+        _interestedSchemeIds = interestedIds;
         _isLoading = false;
       });
     }
   }
 
+  Future<void> _toggleInterest(GovernmentScheme scheme) async {
+    final isInterested = _interestedSchemeIds.contains(scheme.id);
+    if (isInterested) {
+      await _interestedService.removeInterestedScheme(scheme.id);
+      _interestedSchemeIds.remove(scheme.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${scheme.name} removed from Interested schemes.')),
+        );
+      }
+    } else {
+      final deadlineText = scheme.lastVerifiedAt.contains('20')
+          ? scheme.lastVerifiedAt
+          : 'Open / Ongoing';
+
+      final item = InterestedSchemeItem(
+        schemeId: scheme.id,
+        schemeName: scheme.name,
+        deadlineText: deadlineText,
+        savedAt: DateTime.now(),
+      );
+      await _interestedService.saveInterestedScheme(item);
+      _interestedSchemeIds.add(scheme.id);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${scheme.name} saved to Interested schemes!'),
+            action: SnackBarAction(
+              label: 'Set Reminder',
+              textColor: Colors.amber,
+              onPressed: () => _showReminderDialog(scheme),
+            ),
+          ),
+        );
+      }
+    }
+    setState(() {});
+  }
+
+  Future<void> _showReminderDialog(GovernmentScheme scheme) async {
+    int selectedDays = 7;
+    final deadlineText = scheme.lastVerifiedAt;
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Flexible(
+          child: Text('Scheme Deadline Reminder', overflow: TextOverflow.ellipsis),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Scheme: ${scheme.name}', style: const TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text('Deadline: $deadlineText'),
+            const SizedBox(height: 12),
+            const Text('Remind me before deadline:'),
+            DropdownButton<int>(
+              value: selectedDays,
+              isExpanded: true,
+              items: const [
+                DropdownMenuItem(value: 30, child: Text('30 Days Before')),
+                DropdownMenuItem(value: 14, child: Text('14 Days Before')),
+                DropdownMenuItem(value: 7, child: Text('7 Days Before')),
+                DropdownMenuItem(value: 3, child: Text('3 Days Before')),
+                DropdownMenuItem(value: 1, child: Text('1 Day Before')),
+              ],
+              onChanged: (val) {
+                if (val != null) selectedDays = val;
+              },
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Disclaimer: According to available scheme information. Please verify at official government source.',
+              style: TextStyle(fontSize: 10, color: Colors.grey),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+              final success = await _interestedService.enableDeadlineReminder(
+                schemeId: scheme.id,
+                schemeName: scheme.name,
+                deadlineText: deadlineText,
+                daysBefore: selectedDays,
+              );
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      success
+                          ? 'Reminder scheduled for $selectedDays days before deadline!'
+                          : 'Scheme has no future deadline to schedule reminder.',
+                    ),
+                  ),
+                );
+              }
+            },
+            child: const Text('Schedule'),
+          ),
+        ],
+      ),
+    );
+  }
+
   List<GovernmentScheme> _applyFilters(List<GovernmentScheme> input) {
     return input.where((scheme) {
-      // Category filter
       if (_selectedCategory != 'All') {
-        if (scheme.category.toLowerCase() != _selectedCategory.toLowerCase()) {
-          return false;
-        }
+        if (scheme.category.toLowerCase() != _selectedCategory.toLowerCase()) return false;
       }
 
-      // State filter
       if (_selectedStateFilter != 'All') {
         final scState = scheme.state.toLowerCase();
         final selState = _selectedStateFilter.toLowerCase();
@@ -107,16 +220,13 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
         }
       }
 
-      // Search query
       if (_query.trim().isNotEmpty) {
         final q = _query.trim().toLowerCase();
         final nameMatch = scheme.name.toLowerCase().contains(q);
         final deptMatch = scheme.governmentDepartment.toLowerCase().contains(q);
         final descMatch = scheme.description.toLowerCase().contains(q);
         final catMatch = scheme.category.toLowerCase().contains(q);
-        if (!nameMatch && !deptMatch && !descMatch && !catMatch) {
-          return false;
-        }
+        if (!nameMatch && !deptMatch && !descMatch && !catMatch) return false;
       }
 
       return true;
@@ -148,13 +258,17 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
   Widget build(BuildContext context) {
     final recFiltered = _applyFilters(_recommendedSchemes);
     final allFiltered = _applyFilters(_allSchemes);
+    final interestedSchemes = _allSchemes.where((s) => _interestedSchemeIds.contains(s.id)).toList();
+    final interestedFiltered = _applyFilters(interestedSchemes);
+
+    final lang = AppLanguageService();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
-        title: const Text(
-          '🇮🇳 Citizen Government Schemes',
-          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
+        title: Text(
+          '🇮🇳 ${lang.getString("govt_schemes")}',
+          style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 17),
         ),
         backgroundColor: Colors.white,
         foregroundColor: const Color(0xFF1E293B),
@@ -165,10 +279,11 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
           unselectedLabelColor: const Color(0xFF64748B),
           indicatorColor: _purpleAccent,
           indicatorWeight: 3,
-          labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+          labelStyle: const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
           tabs: [
             Tab(text: 'Recommended (${recFiltered.length})'),
-            Tab(text: 'All Schemes (${allFiltered.length})'),
+            Tab(text: 'Interested (${interestedFiltered.length})'),
+            Tab(text: 'All (${allFiltered.length})'),
           ],
         ),
       ),
@@ -181,26 +296,24 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFFF7ED), Color(0xFFFEF2F2)],
-                    ),
+                    gradient: LinearGradient(colors: [Color(0xFFFFF7ED), Color(0xFFFEF2F2)]),
                     border: Border(bottom: BorderSide(color: Color(0xFFFED7AA))),
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
-                      Icon(Icons.verified_outlined, size: 16, color: Color(0xFFEA580C)),
-                      SizedBox(width: 8),
+                      const Icon(Icons.verified_outlined, size: 16, color: Color(0xFFEA580C)),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Official Govt Data • Verify final eligibility on official .gov.in websites.',
-                          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF9A3412)),
+                          lang.getString('scheme_disclaimer'),
+                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF9A3412)),
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                // Search Bar & State Filter Row
+                // Search Bar & Filter
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
                   child: Row(
@@ -225,18 +338,9 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14),
-                              borderSide: const BorderSide(color: _purpleAccent, width: 1.5),
-                            ),
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: Color(0xFFE2E8F0))),
+                            focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: const BorderSide(color: _purpleAccent, width: 1.5)),
                           ),
                         ),
                       ),
@@ -253,9 +357,7 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                             value: _selectedStateFilter,
                             icon: const Icon(Icons.tune_rounded, size: 18, color: _purpleAccent),
                             style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF334155)),
-                            items: _states.map((st) {
-                              return DropdownMenuItem(value: st, child: Text(st));
-                            }).toList(),
+                            items: _states.map((st) => DropdownMenuItem(value: st, child: Text(st))).toList(),
                             onChanged: (val) {
                               if (val != null) setState(() => _selectedStateFilter = val);
                             },
@@ -299,9 +401,8 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      // Recommended Tab
                       _buildSchemeListView(recFiltered, isRecommendedTab: true),
-                      // All Schemes Tab
+                      _buildSchemeListView(interestedFiltered, isInterestedTab: true),
                       _buildSchemeListView(allFiltered, isRecommendedTab: false),
                     ],
                   ),
@@ -311,7 +412,7 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
     );
   }
 
-  Widget _buildSchemeListView(List<GovernmentScheme> list, {required bool isRecommendedTab}) {
+  Widget _buildSchemeListView(List<GovernmentScheme> list, {bool isRecommendedTab = false, bool isInterestedTab = false}) {
     if (list.isEmpty) {
       return Center(
         child: Padding(
@@ -320,42 +421,33 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                isRecommendedTab ? Icons.person_search_rounded : Icons.search_off_rounded,
+                isInterestedTab
+                    ? Icons.bookmark_border_rounded
+                    : isRecommendedTab
+                        ? Icons.person_search_rounded
+                        : Icons.search_off_rounded,
                 size: 54,
                 color: const Color(0xFF94A3B8),
               ),
               const SizedBox(height: 14),
               Text(
-                isRecommendedTab ? 'No Recommended Schemes Match' : 'No Schemes Found',
+                isInterestedTab
+                    ? 'No Saved Interested Schemes'
+                    : isRecommendedTab
+                        ? 'No Recommended Schemes Match'
+                        : 'No Schemes Found',
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Color(0xFF334155)),
               ),
               const SizedBox(height: 6),
               Text(
-                isRecommendedTab
-                    ? 'Complete your Profile (State, Occupation, Age, Demographics) to enable personalized scheme matching.'
-                    : 'Try adjusting your category, state filter, or search query.',
+                isInterestedTab
+                    ? 'Tap the star/save icon on any scheme to mark it as interested.'
+                    : isRecommendedTab
+                        ? 'Complete your Profile to enable personalized scheme matching.'
+                        : 'Try adjusting your category, state filter, or search query.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 12, color: Color(0xFF64748B), height: 1.4),
               ),
-              if (isRecommendedTab) ...[
-                const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    final res = await Navigator.push<bool>(
-                      context,
-                      MaterialPageRoute(builder: (_) => const EditProfileScreen()),
-                    );
-                    if (res == true) _loadData();
-                  },
-                  icon: const Icon(Icons.edit_note_rounded, size: 16),
-                  label: const Text('Update Profile'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _purpleAccent,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ],
             ],
           ),
         ),
@@ -375,14 +467,15 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
   }
 
   Widget _buildSchemeCard(GovernmentScheme scheme, SchemeMatchResult match) {
+    final isInterested = _interestedSchemeIds.contains(scheme.id);
+    final lang = AppLanguageService();
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-        boxShadow: const [
-          BoxShadow(color: Color(0x0A000000), blurRadius: 8, offset: Offset(0, 3)),
-        ],
+        border: Border.all(color: isInterested ? _purpleAccent.withValues(alpha: 0.5) : const Color(0xFFE2E8F0)),
+        boxShadow: const [BoxShadow(color: Color(0x0A000000), blurRadius: 8, offset: Offset(0, 3))],
       ),
       child: Material(
         color: Colors.transparent,
@@ -395,7 +488,6 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Department & State Badge Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -407,45 +499,49 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                         style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF64748B)),
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: scheme.state == 'Central' ? const Color(0xFFE0F2FE) : const Color(0xFFFEF3C7),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        scheme.state == 'Central' ? '🇮🇳 Central' : '📍 ${scheme.state}',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: scheme.state == 'Central' ? const Color(0xFF0369A1) : const Color(0xFFB45309),
+                    Row(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            isInterested ? Icons.star_rounded : Icons.star_border_rounded,
+                            color: isInterested ? Colors.amber : const Color(0xFF94A3B8),
+                            size: 24,
+                          ),
+                          onPressed: () => _toggleInterest(scheme),
+                          tooltip: isInterested ? lang.getString('remove_interest') : lang.getString('interested'),
                         ),
-                      ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(
+                            color: scheme.state == 'Central' ? const Color(0xFFE0F2FE) : const Color(0xFFFEF3C7),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            scheme.state == 'Central' ? '🇮🇳 Central' : '📍 ${scheme.state}',
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w700,
+                              color: scheme.state == 'Central' ? const Color(0xFF0369A1) : const Color(0xFFB45309),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-
-                const SizedBox(height: 8),
-
-                // Scheme Title
+                const SizedBox(height: 6),
                 Text(
                   scheme.name,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1E293B)),
                 ),
-
                 const SizedBox(height: 6),
-
-                // Description
                 Text(
                   scheme.description,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 12, color: Color(0xFF475569), height: 1.35),
                 ),
-
                 const SizedBox(height: 10),
-
-                // Benefit Highlight Box
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -469,47 +565,17 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                     ],
                   ),
                 ),
-
-                // Recommendation Tags (if present)
-                if (match.reasonTags.isNotEmpty && match.isRecommended) ...[
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
-                    children: match.reasonTags.map((tag) {
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF3E8FF),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Text(
-                          tag,
-                          style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: _purpleAccent),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
-
                 const SizedBox(height: 12),
-                const Divider(height: 1, color: Color(0xFFF1F5F9)),
-                const SizedBox(height: 8),
-
-                // Action Link Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'You may be eligible • Verify on official website',
-                      style: TextStyle(fontSize: 10, color: Color(0xFF94A3B8), fontWeight: FontWeight.w500),
+                    Text(
+                      'Deadline: ${lang.getString("deadline_open")}',
+                      style: const TextStyle(fontSize: 10, color: Color(0xFF64748B), fontWeight: FontWeight.w500),
                     ),
-                    Row(
-                      children: const [
-                        Text(
-                          'View & Apply',
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: _purpleAccent),
-                        ),
+                    const Row(
+                      children: [
+                        Text('View & Apply', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: _purpleAccent)),
                         SizedBox(width: 4),
                         Icon(Icons.arrow_forward_ios_rounded, size: 12, color: _purpleAccent),
                       ],
@@ -525,6 +591,9 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
   }
 
   void _showSchemeDetailsModal(GovernmentScheme scheme, SchemeMatchResult match) {
+    final isInterested = _interestedSchemeIds.contains(scheme.id);
+    final lang = AppLanguageService();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -540,21 +609,14 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Modal Grab Handle
               Center(
                 child: Container(
                   width: 40,
                   height: 4,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFCBD5E1),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
+                  decoration: BoxDecoration(color: const Color(0xFFCBD5E1), borderRadius: BorderRadius.circular(2)),
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              // Department & State Row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -564,151 +626,51 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                       style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF64748B)),
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                    decoration: BoxDecoration(
-                      color: scheme.state == 'Central' ? const Color(0xFFE0F2FE) : const Color(0xFFFEF3C7),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      scheme.state == 'Central' ? '🇮🇳 Central' : '📍 ${scheme.state}',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: scheme.state == 'Central' ? const Color(0xFF0369A1) : const Color(0xFFB45309),
-                      ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _toggleInterest(scheme);
+                    },
+                    icon: Icon(isInterested ? Icons.star_rounded : Icons.star_border_rounded, size: 16),
+                    label: Text(isInterested ? lang.getString('interested') : lang.getString('save_scheme')),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isInterested ? Colors.amber : _purpleAccent,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     ),
                   ),
                 ],
               ),
-
               const SizedBox(height: 8),
-
-              // Title
-              Text(
-                scheme.name,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1E293B)),
-              ),
-
+              Text(scheme.name, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Color(0xFF1E293B))),
               const SizedBox(height: 12),
-
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Description
-                      Text(
-                        scheme.description,
-                        style: const TextStyle(fontSize: 13, color: Color(0xFF475569), height: 1.4),
-                      ),
-
+                      Text(scheme.description, style: const TextStyle(fontSize: 13, color: Color(0xFF475569), height: 1.4)),
                       const SizedBox(height: 16),
-
-                      // Benefits Section
-                      _buildModalSectionTitle('🎁 Benefits Provided'),
+                      Text('🎁 Benefits Provided', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 6),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF0FDF4),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFBBF7D0)),
-                        ),
-                        child: Text(
-                          scheme.benefits,
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF15803D), height: 1.35),
-                        ),
+                        decoration: BoxDecoration(color: const Color(0xFFF0FDF4), borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFBBF7D0))),
+                        child: Text(scheme.benefits, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF15803D))),
                       ),
-
                       const SizedBox(height: 16),
-
-                      // Eligibility Section
-                      _buildModalSectionTitle('✅ Eligibility Criteria'),
+                      Text('✅ Eligibility Criteria', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800)),
                       const SizedBox(height: 6),
-                      Text(scheme.eligibility, style: const TextStyle(fontSize: 13, color: Color(0xFF334155), height: 1.35)),
-                      if (scheme.incomeCriteria != 'N/A') ...[
-                        const SizedBox(height: 4),
-                        Text('• Income Criteria: ${scheme.incomeCriteria}', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                      ],
-                      if (scheme.ageCriteria != 'All ages') ...[
-                        const SizedBox(height: 2),
-                        Text('• Age Limit: ${scheme.ageCriteria}', style: const TextStyle(fontSize: 12, color: Color(0xFF64748B))),
-                      ],
-
+                      Text(scheme.eligibility, style: const TextStyle(fontSize: 13, color: Color(0xFF334155))),
                       const SizedBox(height: 16),
-
-                      // Required Documents
-                      if (scheme.requiredDocuments.isNotEmpty) ...[
-                        _buildModalSectionTitle('📄 Required Documents'),
-                        const SizedBox(height: 6),
-                        ...scheme.requiredDocuments.map((doc) => Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Icon(Icons.check_circle_outline_rounded, size: 16, color: Color(0xFF10B981)),
-                                  const SizedBox(width: 8),
-                                  Expanded(child: Text(doc, style: const TextStyle(fontSize: 12, color: Color(0xFF334155)))),
-                                ],
-                              ),
-                            )),
-                        const SizedBox(height: 16),
-                      ],
-
-                      // Application Steps
-                      if (scheme.applicationSteps.isNotEmpty) ...[
-                        _buildModalSectionTitle('📝 How to Apply'),
-                        const SizedBox(height: 6),
-                        ...scheme.applicationSteps.asMap().entries.map((entry) {
-                          final idx = entry.key + 1;
-                          final step = entry.value;
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 6),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: const Color(0xFFDDD6FE),
-                                  child: Text('$idx', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: _purpleAccent)),
-                                ),
-                                const SizedBox(width: 8),
-                                Expanded(child: Text(step, style: const TextStyle(fontSize: 12, color: Color(0xFF334155), height: 1.35))),
-                              ],
-                            ),
-                          );
-                        }),
-                        const SizedBox(height: 16),
-                      ],
-
-                      // Official Verification Stamp & Disclaimer Banner
                       Container(
                         padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF8FAFC),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: const Color(0xFFE2E8F0)),
-                        ),
+                        decoration: BoxDecoration(color: const Color(0xFFF8FAFC), borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFE2E8F0))),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.verified_user_outlined, size: 14, color: Color(0xFF0284C7)),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Official Source Verified on ${scheme.lastVerifiedAt}',
-                                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF0369A1)),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Always verify final rules and application requirements on the official government website. Lifemate does not issue official approvals.',
-                              style: TextStyle(fontSize: 10, color: Color(0xFF64748B), height: 1.3),
-                            ),
+                            Text(lang.getString('scheme_disclaimer'), style: const TextStyle(fontSize: 10, color: Color(0xFF64748B))),
                           ],
                         ),
                       ),
@@ -717,17 +679,12 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
                   ),
                 ),
               ),
-
-              // Launch Official Website Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () => _launchOfficialUrl(scheme.officialWebsiteUrl),
                   icon: const Icon(Icons.open_in_new_rounded, size: 18),
-                  label: Text(
-                    'Apply / Visit Official Website (${Uri.parse(scheme.officialWebsiteUrl).host})',
-                    style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
-                  ),
+                  label: Text('Apply / Visit Official Website (${Uri.parse(scheme.officialWebsiteUrl).host})'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _purpleAccent,
                     foregroundColor: Colors.white,
@@ -740,13 +697,6 @@ class _GovtSchemesScreenState extends State<GovtSchemesScreen> with SingleTicker
           ),
         );
       },
-    );
-  }
-
-  Widget _buildModalSectionTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Color(0xFF1E293B)),
     );
   }
 }

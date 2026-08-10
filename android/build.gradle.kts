@@ -16,9 +16,7 @@ allprojects {
 }
 
 val newBuildDir: Directory =
-    rootProject.layout.buildDirectory
-        .dir("../../build")
-        .get()
+    layout.projectDirectory.dir("C:/temp_lifemate_build")
 rootProject.layout.buildDirectory.value(newBuildDir)
 
 subprojects {

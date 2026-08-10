@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'supabase_service.dart';
 import 'ai_memory_service.dart';
+import 'app_language_service.dart';
 
 /// Secure Client Service for Google Gemini AI Engine.
 ///
@@ -13,7 +14,7 @@ import 'ai_memory_service.dart';
 /// 2. Developer Test Key support (`--dart-define=GEMINI_API_KEY=your_key`) for local testing.
 /// 3. Rate limiting & request throttling (1.5s delay, 30 max requests/session).
 /// 4. Sensitive data filtering (OTPs, PINs, Passwords, Card numbers).
-/// 5. Graceful offline & failure fallback (Never crashes).
+/// 5. Graceful offline & failure fallback with Alternative AI options.
 class GeminiService {
   static final GeminiService instance = GeminiService._internal();
   GeminiService._internal();
@@ -23,10 +24,27 @@ class GeminiService {
   static const int _maxSessionRequests = 30;
   static const Duration _minRequestInterval = Duration(milliseconds: 1500);
 
-  /// Reset session request counter for development testing
   void resetSessionCounter() {
     _sessionRequestCount = 0;
     _lastRequestTime = null;
+  }
+
+  /// Format ready-made contextual prompt for external AI sharing without sensitive data.
+  String buildReadyMadePrompt(String userQuery) {
+    final langName = AppLanguageService().currentLanguage;
+    final memoryContext = AiMemoryService.instance.getMemoryContextPrompt();
+    final sanitized = _sanitizePrompt(userQuery);
+
+    return '''You are helping a Lifemate user.
+Preferred Language: $langName
+
+User Query:
+$sanitized
+
+Relevant User Memory Context:
+$memoryContext
+
+Please provide a clear, practical, and helpful response.''';
   }
 
   /// Generate AI response using Secure Backend or Local Dev Configuration.
@@ -47,12 +65,13 @@ class GeminiService {
     _lastRequestTime = DateTime.now();
 
     if (_sessionRequestCount >= _maxSessionRequests) {
-      return 'You have reached the maximum AI request limit for this session (30 requests). Please take a break and try again later.';
+      return 'AI_QUOTA_EXCEEDED: You have reached the maximum AI request limit for this session (30 requests). Tap below to continue with another AI provider.';
     }
     _sessionRequestCount++;
 
-    // 2. Combine Context from AI Memory
-    final context = memoryContext ?? AiMemoryService.instance.getMemoryContextPrompt();
+    // 2. Combine Context from AI Memory & Preferred Language
+    final baseContext = memoryContext ?? AiMemoryService.instance.getMemoryContextPrompt();
+    final context = AppLanguageService().formatAiSystemPrompt(baseContext);
 
     // 3. Attempt Supabase Edge Function (Server-Side Secure Architecture)
     final supabase = SupabaseService.instance;
@@ -60,7 +79,6 @@ class GeminiService {
       try {
         debugPrint('[GEMINI SERVICE] Sending request to Supabase Edge Function gemini-chat...');
         
-        // Priority 1: Supabase Session JWT; Priority 2: Firebase ID Token; Priority 3: Fallback dev token
         final supabaseToken = supabase.client!.auth.currentSession?.accessToken;
         final firebaseUser = FirebaseAuth.instance.currentUser;
         final firebaseToken = await firebaseUser?.getIdToken();
@@ -113,15 +131,13 @@ class GeminiService {
           if (text != null && (text as String).trim().isNotEmpty) {
             return text.trim();
           }
-        } else if (response.statusCode == 400 || response.statusCode == 403) {
-          return 'Developer API key is invalid or quota exceeded. Please check your local GEMINI_API_KEY configuration.';
         }
       } catch (e) {
         debugPrint('[GEMINI DEV KEY WARNING] Local Gemini API call failed: $e');
       }
     }
 
-    // 5. Fallback Contextual Response Generator (Offline / Unconfigured Mode)
+    // 5. Fallback Contextual Response
     return _generateContextualFallback(sanitizedPrompt);
   }
 
@@ -132,7 +148,6 @@ class GeminiService {
       text = text.substring(0, 2000);
     }
 
-    // Remove potential 4-6 digit OTPs or PINs when accompanied by sensitive keywords
     final lower = text.toLowerCase();
     if (lower.contains('otp') || lower.contains('password') || lower.contains('cvv') || lower.contains('card number')) {
       text = text.replaceAll(RegExp(r'\b\d{4,16}\b'), '[REDACTED_SENSITIVE]');
@@ -141,7 +156,6 @@ class GeminiService {
     return text;
   }
 
-  /// Offline contextual response generator
   String _generateContextualFallback(String prompt) {
     final lower = prompt.toLowerCase();
     if (lower.contains('task') || lower.contains('reminder')) {

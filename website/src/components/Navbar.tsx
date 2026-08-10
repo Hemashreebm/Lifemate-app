@@ -2,11 +2,20 @@
 
 import { useState, useEffect } from 'react';
 import { RELEASE_CONFIG } from '@/config/release';
-import { Download, Menu, X, ShieldCheck, Sparkles, Smartphone } from 'lucide-react';
+import { Download, Menu, X, Globe } from 'lucide-react';
+
+export const WEBSITE_LANGUAGES = [
+  { code: 'en', name: 'English', native: 'English' },
+  { code: 'kn', name: 'Kannada', native: 'ಕನ್ನಡ' },
+  { code: 'te', name: 'Telugu', native: 'తెలుగు' },
+  { code: 'hi', name: 'Hindi', native: 'हिन्दी' },
+  { code: 'ta', name: 'Tamil', native: 'தமிழ்' },
+];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedLang, setSelectedLang] = useState('en');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,8 +75,23 @@ export default function Navbar() {
           </a>
         </nav>
 
-        {/* Action Button */}
+        {/* Language Selector & Action Button */}
         <div className="hidden sm:flex items-center gap-3">
+          <div className="flex items-center gap-1.5 bg-slate-900/90 border border-slate-800 rounded-xl px-2.5 py-1.5 text-xs text-slate-300">
+            <Globe className="w-3.5 h-3.5 text-brand-400" />
+            <select
+              value={selectedLang}
+              onChange={(e) => setSelectedLang(e.target.value)}
+              className="bg-transparent text-slate-200 focus:outline-none cursor-pointer"
+            >
+              {WEBSITE_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code} className="bg-slate-900 text-slate-200">
+                  {l.native}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <a
             href={RELEASE_CONFIG.apkUrl}
             download
@@ -94,53 +118,41 @@ export default function Navbar() {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-slate-950/95 border-b border-slate-800 backdrop-blur-2xl px-4 pt-4 pb-6 space-y-3 animate-in slide-in-from-top duration-200">
-          <a
-            href="#features"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <div className="flex items-center gap-2 pb-2 border-b border-slate-800">
+            <Globe className="w-4 h-4 text-brand-400" />
+            <span className="text-xs text-slate-400">Language:</span>
+            <select
+              value={selectedLang}
+              onChange={(e) => setSelectedLang(e.target.value)}
+              className="bg-slate-900 text-slate-200 text-xs p-1.5 rounded-lg border border-slate-800 focus:outline-none"
+            >
+              {WEBSITE_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.native}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <a href="#features" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Features Grid
           </a>
-          <a
-            href="#ai-assistant"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#ai-assistant" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             AI Assistant
           </a>
-          <a
-            href="#finance"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#finance" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Finance & SMS Tracker
           </a>
-          <a
-            href="#coach"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#coach" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Spoken English Coach
           </a>
-          <a
-            href="#security"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#security" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Security & Data Isolation
           </a>
-          <a
-            href="#how-it-works"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             How It Works
           </a>
-          <a
-            href="#download"
-            onClick={() => setMobileMenuOpen(false)}
-            className="block py-2 text-slate-300 hover:text-white font-medium"
-          >
+          <a href="#download" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-slate-300 hover:text-white font-medium">
             Download Center
           </a>
 
