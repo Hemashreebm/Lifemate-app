@@ -12,7 +12,7 @@ import 'app_language_service.dart';
 /// Features:
 /// 1. Server-side proxy through Supabase Edge Function `gemini-chat` (Production Architecture).
 /// 2. Developer Test Key support (`--dart-define=GEMINI_API_KEY=your_key`) for local testing.
-/// 3. Rate limiting & request throttling (1.5s delay, 30 max requests/session).
+/// 3. Unified rate limiting & server response parsing (10 req/min server ceiling, 1.5s delay).
 /// 4. Sensitive data filtering (OTPs, PINs, Passwords, Card numbers).
 /// 5. Graceful offline & failure fallback with Alternative AI options.
 class GeminiService {
@@ -96,10 +96,19 @@ Please provide a clear, practical, and helpful response.''';
           },
         ).timeout(const Duration(seconds: 15));
 
-        if (res.data != null && res.data['reply'] != null) {
-          return (res.data['reply'] as String).trim();
+        if (res.data != null) {
+          if (res.data['error'] != null && (res.data['error'] as String).toLowerCase().contains('rate limit')) {
+            return 'AI_QUOTA_EXCEEDED: Maximum 10 requests per minute ceiling reached on server. Tap below to continue with another AI provider.';
+          }
+          if (res.data['reply'] != null) {
+            return (res.data['reply'] as String).trim();
+          }
         }
       } catch (e) {
+        final errStr = e.toString().toLowerCase();
+        if (errStr.contains('429') || errStr.contains('rate limit')) {
+          return 'AI_QUOTA_EXCEEDED: Maximum 10 requests per minute ceiling reached on server. Tap below to continue with another AI provider.';
+        }
         debugPrint('[GEMINI SERVICE WARNING] Edge function call failed: $e. Checking dev key / fallback...');
       }
     }

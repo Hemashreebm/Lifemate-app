@@ -46,10 +46,15 @@ app.*.map.json
 /apk/
 *.apk
 
-# Environment & Secrets (Supabase / Gemini / Private Keys)
+# Environment & Secrets (Supabase / Gemini / Private Keys / Android Keystore)
 .env
 .env.*
 *.env
 secrets.json
 supabase_keys.json
+key.properties
+android/key.properties
+*.jks
+*.keystore
+*.p12
 

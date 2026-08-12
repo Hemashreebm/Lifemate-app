@@ -1,0 +1,8 @@
+# Android Production Release Signing Properties Template
+# Copy this file to android/key.properties and fill in your actual production keystore credentials.
+# NEVER commit key.properties, *.jks, or *.keystore files to Git repository!
+
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyPassword=YOUR_KEY_PASSWORD
+keyAlias=YOUR_KEY_ALIAS
+storeFile=upload-keystore.jks
