@@ -4,10 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/trusted_contact.dart';
 import 'location_service.dart';
+import 'secure_storage_service.dart';
 
 /// Service managing Trusted Contacts and Safety SOS functions.
 class SafetyService {
-  static const String _storageKey = 'lifemate_trusted_contacts_v1';
+  static const String _legacyStorageKey = 'lifemate_trusted_contacts_v1';
 
   static final SafetyService instance = SafetyService._();
   SafetyService._();
@@ -16,14 +17,25 @@ class SafetyService {
 
   List<TrustedContact> get contacts => List.unmodifiable(_contacts);
 
-  //  Contact Storage 
+  // ---------------------------------------------------------------------------
+  // Encrypted Contact Storage & Migration
+  // ---------------------------------------------------------------------------
 
-  /// Load saved trusted contacts from SharedPreferences.
+  /// Load saved trusted contacts securely from KeyStore / Keychain with auto-migration.
   Future<void> loadContacts() async {
     try {
+      // 1. One-time migration: Check if legacy unencrypted contacts exist in SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      final jsonStr = prefs.getString(_storageKey);
-      if (jsonStr == null) {
+      final legacyJson = prefs.getString(_legacyStorageKey);
+      if (legacyJson != null && legacyJson.isNotEmpty) {
+        debugPrint('[SafetyService] Migrating trusted contacts to AES-256 SecureStorage...');
+        await SecureStorageService.instance.setTrustedContacts(legacyJson);
+        await prefs.remove(_legacyStorageKey);
+      }
+
+      // 2. Read encrypted contacts from SecureStorageService
+      final jsonStr = await SecureStorageService.instance.getTrustedContacts();
+      if (jsonStr == null || jsonStr.isEmpty) {
         _contacts = [];
         return;
       }
@@ -32,15 +44,14 @@ class SafetyService {
           .map((j) => TrustedContact.fromJson(j as Map<String, dynamic>))
           .toList();
     } catch (e) {
-      debugPrint('[SafetyService] Error loading contacts: $e');
+      debugPrint('[SafetyService] Error loading secure contacts: $e');
       _contacts = [];
     }
   }
 
   Future<void> _saveContacts() async {
-    final prefs = await SharedPreferences.getInstance();
     final jsonStr = jsonEncode(_contacts.map((c) => c.toJson()).toList());
-    await prefs.setString(_storageKey, jsonStr);
+    await SecureStorageService.instance.setTrustedContacts(jsonStr);
   }
 
   Future<void> addContact(TrustedContact contact) async {
@@ -61,7 +72,9 @@ class SafetyService {
     await _saveContacts();
   }
 
-  //  Quick Phone Call (Dialer) 
+  // ---------------------------------------------------------------------------
+  // Quick Phone Call (Dialer)
+  // ---------------------------------------------------------------------------
 
   /// Opens the native Android Phone Dialer with the contact's number filled in.
   Future<bool> openDialer(String phoneNumber) async {
@@ -81,7 +94,9 @@ class SafetyService {
     }
   }
 
-  //  Emergency Message Formatting 
+  // ---------------------------------------------------------------------------
+  // Emergency Message Formatting
+  // ---------------------------------------------------------------------------
 
   /// Generates editable emergency text containing current location and Google Maps link.
   String generateEmergencyMessage({
